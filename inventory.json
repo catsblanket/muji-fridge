@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-25T23:10:00+09:00",
+  "updated_at": "2026-11-26T01:39:21+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -11,7 +11,7 @@
       "expiry_date": "2026-11-29",
       "expiry_estimated": true,
       "tip": "비닐에서 꺼내 실온에 두세요. 다 익으면 껍질 까서 소분 냉동하면 오래 먹어요!",
-      "status": "active"
+      "status": "consumed"
     }
   ]
 }
