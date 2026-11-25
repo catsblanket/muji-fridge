@@ -245,9 +245,10 @@
   /* ---------- modal ---------- */
   .backdrop{
     position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;
-    background:rgba(35,30,15,.42);opacity:0;pointer-events:none;transition:opacity .2s ease;
+    background:rgba(35,30,15,.42);opacity:0;pointer-events:none;visibility:hidden;
+    transition:opacity .2s ease,visibility 0s linear .22s;
   }
-  .backdrop.show{opacity:1;pointer-events:auto}
+  .backdrop.show{opacity:1;pointer-events:auto;visibility:visible;transition:opacity .2s ease,visibility 0s}
   .sheet{
     width:100%;max-width:520px;max-height:90vh;overflow:auto;
     background:#FFFDF7;border-radius:22px 22px 0 0;
