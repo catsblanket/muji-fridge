@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFCF2">
+<meta name="color-scheme" content="light">
+<title>무지의 냉장고 현황판</title>
+<style>
+  :root{
+    --yellow:#FFD43B;
+    --yellow-deep:#F5B800;
+    --yellow-soft:#FFF4C2;
+    --ink:#2A2A26;
+    --sub:#8B8577;
+    --line:#EFE9DA;
+    --bg:#FFFCF2;
+    --card:#FFFFFF;
+    --red:#D22F2F;
+    --red-bg:#FFE9E9;
+    --amber:#A87100;
+    --amber-bg:#FFF3D1;
+    --green:#1F7A38;
+    --green-bg:#E7F7EC;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(120% 60% at 50% 0%, #FFF6D6 0%, rgba(255,246,214,0) 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.45;
+    min-height:100vh;
+    min-height:100dvh;
+    -webkit-text-size-adjust:100%;
+  }
+  body.locked{overflow:hidden}
+  button,input,select{font-family:inherit}
+  button{cursor:pointer}
+  .wrap{max-width:520px;margin:0 auto;position:relative}
+
+  /* ---------- header ---------- */
+  .app-header{padding:calc(20px + env(safe-area-inset-top)) 18px 4px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .logo{
+    width:46px;height:46px;flex:0 0 auto;border-radius:15px;background:var(--yellow);
+    display:grid;place-items:center;font-size:25px;
+    box-shadow:0 4px 12px rgba(245,184,0,.32), inset 0 -2px 0 rgba(0,0,0,.05);
+  }
+  h1{font-size:19px;font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.3}
+  .updated{font-size:11.5px;color:var(--sub);margin:3px 0 0}
+  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
+  .stat{
+    background:var(--card);border:1px solid var(--line);border-radius:15px;
+    padding:10px 4px 9px;text-align:center;position:relative;overflow:hidden;
+  }
+  .stat b{display:block;font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .stat span{display:block;font-size:11px;color:var(--sub);margin-top:2px;font-weight:600}
+  .stat.all{background:linear-gradient(180deg,#FFFDF2,#FFF9E2);border-color:#F6E9B8}
+  .stat.soon{background:linear-gradient(180deg,#FFFCF2,#FFF3D1);border-color:#F3DFA6}
+  .stat.soon b{color:var(--amber)}
+  .stat.exp{background:linear-gradient(180deg,#FFF8F8,#FFECEC);border-color:#F7D6D6}
+  .stat.exp b{color:var(--red)}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:20;
+    padding:10px 14px 10px;
+    background:rgba(255,252,242,.93);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+  }
+  .tabs{
+    display:flex;gap:4px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:4px;box-shadow:0 1px 2px rgba(120,105,60,.05);
+  }
+  .tab{
+    flex:1 1 0;min-width:0;border:0;background:transparent;color:var(--sub);
+    padding:8px 2px;border-radius:10px;font-size:12.5px;font-weight:600;
+    white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:3px;
+    transition:background .15s,color .15s;
+  }
+  .tab .n{font-size:10.5px;font-weight:700;opacity:.65}
+  .tab.active{background:var(--yellow);color:var(--ink);font-weight:800;box-shadow:0 2px 6px rgba(245,184,0,.22)}
+  .tab.active .n{opacity:.8}
+  .controls{display:flex;gap:8px;margin-top:8px}
+  .search{position:relative;flex:1 1 auto;min-width:0}
+  .search .ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.55;pointer-events:none}
+  .search input{
+    width:100%;height:42px;border:1px solid var(--line);background:var(--card);
+    border-radius:12px;padding:0 36px 0 32px;font-size:14px;color:var(--ink);
+    outline:none;
+  }
+  .search input:focus{border-color:var(--yellow-deep);box-shadow:0 0 0 3px rgba(255,212,59,.28)}
+  .search input::placeholder{color:#B6AF9E}
+  .clear{
+    position:absolute;right:5px;top:50%;transform:translateY(-50%);
+    width:30px;height:30px;border:0;border-radius:50%;background:#F4EFE2;color:#8B8577;
+    font-size:12px;line-height:1;
+  }
+  .sort{
+    height:42px;border:1px solid var(--line);background:var(--card);border-radius:12px;
+    font-size:12.5px;color:#5F594A;padding:0 8px;max-width:118px;outline:none;
+  }
+  .sort:focus{border-color:var(--yellow-deep)}
+
+  /* ---------- list ---------- */
+  main{padding:2px 14px 118px;display:flex;flex-direction:column;gap:10px}
+  .card{
+    background:var(--card);border-radius:var(--radius);padding:13px 14px 12px;
+    box-shadow:0 1px 2px rgba(90,78,35,.05),0 8px 20px rgba(140,120,60,.055);
+    border-left:4px solid var(--green);
+    transition:opacity .18s ease,transform .18s ease;
+  }
+  .card.tone-red{border-left-color:var(--red)}
+  .card.tone-amber{border-left-color:#E9B72C}
+  .card.tone-green{border-left-color:#3FA85C}
+  .card.tone-none{border-left-color:#D8D2C2}
+  .card.gone{opacity:0;transform:translateY(-6px) scale(.985)}
+  .card-head{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .badge{
+    font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:999px;
+    background:#F5F2E9;color:#6B6555;white-space:nowrap;
+  }
+  .badge.cat-veg{background:#E9F7EC;color:#2F7D42}
+  .badge.cat-fruit{background:#FFF0E0;color:#BF6A00}
+  .badge.cat-meat{background:#FFECEC;color:#C42B2B}
+  .badge.cat-dairy{background:#EAF2FF;color:#2C5FB3}
+  .badge.cat-side{background:#F3EEFF;color:#6B46C1}
+  .badge.cat-drink{background:#EDF3F2;color:#4B635D}
+  .badge.cat-etc{background:#F1F0EC;color:#6E6A60}
+  .badge.est{background:transparent;color:#B0A98F;border:1px dashed #E2DAC6;font-weight:600}
+  .name{font-size:17.5px;font-weight:800;letter-spacing:-.02em;margin:8px 0 0;line-height:1.3}
+  .exp-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .exp-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:12.5px;font-weight:800;padding:4px 9px;border-radius:9px;
+    background:var(--green-bg);color:var(--green);letter-spacing:-.01em;
+  }
+  .exp-chip.tone-red{background:var(--red-bg);color:var(--red)}
+  .exp-chip.tone-amber{background:var(--amber-bg);color:var(--amber)}
+  .exp-chip.tone-green{background:var(--green-bg);color:var(--green)}
+  .exp-chip.tone-none{background:#F4F1E8;color:#8B8577}
+  .exp-chip .bar{opacity:.45;font-weight:600}
+  .qty{font-size:12.5px;font-weight:700;color:#6B6555}
+  .meta{font-size:11.5px;color:#AAA290;margin-top:5px}
+  .tip{
+    margin:9px 0 0;font-size:12.5px;line-height:1.5;color:#6B6555;
+    background:#FFFCEC;border:1px solid #F7EFD3;border-radius:11px;padding:8px 10px;
+  }
+  .card-foot{display:flex;align-items:center;gap:8px;margin-top:11px}
+  .eat{
+    border:1px solid var(--line);background:var(--card);border-radius:11px;
+    padding:9px 12px;font-size:12.5px;font-weight:700;color:#4A463C;
+    min-height:38px;
+  }
+  .eat:active{background:var(--yellow-soft);border-color:var(--yellow)}
+  .del{
+    margin-left:auto;border:0;background:transparent;color:#BDB6A2;
+    font-size:11.5px;padding:8px 6px;text-decoration:underline;text-underline-offset:2px;
+  }
+
+  /* ---------- empty / no result ---------- */
+  .empty{text-align:center;padding:46px 20px 30px}
+  .empty .big{
+    width:92px;height:92px;margin:0 auto;border-radius:28px;background:var(--yellow-soft);
+    display:grid;place-items:center;font-size:46px;
+    box-shadow:inset 0 0 0 1px rgba(245,184,0,.18);
+  }
+  .empty h2{font-size:17px;font-weight:800;margin:16px 0 0;letter-spacing:-.02em}
+  .empty p{font-size:13px;color:var(--sub);margin:8px auto 0;line-height:1.65;max-width:310px;word-break:keep-all}
+  .nowrap{white-space:nowrap}
+  .empty .btn-row{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+  .primary{
+    width:100%;border:0;border-radius:13px;background:var(--yellow);color:var(--ink);
+    font-size:14.5px;font-weight:800;padding:13px 16px;min-height:48px;
+    box-shadow:0 6px 16px rgba(245,184,0,.28);
+  }
+  .primary:active{background:var(--yellow-deep)}
+  .ghost{
+    width:100%;border:1px solid var(--line);border-radius:13px;background:var(--card);
+    color:#5F594A;font-size:13.5px;font-weight:700;padding:12px 16px;min-height:46px;
+  }
+  .noresult{text-align:center;padding:40px 12px}
+  .noresult .big2{font-size:38px}
+  .noresult p{font-size:13px;color:var(--sub);margin:10px 0 14px}
+  .noresult .ghost{max-width:240px;margin:0 auto}
+
+  /* ---------- sample banner ---------- */
+  .banner{
+    margin:2px 14px 8px;padding:9px 12px;border-radius:12px;
+    background:var(--yellow-soft);border:1px dashed #E7C34A;
+    display:flex;align-items:center;gap:8px;font-size:11.5px;color:#7A6210;line-height:1.4;
+  }
+  .banner span{flex:1 1 auto}
+  .banner.note{background:#FFF9EC;border-color:#EBD9AE;color:#8A6A1F}
+  .banner button{
+    border:0;background:#fff;border-radius:9px;padding:7px 9px;
+    font-size:11.5px;font-weight:800;color:#5C4B00;white-space:nowrap;
+    box-shadow:0 1px 2px rgba(120,90,0,.12);
+  }
+  .hidden{display:none !important}
+
+  /* ---------- FAB ---------- */
+  .fab{
+    position:fixed;z-index:30;
+    right:max(16px,calc(50% - 244px));
+    bottom:calc(18px + env(safe-area-inset-bottom));
+    border:0;border-radius:999px;background:var(--yellow);color:var(--ink);
+    font-size:14px;font-weight:800;padding:14px 19px;min-height:50px;
+    box-shadow:0 10px 24px rgba(245,184,0,.4),0 2px 4px rgba(120,90,0,.12);
+  }
+  .fab:active{background:var(--yellow-deep);transform:translateY(1px)}
+
+  /* ---------- footer note ---------- */
+  .footnote{padding:4px 22px calc(84px + env(safe-area-inset-bottom));text-align:center;color:#A9A290;font-size:11.5px;line-height:1.6}
+  .footnote p{margin:0 0 5px}
+  .footnote .tiny{font-size:11px;color:#B8B1A0}
+  .linkbtn{
+    border:0;background:transparent;color:#A9A290;font-size:11px;
+    text-decoration:underline;text-underline-offset:2px;padding:6px;
+  }
+
+  /* ---------- modal ---------- */
+  .backdrop{
+    position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;
+    background:rgba(35,30,15,.42);opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .backdrop.show{opacity:1;pointer-events:auto}
+  .sheet{
+    width:100%;max-width:520px;max-height:90vh;overflow:auto;
+    background:#FFFDF7;border-radius:22px 22px 0 0;
+    padding:10px 18px calc(22px + env(safe-area-inset-bottom));
+    transform:translateY(18px);transition:transform .22s ease;
+    box-shadow:0 -10px 40px rgba(60,50,20,.18);
+    overscroll-behavior:contain;
+  }
+  .backdrop.show .sheet{transform:none}
+  .handle{width:40px;height:4px;border-radius:999px;background:#E6DFCC;margin:2px auto 12px}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .sheet-head h2{font-size:17px;font-weight:800;margin:0;letter-spacing:-.02em}
+  .x{
+    width:34px;height:34px;border:0;border-radius:50%;background:#F4EFE2;color:#8B8577;
+    font-size:13px;line-height:1;
+  }
+  .field{display:block;margin-top:12px}
+  .field > span{display:block;font-size:12px;font-weight:700;color:#6B6555;margin-bottom:6px}
+  .field > span em{color:var(--red);font-style:normal}
+  .field > span small{font-weight:600;color:#B0A98F}
+  .field input, .field select{
+    width:100%;height:46px;border:1px solid var(--line);border-radius:12px;
+    background:#fff;padding:0 12px;font-size:16px;color:var(--ink);outline:none;
+    -webkit-appearance:none;appearance:none;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238B8577' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 13px center;padding-right:32px;
+  }
+  .field input:focus, .field select:focus{border-color:var(--yellow-deep);box-shadow:0 0 0 3px rgba(255,212,59,.25)}
+  .field input::placeholder{color:#C2BBAA}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .err{display:block;color:var(--red);font-size:11.5px;margin-top:5px;font-weight:600}
+  .seg{display:flex;gap:6px}
+  .seg label{flex:1 1 0;position:relative;min-width:0}
+  .seg input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+  .seg span{
+    display:block;text-align:center;border:1px solid var(--line);border-radius:11px;
+    background:#fff;color:#6B6555;font-size:13px;font-weight:600;padding:12px 2px;
+    white-space:nowrap;
+  }
+  .seg input:checked + span{background:var(--yellow-soft);border-color:var(--yellow-deep);color:var(--ink);font-weight:800}
+  .seg input:focus-visible + span{box-shadow:0 0 0 3px rgba(255,212,59,.35)}
+  .check{display:flex;align-items:flex-start;gap:9px;margin-top:14px;font-size:12.5px;color:#6B6555}
+  .check input{width:19px;height:19px;margin:0;accent-color:var(--yellow-deep);flex:0 0 auto}
+  .sheet .primary{margin-top:18px}
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed;z-index:60;left:50%;transform:translate(-50%,12px);
+    bottom:calc(84px + env(safe-area-inset-bottom));
+    max-width:calc(100% - 40px);
+    background:#2A2A26;color:#fff;border-radius:13px;
+    padding:12px 14px;font-size:12.5px;font-weight:600;
+    display:flex;align-items:center;gap:12px;
+    box-shadow:0 10px 30px rgba(40,35,15,.3);
+    opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .toast button{
+    border:0;background:transparent;color:var(--yellow);font-size:12.5px;
+    font-weight:800;padding:2px 2px;white-space:nowrap;
+  }
+  @media (min-width:600px){
+    body{padding-bottom:20px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🥬</div>
+      <div>
+        <h1>무지의 냉장고 현황판</h1>
+        <p class="updated" id="updated">마지막 정리 —</p>
+      </div>
+    </div>
+    <div class="summary" aria-label="요약">
+      <div class="stat all"><b id="statAll">0</b><span>보관 중</span></div>
+      <div class="stat soon"><b id="statSoon">0</b><span>임박 D-3</span></div>
+      <div class="stat exp"><b id="statExp">0</b><span>만료</span></div>
+    </div>
+  </header>
+
+  <div class="banner hidden" id="sampleBanner">
+    <span>🧪 샘플 데이터로 화면을 미리보는 중이에요.</span>
+    <button type="button" id="exitSample">실제 데이터로</button>
+  </div>
+  <div class="banner note hidden" id="storageNote">
+    <span>⚠️ 이 뷰어에서는 저장이 안 돼요. Chrome이나 삼성 인터넷으로 열면 ‘다 먹었어요’와 직접 추가가 기억돼요.</span>
+  </div>
+
+  <div class="toolbar">
+    <nav class="tabs" role="tablist" aria-label="보관 위치 필터">
+      <button class="tab active" role="tab" data-storage="all" aria-selected="true">전체 <span class="n" id="cntAll">0</span></button>
+      <button class="tab" role="tab" data-storage="fridge" aria-selected="false">❄️ 냉장 <span class="n" id="cntFridge">0</span></button>
+      <button class="tab" role="tab" data-storage="freezer" aria-selected="false">🧊 냉동 <span class="n" id="cntFreezer">0</span></button>
+      <button class="tab" role="tab" data-storage="pantry" aria-selected="false">🧺 실온 <span class="n" id="cntPantry">0</span></button>
+    </nav>
+    <div class="controls">
+      <div class="search">
+        <span class="ico" aria-hidden="true">🔍</span>
+        <input id="search" type="search" placeholder="품목 검색" autocomplete="off" enterkeyhint="search" aria-label="품목 검색">
+        <button class="clear hidden" id="clearSearch" type="button" aria-label="검색어 지우기">✕</button>
+      </div>
+      <select class="sort" id="sort" aria-label="정렬">
+        <option value="expiry">기한 임박순</option>
+        <option value="recent">최근 등록순</option>
+      </select>
+    </div>
+  </div>
+
+  <main id="list" aria-live="polite"></main>
+
+  <div class="footnote">
+    <p>마트에서 사온 사진이나 영수증을 채팅으로 무지에게 보내주세요.<br>무지가 품목·유통기한·보관 팁을 정리해 이 판을 새로 만들어 드려요.</p>
+    <p class="tiny">‘다 먹었어요’ 표시와 직접 추가한 항목은 이 기기 브라우저에만 저장돼요.</p>
+    <button type="button" class="linkbtn hidden" id="resetLocal">내 기록 초기화</button>
+  </div>
+</div>
+
+<button type="button" class="fab" id="addBtn">＋ 직접 추가</button>
+
+<div class="backdrop" id="backdrop" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="handle" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <h2 id="modalTitle">식재료 직접 추가</h2>
+      <button type="button" class="x" id="closeModal" aria-label="닫기">✕</button>
+    </div>
+    <form id="addForm" novalidate>
+      <label class="field">
+        <span>품목명 <em>*</em></span>
+        <input id="f-name" maxlength="30" placeholder="예: 대파" autocomplete="off">
+        <small class="err hidden" id="nameErr">품목명을 입력해 주세요.</small>
+      </label>
+      <div class="grid2">
+        <label class="field">
+          <span>카테고리</span>
+          <select id="f-cat">
+            <option value="채소">채소</option>
+            <option value="과일">과일</option>
+            <option value="육류·수산">육류·수산</option>
+            <option value="유제품·계란">유제품·계란</option>
+            <option value="가공·반찬">가공·반찬</option>
+            <option value="음료·기타">음료·기타</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>수량</span>
+          <input id="f-qty" maxlength="12" value="1개" placeholder="예: 2단">
+        </label>
+      </div>
+      <div class="field">
+        <span>보관 위치</span>
+        <div class="seg">
+          <label><input type="radio" name="storage" value="fridge" checked><span>❄️ 냉장</span></label>
+          <label><input type="radio" name="storage" value="freezer"><span>🧊 냉동</span></label>
+          <label><input type="radio" name="storage" value="pantry"><span>🧺 실온</span></label>
+        </div>
+      </div>
+      <div class="grid2">
+        <label class="field">
+          <span>구입일</span>
+          <input id="f-bought" type="date">
+        </label>
+        <label class="field">
+          <span>유통기한</span>
+          <input id="f-exp" type="date">
+        </label>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="f-est" checked>
+        <span>유통기한은 대략 추정한 날짜예요</span>
+      </label>
+      <label class="field">
+        <span>보관 팁 <small>(선택)</small></span>
+        <input id="f-tip" maxlength="60" placeholder="예: 신문지에 싸서 세워 보관">
+      </label>
+      <button type="submit" class="primary">냉장고에 추가</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ==== 무지가 갱신하는 영역 시작 ==== */
+  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-25T23:10:00+09:00"/*__UPDATED_AT_END__*/;
+  var EMBEDDED_ITEMS = /*__ITEMS_START__*/[
+  {
+    "id": "itm-20261125-001",
+    "name": "스위트마운틴 바나나",
+    "category": "과일",
+    "storage": "pantry",
+    "quantity": "1송이",
+    "purchased_at": "2026-11-25",
+    "expiry_date": "2026-11-29",
+    "expiry_estimated": true,
+    "tip": "비닐에서 꺼내 실온에 두세요. 다 익으면 껍질 까서 소분 냉동하면 오래 먹어요!",
+    "status": "active"
+  }
+]/*__ITEMS_END__*/;
+  /* ==== 무지가 갱신하는 영역 끝 ==== */
+
+  /* storage keys */
+  var K = {
+    added:  'mujiFridge.v1.added',
+    status: 'mujiFridge.v1.status',
+    sample: 'mujiFridge.v1.sample'
+  };
+
+  /* safe storage: some file viewers block localStorage */
+  var store = (function(){
+    var mem = {}, ok = false;
+    try {
+      var t = '__fridge_test__';
+      window.localStorage.setItem(t, '1');
+      window.localStorage.removeItem(t);
+      ok = true;
+    } catch (e) { ok = false; }
+    return {
+      ok: ok,
+      get: function(k){
+        try { return ok ? window.localStorage.getItem(k) : (Object.prototype.hasOwnProperty.call(mem,k) ? mem[k] : null); }
+        catch (e) { return Object.prototype.hasOwnProperty.call(mem,k) ? mem[k] : null; }
+      },
+      set: function(k, v){
+        try { if (ok) window.localStorage.setItem(k, v); else mem[k] = v; }
+        catch (e) { mem[k] = v; }
+      },
+      remove: function(k){
+        try { if (ok) window.localStorage.removeItem(k); else delete mem[k]; }
+        catch (e) { delete mem[k]; }
+      }
+    };
+  })();
+
+  function readJSON(key, fallback){
+    try {
+      var raw = store.get(key);
+      if (!raw) return fallback;
+      var v = JSON.parse(raw);
+      return (v === null || v === undefined) ? fallback : v;
+    } catch (e) { return fallback; }
+  }
+  function writeJSON(key, val){
+    try { store.set(key, JSON.stringify(val)); } catch (e) {}
+  }
+
+  var CATS = { '채소':'veg', '과일':'fruit', '육류·수산':'meat', '유제품·계란':'dairy', '가공·반찬':'side', '음료·기타':'drink' };
+  var STORAGES = {
+    fridge:  { label:'냉장', icon:'❄️' },
+    freezer: { label:'냉동', icon:'🧊' },
+    pantry:  { label:'실온', icon:'🧺' }
+  };
+
+  var state = {
+    storage: 'all',
+    sort: 'expiry',
+    query: '',
+    sample: store.get(K.sample) === '1'
+  };
+
+  function $(sel){ return document.querySelector(sel); }
+  function esc(s){
+    return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+
+  function todayStr(offset){
+    var d = new Date();
+    d.setHours(12, 0, 0, 0);
+    if (offset) d.setDate(d.getDate() + offset);
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function daysLeft(dateStr){
+    if (!dateStr || typeof dateStr !== 'string') return null;
+    var p = dateStr.split('-');
+    if (p.length !== 3) return null;
+    var y = parseInt(p[0], 10), m = parseInt(p[1], 10), d = parseInt(p[2], 10);
+    if (!y || !m || !d) return null;
+    var a = new Date(y, m - 1, d); a.setHours(12, 0, 0, 0);
+    var b = new Date(); b.setHours(12, 0, 0, 0);
+    return Math.round((a.getTime() - b.getTime()) / 86400000);
+  }
+  function fmtMD(dateStr){
+    if (!dateStr || typeof dateStr !== 'string') return '';
+    var p = dateStr.split('-');
+    if (p.length !== 3) return dateStr;
+    return '~' + pad2(parseInt(p[1], 10)) + '/' + pad2(parseInt(p[2], 10));
+  }
+  function fmtBought(dateStr){
+    if (!dateStr || typeof dateStr !== 'string') return '';
+    var p = dateStr.split('-');
+    if (p.length !== 3) return '';
+    return (parseInt(p[1], 10)) + '/' + pad2(parseInt(p[2], 10)) + ' 구입';
+  }
+  function fmtUpdated(s){
+    if (!s || typeof s !== 'string' || s.length < 16) return '마지막 정리 —';
+    return '마지막 정리 ' + s.slice(5,7) + '/' + s.slice(8,10) + ' ' + s.slice(11,16);
+  }
+  function dayLabel(d){
+    if (d === 0) return 'D-DAY';
+    if (d > 0) return 'D-' + d;
+    return 'D+' + (-d);
+  }
+  function toneOf(d){
+    if (d === null) return 'none';
+    if (d < 0) return 'red';
+    if (d <= 2) return 'red';
+    if (d <= 5) return 'amber';
+    return 'green';
+  }
+
+  /* ---------- sample data (relative to today) ---------- */
+  function sampleItems(){
+    var rows = [
+      ['대파',            '채소',      'fridge',  '2단',  -1,   6, '신문지에 싸서 세워 두면 일주일은 거뜬해요.'],
+      ['방울토마토',       '채소',      'fridge',  '1팩',  -2,   5, '키친타월을 깔고 꼭지를 아래로 두세요.'],
+      ['애호박',          '채소',      'fridge',  '1개',  -3,   4, '자른 단면은 랩으로 감싸 주세요.'],
+      ['아보카도',         '과일',      'pantry',  '2개',  -4,   0, '살짝 눌렀을 때 말랑하면 바로 드세요.'],
+      ['사과',            '과일',      'fridge',  '4개',  -4,  16, '다른 과일과 따로 두면 덜 물러져요.'],
+      ['바나나',          '과일',      'pantry',  '1송이', -3,  -1, '꼭지를 랩으로 감싸면 하루 이틀 더 가요.'],
+      ['삼겹살',          '육류·수산',  'freezer', '500g', -10, 55, '한 번 먹을 양씩 소분해 냉동하면 편해요.'],
+      ['닭가슴살',         '육류·수산',  'freezer', '1kg',  -20, 40, '냉동실 안쪽 깊숙이 보관하세요.'],
+      ['계란',            '유제품·계란', 'fridge',  '15구',  -5, 18, '뾰족한 쪽을 아래로 두면 신선도가 유지돼요.'],
+      ['서울우유 900ml',   '유제품·계란', 'fridge',  '1개',  -3,   6, '개봉 후엔 3~4일 안에 마시는 게 좋아요.'],
+      ['요거트',           '유제품·계란', 'fridge',  '4개',  -6,   9, '뚜껑에 적힌 개봉 후 기한을 확인하세요.'],
+      ['두부',            '가공·반찬',   'fridge',  '1모',  -2,   3, '개봉하면 물을 갈아 주며 2~3일 안에 드세요.'],
+      ['김치',            '가공·반찬',   'fridge',  '1통',  -14, 30, '잘 익으면 김치통째로 냉장 안쪽에 두세요.'],
+      ['식빵',            '가공·반찬',   'pantry',  '1봉',  -1,   2, '먹을 만큼 소분해 냉동하면 2주도 가요.'],
+      ['생수 2L',         '음료·기타',   'pantry',  '6병',  -7, 330, '직사광선을 피해 서늘한 곳에 두세요.']
+    ];
+    return rows.map(function(r, i){
+      return {
+        id: 'sample-' + (i + 1),
+        name: r[0],
+        category: r[1],
+        storage: r[2],
+        quantity: r[3],
+        purchased_at: todayStr(r[4]),
+        expiry_date: todayStr(r[5]),
+        expiry_estimated: true,
+        tip: r[6],
+        status: 'active'
+      };
+    });
+  }
+
+  /* ---------- data ---------- */
+  function baseItems(){
+    if (state.sample) return sampleItems();
+    var added = readJSON(K.added, []);
+    if (!Array.isArray(added)) added = [];
+    added = added.map(function(it){ return Object.assign({}, it, { _local: true }); });
+    var base = Array.isArray(EMBEDDED_ITEMS) ? EMBEDDED_ITEMS : [];
+    return base.map(function(it){ return Object.assign({}, it); }).concat(added);
+  }
+  function mergedItems(){
+    var statuses = readJSON(K.status, {});
+    if (typeof statuses !== 'object' || statuses === null || Array.isArray(statuses)) statuses = {};
+    return baseItems().map(function(it){
+      return Object.assign({}, it, { status: statuses[it.id] || it.status || 'active' });
+    });
+  }
+
+  /* ---------- rendering ---------- */
+  var listEl = $('#list');
+
+  function cardHTML(it){
+    var d = daysLeft(it.expiry_date);
+    var tone = toneOf(d);
+    var cat = CATS[it.category] || 'etc';
+    var st = STORAGES[it.storage] || STORAGES.fridge;
+    var exp;
+    if (it.expiry_date && d !== null) {
+      exp = fmtMD(it.expiry_date) + ' · ' + dayLabel(d) + (d < 0 ? ' (만료)' : '');
+    } else {
+      exp = it.expiry_date ? String(it.expiry_date) : '유통기한 미입력';
+    }
+    var bought = fmtBought(it.purchased_at);
+    var metaBits = [];
+    if (bought) metaBits.push(esc(bought));
+    if (it._local) metaBits.push('내가 추가');
+
+    return '' +
+      '<article class="card tone-' + tone + '" data-card="' + esc(it.id) + '">' +
+        '<div class="card-head">' +
+          '<span class="badge cat-' + cat + '">' + esc(it.category || '기타') + '</span>' +
+          '<span class="badge">' + st.icon + ' ' + st.label + '</span>' +
+          (it.expiry_estimated ? '<span class="badge est">예상</span>' : '') +
+        '</div>' +
+        '<h2 class="name">' + esc(it.name) + '</h2>' +
+        '<div class="exp-row">' +
+          '<span class="exp-chip tone-' + tone + '">' + esc(exp) + '</span>' +
+          (it.quantity ? '<span class="qty">' + esc(it.quantity) + '</span>' : '') +
+        '</div>' +
+        (metaBits.length ? '<div class="meta">' + metaBits.join(' · ') + '</div>' : '') +
+        (it.tip ? '<p class="tip">💡 ' + esc(it.tip) + '</p>' : '') +
+        '<div class="card-foot">' +
+          '<button type="button" class="eat" data-eat="' + esc(it.id) + '">다 먹었어요 ✓</button>' +
+          (it._local ? '<button type="button" class="del" data-del="' + esc(it.id) + '">삭제</button>' : '') +
+        '</div>' +
+      '</article>';
+  }
+
+  function emptyHTML(){
+    return '' +
+      '<div class="empty">' +
+        '<div class="big" aria-hidden="true">🥬</div>' +
+        '<h2>아직 등록된 식재료가 없어요!</h2>' +
+        '<p>마트에서 사온 사진이나 영수증을 무지에게 <span class="nowrap">보내보세요 📸</span></p>' +
+        '<div class="btn-row">' +
+          '<button type="button" class="primary" data-action="sample">샘플 데이터로 미리보기</button>' +
+          '<button type="button" class="ghost" data-action="add">직접 추가하기</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function noResultHTML(){
+    return '' +
+      '<div class="noresult">' +
+        '<div class="big2" aria-hidden="true">🔍</div>' +
+        '<p>조건에 맞는 품목이 없어요.</p>' +
+        '<button type="button" class="ghost" data-action="clear-filter">필터 초기화</button>' +
+      '</div>';
+  }
+
+  function render(){
+    var all = mergedItems();
+    var active = all.filter(function(it){ return it.status === 'active'; });
+
+    var soon = 0, expired = 0;
+    active.forEach(function(it){
+      var d = daysLeft(it.expiry_date);
+      if (d === null) return;
+      if (d < 0) expired++;
+      else if (d <= 3) soon++;
+    });
+
+    $('#statAll').textContent = active.length;
+    $('#statSoon').textContent = soon;
+    $('#statExp').textContent = expired;
+    $('#updated').textContent = fmtUpdated(EMBEDDED_UPDATED_AT);
+
+    var byStorage = { all: active.length, fridge: 0, freezer: 0, pantry: 0 };
+    active.forEach(function(it){ if (byStorage[it.storage] !== undefined) byStorage[it.storage]++; });
+    $('#cntAll').textContent = byStorage.all;
+    $('#cntFridge').textContent = byStorage.fridge;
+    $('#cntFreezer').textContent = byStorage.freezer;
+    $('#cntPantry').textContent = byStorage.pantry;
+
+    Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(t){
+      var on = t.getAttribute('data-storage') === state.storage;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+
+    $('#sampleBanner').classList.toggle('hidden', !state.sample);
+
+    var hasRecords = active.length > 0 ||
+      readJSON(K.added, []).length > 0 ||
+      Object.keys(readJSON(K.status, {})).length > 0;
+    document.querySelector('.footnote').classList.toggle('hidden', !hasRecords);
+    $('#resetLocal').classList.toggle('hidden',
+      !(readJSON(K.added, []).length || Object.keys(readJSON(K.status, {})).length || state.sample));
+
+    var q = state.query.trim().toLowerCase();
+    var shown = active.filter(function(it){
+      if (state.storage !== 'all' && it.storage !== state.storage) return false;
+      if (!q) return true;
+      var hay = (it.name + ' ' + (it.category || '') + ' ' + (it.tip || '') + ' ' + (it.quantity || '')).toLowerCase();
+      return hay.indexOf(q) !== -1;
+    });
+
+    shown.sort(function(a, b){
+      if (state.sort === 'recent') {
+        var pa = a.purchased_at || '', pb = b.purchased_at || '';
+        if (pa !== pb) return pa < pb ? 1 : -1;
+        return String(b.id).localeCompare(String(a.id));
+      }
+      var da = daysLeft(a.expiry_date);
+      var db = daysLeft(b.expiry_date);
+      if (da === null && db === null) return String(a.name).localeCompare(String(b.name), 'ko');
+      if (da === null) return 1;
+      if (db === null) return -1;
+      if (da !== db) return da - db;
+      return String(a.name).localeCompare(String(b.name), 'ko');
+    });
+
+    if (!active.length) {
+      listEl.innerHTML = emptyHTML();
+    } else if (!shown.length) {
+      listEl.innerHTML = noResultHTML();
+    } else {
+      listEl.innerHTML = shown.map(cardHTML).join('');
+    }
+  }
+
+  /* ---------- toast ---------- */
+  var toastTimer = null;
+  function toast(msg, actionLabel, onAction){
+    var el = $('#toast');
+    el.innerHTML = '<span>' + esc(msg) + '</span>' +
+      (actionLabel ? '<button type="button" id="toastAct">' + esc(actionLabel) + '</button>' : '');
+    el.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 4200);
+    if (actionLabel) {
+      var btn = $('#toastAct');
+      if (btn) btn.addEventListener('click', function(){
+        el.classList.remove('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        if (onAction) onAction();
+      });
+    }
+  }
+
+  /* ---------- actions ---------- */
+  function setStatus(id, value){
+    var m = readJSON(K.status, {});
+    if (typeof m !== 'object' || m === null || Array.isArray(m)) m = {};
+    if (value) m[id] = value;
+    else delete m[id];
+    writeJSON(K.status, m);
+  }
+
+  function eatItem(id){
+    var found = null;
+    mergedItems().forEach(function(it){ if (it.id === id) found = it; });
+    if (!found) return;
+    setStatus(id, 'consumed');
+    var card = listEl.querySelector('[data-card="' + (window.CSS && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"')) + '"]');
+    if (card) card.classList.add('gone');
+    setTimeout(render, 170);
+    toast(found.name + ' · 다 먹었어요 ✓', '되돌리기', function(){ setStatus(id, null); render(); });
+  }
+
+  function deleteLocal(id){
+    var added = readJSON(K.added, []);
+    if (!Array.isArray(added)) added = [];
+    var target = null;
+    added.forEach(function(it){ if (it.id === id) target = it; });
+    if (!target) return;
+    if (!window.confirm('"' + target.name + '"을(를) 목록에서 지울까요?')) return;
+    writeJSON(K.added, added.filter(function(it){ return it.id !== id; }));
+    setStatus(id, null);
+    render();
+    toast('목록에서 지웠어요');
+  }
+
+  listEl.addEventListener('click', function(e){
+    var eat = e.target.closest ? e.target.closest('[data-eat]') : null;
+    if (eat) { eatItem(eat.getAttribute('data-eat')); return; }
+    var del = e.target.closest ? e.target.closest('[data-del]') : null;
+    if (del) { deleteLocal(del.getAttribute('data-del')); return; }
+    var act = e.target.closest ? e.target.closest('[data-action]') : null;
+    if (act) {
+      var a = act.getAttribute('data-action');
+      if (a === 'sample') { enterSample(); }
+      else if (a === 'add') { openModal(); }
+      else if (a === 'clear-filter') { state.storage = 'all'; state.query = ''; $('#search').value = ''; $('#clearSearch').classList.add('hidden'); render(); }
+    }
+  });
+
+  /* ---------- sample ---------- */
+  function enterSample(){
+    state.sample = true;
+    store.set(K.sample, '1');
+    state.storage = 'all';
+    state.query = '';
+    $('#search').value = '';
+    $('#clearSearch').classList.add('hidden');
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function exitSample(){
+    state.sample = false;
+    store.remove(K.sample);
+    render();
+    toast('실제 냉장고 데이터로 돌아왔어요');
+  }
+  $('#exitSample').addEventListener('click', exitSample);
+
+  /* ---------- toolbar ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(t){
+    t.addEventListener('click', function(){
+      state.storage = t.getAttribute('data-storage');
+      render();
+    });
+  });
+
+  var searchEl = $('#search');
+  var clearEl = $('#clearSearch');
+  searchEl.addEventListener('input', function(){
+    state.query = searchEl.value;
+    clearEl.classList.toggle('hidden', !searchEl.value);
+    render();
+  });
+  clearEl.addEventListener('click', function(){
+    searchEl.value = '';
+    state.query = '';
+    clearEl.classList.add('hidden');
+    searchEl.focus();
+    render();
+  });
+  $('#sort').addEventListener('change', function(e){
+    state.sort = e.target.value;
+    render();
+  });
+
+  /* ---------- modal ---------- */
+  var backdrop = $('#backdrop');
+  var nameInput = $('#f-name');
+
+  function openModal(){
+    var bought = $('#f-bought');
+    var exp = $('#f-exp');
+    if (!bought.value) bought.value = todayStr(0);
+    if (!exp.value) exp.value = todayStr(7);
+    $('#nameErr').classList.add('hidden');
+    backdrop.classList.add('show');
+    backdrop.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('locked');
+    setTimeout(function(){ try { nameInput.focus(); } catch (e) {} }, 120);
+  }
+  function closeModal(){
+    backdrop.classList.remove('show');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('locked');
+  }
+  function resetForm(){
+    nameInput.value = '';
+    $('#f-qty').value = '1개';
+    $('#f-cat').selectedIndex = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="storage"]'), function(r){
+      r.checked = (r.value === 'fridge');
+    });
+    $('#f-tip').value = '';
+    $('#f-est').checked = true;
+    $('#f-bought').value = todayStr(0);
+    $('#f-exp').value = todayStr(7);
+    $('#nameErr').classList.add('hidden');
+  }
+
+  nameInput.addEventListener('input', function(){
+    if (nameInput.value.trim()) $('#nameErr').classList.add('hidden');
+  });
+
+  $('#addBtn').addEventListener('click', openModal);
+  $('#closeModal').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', function(e){ if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && backdrop.classList.contains('show')) closeModal();
+  });
+
+  $('#addForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = nameInput.value.trim();
+    if (!name) {
+      $('#nameErr').classList.remove('hidden');
+      nameInput.focus();
+      return;
+    }
+    $('#nameErr').classList.add('hidden');
+
+    var storage = 'fridge';
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="storage"]'), function(r){
+      if (r.checked) storage = r.value;
+    });
+
+    var qty = $('#f-qty').value.trim() || '1개';
+    var bought = $('#f-bought').value || todayStr(0);
+    var exp = $('#f-exp').value || todayStr(7);
+
+    var item = {
+      id: 'local-' + Date.now().toString(36),
+      name: name,
+      category: $('#f-cat').value,
+      storage: storage,
+      quantity: qty,
+      purchased_at: bought,
+      expiry_date: exp,
+      expiry_estimated: $('#f-est').checked,
+      tip: $('#f-tip').value.trim(),
+      status: 'active'
+    };
+
+    var added = readJSON(K.added, []);
+    if (!Array.isArray(added)) added = [];
+    added.unshift(item);
+    writeJSON(K.added, added);
+
+    var wasSample = state.sample;
+    if (wasSample) { state.sample = false; store.remove(K.sample); }
+    state.storage = 'all';
+    state.sort = 'recent';
+    $('#sort').selectedIndex = 1;
+
+    closeModal();
+    resetForm();
+    render();
+
+    toast(wasSample ? '샘플을 끝내고 내 냉장고에 추가했어요 ✓' : name + ' 추가했어요 ✓');
+  });
+
+  /* ---------- reset ---------- */
+  $('#resetLocal').addEventListener('click', function(){
+    if (!window.confirm('이 기기에 저장한 직접 추가 항목과 ‘다 먹었어요’ 표시를 모두 지울까요?')) return;
+    store.remove(K.added);
+    store.remove(K.status);
+    store.remove(K.sample);
+    state.sample = false;
+    state.storage = 'all';
+    state.query = '';
+    $('#search').value = '';
+    $('#clearSearch').classList.add('hidden');
+    render();
+    toast('내 기록을 초기화했어요');
+  });
+
+  /* ---------- boot ---------- */
+  if (!store.ok) {
+    $('#storageNote').classList.remove('hidden');
+  }
+  render();
+})();
+</script>
+</body>
+</html>
