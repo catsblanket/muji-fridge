@@ -51,8 +51,22 @@
     display:grid;place-items:center;font-size:25px;
     box-shadow:0 4px 12px rgba(245,184,0,.32), inset 0 -2px 0 rgba(0,0,0,.05);
   }
+  .brand-text{flex:1 1 auto;min-width:0}
   h1{font-size:19px;font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.3}
   .updated{font-size:11.5px;color:var(--sub);margin:3px 0 0}
+  .syncchip{
+    display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;
+    padding:2px 7px;border-radius:999px;background:#F5F2E9;color:#7A7462;margin-left:5px;
+    vertical-align:1px;letter-spacing:-.01em;
+  }
+  .syncchip.on{background:var(--green-bg);color:var(--green)}
+  .syncchip.warn{background:var(--amber-bg);color:var(--amber)}
+  .gear{
+    flex:0 0 auto;width:40px;height:40px;border-radius:13px;border:1px solid var(--line);
+    background:var(--card);font-size:17px;line-height:1;display:grid;place-items:center;
+    box-shadow:0 1px 2px rgba(120,105,60,.05);padding:0;
+  }
+  .gear:active{background:var(--yellow-soft);border-color:var(--yellow)}
   .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
   .stat{
     background:var(--card);border:1px solid var(--line);border-radius:15px;
@@ -181,6 +195,7 @@
     box-shadow:0 6px 16px rgba(245,184,0,.28);
   }
   .primary:active{background:var(--yellow-deep)}
+  .primary[disabled]{opacity:.55;box-shadow:none}
   .ghost{
     width:100%;border:1px solid var(--line);border-radius:13px;background:var(--card);
     color:#5F594A;font-size:13.5px;font-weight:700;padding:12px 16px;min-height:46px;
@@ -198,11 +213,13 @@
   }
   .banner span{flex:1 1 auto}
   .banner.note{background:#FFF9EC;border-color:#EBD9AE;color:#8A6A1F}
+  .banner.warn{background:var(--red-bg);border-color:#F3C9C9;color:#8E2222}
   .banner button{
     border:0;background:#fff;border-radius:9px;padding:7px 9px;
     font-size:11.5px;font-weight:800;color:#5C4B00;white-space:nowrap;
     box-shadow:0 1px 2px rgba(120,90,0,.12);
   }
+  .banner.warn button{color:#8E2222}
   .hidden{display:none !important}
 
   /* ---------- FAB ---------- */
@@ -277,6 +294,28 @@
   .check{display:flex;align-items:flex-start;gap:9px;margin-top:14px;font-size:12.5px;color:#6B6555}
   .check input{width:19px;height:19px;margin:0;accent-color:var(--yellow-deep);flex:0 0 auto}
   .sheet .primary{margin-top:18px}
+  .sheet .ghost{margin-top:8px}
+
+  /* ---------- settings modal ---------- */
+  .conn{display:flex;gap:10px;align-items:flex-start;background:#FFF9E8;border:1px solid #F3E3B4;border-radius:14px;padding:11px 12px;margin-top:10px}
+  .conn .dot{width:9px;height:9px;border-radius:50%;background:#C9C2AE;margin-top:6px;flex:0 0 auto}
+  .conn.on{background:#EFFAF2;border-color:#CDEBD6}
+  .conn.on .dot{background:#2FA457;box-shadow:0 0 0 3px rgba(47,164,87,.16)}
+  .conn.warn{background:var(--red-bg);border-color:#F7D6D6}
+  .conn.warn .dot{background:var(--red);box-shadow:0 0 0 3px rgba(210,47,47,.14)}
+  .conn b{font-size:13px;display:block}
+  .conn p{margin:3px 0 0;font-size:11.5px;color:#7A7462;line-height:1.5;word-break:keep-all}
+  .tokrow{position:relative}
+  .tokrow input{padding-right:50px;font-size:14px;letter-spacing:0}
+  .eye{
+    position:absolute;right:6px;top:6px;width:40px;height:34px;border:0;border-radius:9px;
+    background:#F4EFE2;font-size:14px;line-height:1;padding:0;
+  }
+  .guide{margin-top:16px;background:#FFFCEC;border:1px solid #F7EFD3;border-radius:12px;padding:11px 12px}
+  .guide b{font-size:12px}
+  .guide ol{margin:7px 0 0;padding-left:17px;font-size:11.5px;color:#6B6555;line-height:1.62}
+  .guide li{margin-bottom:3px}
+  .guide .tiny{font-size:10.5px;color:#9A927E;line-height:1.55;margin:8px 0 0}
 
   /* ---------- toast ---------- */
   .toast{
@@ -307,10 +346,11 @@
   <header class="app-header">
     <div class="brand">
       <div class="logo" aria-hidden="true">🥬</div>
-      <div>
+      <div class="brand-text">
         <h1>무지의 냉장고 현황판</h1>
-        <p class="updated" id="updated">마지막 정리 —</p>
+        <p class="updated"><span id="updated">마지막 정리 —</span><span class="syncchip" id="syncChip">📱 이 기기에만 저장</span></p>
       </div>
+      <button type="button" class="gear" id="gearBtn" aria-label="자동 저장 설정" title="자동 저장 설정">⚙️</button>
     </div>
     <div class="summary" aria-label="요약">
       <div class="stat all"><b id="statAll">0</b><span>보관 중</span></div>
@@ -325,6 +365,10 @@
   </div>
   <div class="banner note hidden" id="storageNote">
     <span>⚠️ 이 뷰어에서는 저장이 안 돼요. Chrome이나 삼성 인터넷으로 열면 ‘다 먹었어요’와 직접 추가가 기억돼요.</span>
+  </div>
+  <div class="banner warn hidden" id="syncNote">
+    <span id="syncNoteText">⚠️ GitHub 자동 저장에 문제가 있어요.</span>
+    <button type="button" id="syncNoteBtn">⚙️ 설정</button>
   </div>
 
   <div class="toolbar">
@@ -351,13 +395,14 @@
 
   <div class="footnote">
     <p>마트에서 사온 사진이나 영수증을 채팅으로 무지에게 보내주세요.<br>무지가 품목·유통기한·보관 팁을 정리해 이 판을 새로 만들어 드려요.</p>
-    <p class="tiny">‘다 먹었어요’ 표시와 직접 추가한 항목은 이 기기 브라우저에만 저장돼요.</p>
+    <p class="tiny" id="footNote">⚙️에서 GitHub 토큰을 넣으면 ‘다 먹었어요’가 GitHub에 바로 저장돼요. 토큰이 없을 땐 이 기기 브라우저에만 저장돼요.</p>
     <button type="button" class="linkbtn hidden" id="resetLocal">내 기록 초기화</button>
   </div>
 </div>
 
 <button type="button" class="fab" id="addBtn">＋ 직접 추가</button>
 
+<!-- ===== 식재료 직접 추가 ===== -->
 <div class="backdrop" id="backdrop" aria-hidden="true">
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="handle" aria-hidden="true"></div>
@@ -419,13 +464,54 @@
   </div>
 </div>
 
+<!-- ===== 자동 저장 설정 ===== -->
+<div class="backdrop" id="setBackdrop" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="handle" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <h2 id="setTitle">⚙️ 자동 저장 설정</h2>
+      <button type="button" class="x" id="closeSettings" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="conn" id="connBox">
+      <span class="dot" aria-hidden="true"></span>
+      <div>
+        <b id="connTitle">이 기기에만 저장 중</b>
+        <p id="connDesc">토큰을 넣으면 ‘다 먹었어요’가 GitHub의 inventory.json에 바로 저장돼요.</p>
+      </div>
+    </div>
+
+    <label class="field">
+      <span>GitHub 토큰 <small>(Fine-grained PAT)</small></span>
+      <div class="tokrow">
+        <input id="tokenInput" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="github_pat_...">
+        <button type="button" class="eye" id="toggleToken" aria-label="토큰 보기">👁</button>
+      </div>
+      <small class="err hidden" id="tokenErr"></small>
+    </label>
+
+    <button type="button" class="primary" id="saveToken">저장하고 연결 확인</button>
+    <button type="button" class="ghost hidden" id="deleteToken">토큰 삭제하고 기기 저장으로</button>
+
+    <div class="guide">
+      <b>토큰 만드는 법 (1분)</b>
+      <ol>
+        <li>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token</li>
+        <li>Repository access → <b>Only select repositories</b> → <b>muji-fridge</b>만 선택</li>
+        <li>Permissions → Repository permissions → <b>Contents: Read and write</b> → Generate 후 토큰 복사</li>
+      </ol>
+      <p class="tiny">토큰은 이 폰 브라우저에만 저장되고 어디로도 전송되지 않아요. 남에게 보여주지 말고, 만료일은 1년 정도로 정해 두면 안전해요. 토큰을 지우면 ‘이 기기에만 저장’ 방식으로 돌아가요.</p>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
   'use strict';
 
-  /* ==== 무지가 갱신하는 영역 시작 ==== */
+  /* ==== 무지가 만드는 영역 시작 ==== */
   var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-25T23:10:00+09:00"/*__UPDATED_AT_END__*/;
   var EMBEDDED_ITEMS = /*__ITEMS_START__*/[
   {
@@ -441,13 +527,17 @@
     "status": "active"
   }
 ]/*__ITEMS_END__*/;
-  /* ==== 무지가 갱신하는 영역 끝 ==== */
+  /* ==== 무지가 만드는 영역 끝 ==== */
+
+  var REPO = { owner:'catsblanket', name:'muji-fridge', branch:'main', path:'inventory.json' };
+  var API_CONTENT = 'https://api.github.com/repos/' + REPO.owner + '/' + REPO.name + '/contents/' + REPO.path;
 
   /* storage keys */
   var K = {
     added:  'mujiFridge.v1.added',
     status: 'mujiFridge.v1.status',
-    sample: 'mujiFridge.v1.sample'
+    sample: 'mujiFridge.v1.sample',
+    token:  'mujiFridge.v1.ghToken'
   };
 
   /* safe storage: some file viewers block localStorage */
@@ -487,6 +577,7 @@
   function writeJSON(key, val){
     try { store.set(key, JSON.stringify(val)); } catch (e) {}
   }
+  function getToken(){ return (store.get(K.token) || '').trim(); }
 
   var CATS = { '채소':'veg', '과일':'fruit', '육류·수산':'meat', '유제품·계란':'dairy', '가공·반찬':'side', '음료·기타':'drink' };
   var STORAGES = {
@@ -499,7 +590,12 @@
     storage: 'all',
     sort: 'expiry',
     query: '',
-    sample: store.get(K.sample) === '1'
+    sample: store.get(K.sample) === '1',
+    data: null,        /* {items:[], updated_at} 지금 화면이 쓰는 데이터 */
+    source: 'embed',   /* 'github' | 'file' | 'embed' */
+    sha: null,
+    syncIssue: '',     /* 토큰은 있는데 GitHub에서 못 읽었을 때 메시지 */
+    busy: {}
   };
 
   function $(sel){ return document.querySelector(sel); }
@@ -509,12 +605,22 @@
     });
   }
   function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 
   function todayStr(offset){
     var d = new Date();
     d.setHours(12, 0, 0, 0);
     if (offset) d.setDate(d.getDate() + offset);
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function nowISO(){
+    var d = new Date();
+    var off = -d.getTimezoneOffset();
+    var sign = off >= 0 ? '+' : '-';
+    var a = Math.abs(off);
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) +
+      'T' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()) +
+      sign + pad2(Math.floor(a / 60)) + ':' + pad2(a % 60);
   }
   function daysLeft(dateStr){
     if (!dateStr || typeof dateStr !== 'string') return null;
@@ -555,7 +661,81 @@
     return 'green';
   }
 
-  /* ---------- sample data (relative to today) ---------- */
+  /* ---------- base64 (UTF-8) ---------- */
+  function utf8ToBase64(str){
+    var bytes = new TextEncoder().encode(str);
+    var bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function base64ToUtf8(b64){
+    var clean = String(b64 || '').replace(/\s+/g, '');
+    var bin = atob(clean);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  /* ---------- GitHub 오류 → 한국어 ---------- */
+  function apiError(code){
+    if (code === 'network') return '인터넷 연결을 확인해 주세요. (GitHub에 닿지 않아요)';
+    if (code === 'parse') return 'inventory.json 형식이 깨져 있어요. 무지에게 알려주세요.';
+    if (code === 401) return '토큰이 올바르지 않거나 만료됐어요. ⚙️ 설정에서 새 토큰을 넣어 주세요.';
+    if (code === 403) return '권한이 부족해요. 토큰의 Repository access가 muji-fridge이고 Contents가 Read and write인지 확인해 주세요.';
+    if (code === 404) return '저장소나 inventory.json을 찾지 못했어요. 토큰의 저장소 선택을 확인해 주세요.';
+    if (code === 409) return '방금 다른 곳에서 수정돼 충돌이 났어요. 최신 내용을 다시 불러와 한 번 더 시도할게요.';
+    if (code === 422) return '저장 요청이 거절됐어요. 잠시 뒤 다시 시도해 주세요.';
+    if (code >= 500) return 'GitHub가 잠시 불안정해요. 잠시 뒤 다시 시도해 주세요.';
+    if (code) return 'GitHub 저장에 실패했어요 (오류 ' + code + ').';
+    return 'GitHub 저장에 실패했어요. 잠시 뒤 다시 시도해 주세요.';
+  }
+  function mkErr(code){ var e = new Error('gh:' + code); e.code = code; return e; }
+  function ghHeaders(extra){
+    var h = { 'Authorization': 'Bearer ' + getToken(), 'Accept': 'application/vnd.github+json' };
+    if (extra) for (var k in extra) h[k] = extra[k];
+    return h;
+  }
+
+  /* GET contents → {doc, sha, text} */
+  async function ghFetchDoc(){
+    if (!getToken()) throw mkErr(401);
+    var res;
+    try {
+      res = await fetch(API_CONTENT + '?ref=' + encodeURIComponent(REPO.branch) + '&_=' + Date.now(), {
+        method: 'GET', cache: 'no-store', headers: ghHeaders()
+      });
+    } catch (e) { throw mkErr('network'); }
+    if (!res.ok) throw mkErr(res.status);
+    var body = await res.json();
+    var text = base64ToUtf8(body.content);
+    var doc;
+    try { doc = JSON.parse(text); } catch (e2) { throw mkErr('parse'); }
+    if (!doc || !Array.isArray(doc.items)) throw mkErr('parse');
+    return { doc: doc, sha: body.sha, text: text };
+  }
+
+  /* PUT contents */
+  async function ghPutDoc(doc, sha, message){
+    var text = JSON.stringify(doc, null, 2) + '\n';
+    var res;
+    try {
+      res = await fetch(API_CONTENT, {
+        method: 'PUT', cache: 'no-store',
+        headers: ghHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({
+          message: message,
+          content: utf8ToBase64(text),
+          branch: REPO.branch,
+          sha: sha
+        })
+      });
+    } catch (e) { throw mkErr('network'); }
+    if (!res.ok) throw mkErr(res.status);
+    var body = await res.json();
+    return { body: body, text: text, sha: body && body.content ? body.content.sha : null };
+  }
+
+  /* ---------- sample data ---------- */
   function sampleItems(){
     var rows = [
       ['대파',            '채소',      'fridge',  '2단',  -1,   6, '신문지에 싸서 세워 두면 일주일은 거뜬해요.'],
@@ -591,20 +771,36 @@
   }
 
   /* ---------- data ---------- */
-  function baseItems(){
-    if (state.sample) return sampleItems();
-    var added = readJSON(K.added, []);
-    if (!Array.isArray(added)) added = [];
-    added = added.map(function(it){ return Object.assign({}, it, { _local: true }); });
-    var base = Array.isArray(EMBEDDED_ITEMS) ? EMBEDDED_ITEMS : [];
-    return base.map(function(it){ return Object.assign({}, it); }).concat(added);
+  function baseRawItems(){
+    var list = (state.data && Array.isArray(state.data.items)) ? state.data.items
+      : (Array.isArray(EMBEDDED_ITEMS) ? EMBEDDED_ITEMS : []);
+    return list;
+  }
+  function refreshedAt(){
+    if (state.data && state.data.updated_at) return state.data.updated_at;
+    return EMBEDDED_UPDATED_AT;
   }
   function mergedItems(){
+    if (state.sample) return sampleItems();
+
     var statuses = readJSON(K.status, {});
     if (typeof statuses !== 'object' || statuses === null || Array.isArray(statuses)) statuses = {};
-    return baseItems().map(function(it){
-      return Object.assign({}, it, { status: statuses[it.id] || it.status || 'active' });
+    var useLocalStatus = (state.source !== 'github');
+
+    var out = baseRawItems().map(function(it){
+      var c = Object.assign({}, it);
+      c.status = (useLocalStatus && statuses[c.id]) ? statuses[c.id] : (c.status || 'active');
+      return c;
     });
+
+    var added = readJSON(K.added, []);
+    if (!Array.isArray(added)) added = [];
+    added.forEach(function(it){
+      var c = Object.assign({}, it, { _local: true });
+      c.status = statuses[c.id] || c.status || 'active';
+      out.push(c);
+    });
+    return out;
   }
 
   /* ---------- rendering ---------- */
@@ -669,6 +865,31 @@
       '</div>';
   }
 
+  function renderSync(){
+    var chip = $('#syncChip');
+    var token = getToken();
+    if (state.syncIssue) {
+      chip.className = 'syncchip warn';
+      chip.textContent = '⚠️ 연결 확인';
+      chip.title = state.syncIssue;
+    } else if (token) {
+      chip.className = 'syncchip on';
+      chip.textContent = '☁️ 자동 저장';
+      chip.title = '‘다 먹었어요’가 GitHub에 바로 저장돼요';
+    } else {
+      chip.className = 'syncchip';
+      chip.textContent = '📱 이 기기에만';
+      chip.title = '⚙️에서 GitHub 토큰을 넣으면 자동 저장돼요';
+    }
+    var note = $('#syncNote');
+    if (state.syncIssue) {
+      note.classList.remove('hidden');
+      $('#syncNoteText').textContent = '⚠️ ' + state.syncIssue;
+    } else {
+      note.classList.add('hidden');
+    }
+  }
+
   function render(){
     var all = mergedItems();
     var active = all.filter(function(it){ return it.status === 'active'; });
@@ -684,7 +905,7 @@
     $('#statAll').textContent = active.length;
     $('#statSoon').textContent = soon;
     $('#statExp').textContent = expired;
-    $('#updated').textContent = fmtUpdated(EMBEDDED_UPDATED_AT);
+    $('#updated').textContent = fmtUpdated(refreshedAt());
 
     var byStorage = { all: active.length, fridge: 0, freezer: 0, pantry: 0 };
     active.forEach(function(it){ if (byStorage[it.storage] !== undefined) byStorage[it.storage]++; });
@@ -700,6 +921,7 @@
     });
 
     $('#sampleBanner').classList.toggle('hidden', !state.sample);
+    renderSync();
 
     var hasRecords = active.length > 0 ||
       readJSON(K.added, []).length > 0 ||
@@ -742,13 +964,15 @@
 
   /* ---------- toast ---------- */
   var toastTimer = null;
-  function toast(msg, actionLabel, onAction){
+  function toast(msg, actionLabel, onAction, sticky){
     var el = $('#toast');
     el.innerHTML = '<span>' + esc(msg) + '</span>' +
       (actionLabel ? '<button type="button" id="toastAct">' + esc(actionLabel) + '</button>' : '');
     el.classList.add('show');
     if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 4200);
+    if (!sticky) {
+      toastTimer = setTimeout(function(){ el.classList.remove('show'); }, actionLabel ? 6000 : 4200);
+    }
     if (actionLabel) {
       var btn = $('#toastAct');
       if (btn) btn.addEventListener('click', function(){
@@ -768,15 +992,102 @@
     writeJSON(K.status, m);
   }
 
+  function cardEl(id){
+    try {
+      var sel = window.CSS && CSS.escape ? CSS.escape(id) : String(id).replace(/"/g, '\\"');
+      return listEl.querySelector('[data-card="' + sel + '"]');
+    } catch (e) { return null; }
+  }
+
+  function applyRemote(doc, sha){
+    state.data = { items: doc.items, updated_at: doc.updated_at || nowISO() };
+    state.source = 'github';
+    state.sha = sha || state.sha;
+    state.syncIssue = '';
+  }
+
+  function messageFor(value, name){
+    return value === 'consumed'
+      ? '냉장고: ' + name + ' 다 먹었어요'
+      : '냉장고: ' + name + ' 되돌리기';
+  }
+
+  /* 원격 status 커밋 (충돌 시 1회 재시도) */
+  async function commitStatus(id, value, name){
+    if (!getToken()) { setStatus(id, value); return { ok: true, local: true }; }
+    var attempt = 0, lastCode = null;
+    while (attempt < 2) {
+      attempt++;
+      try {
+        var got = await ghFetchDoc();
+        var doc = got.doc;
+        var found = false;
+        for (var i = 0; i < doc.items.length; i++) {
+          if (doc.items[i].id === id) { doc.items[i].status = value; found = true; break; }
+        }
+        if (!found) { setStatus(id, value); return { ok: true, local: true }; }
+        doc.updated_at = nowISO();
+        var put = await ghPutDoc(doc, got.sha, messageFor(value, name));
+        applyRemote(doc, put.sha);
+        return { ok: true };
+      } catch (err) {
+        lastCode = err && err.code;
+        if (lastCode === 409 && attempt < 2) { await sleep(800); continue; }
+        break;
+      }
+    }
+    return { ok: false, code: lastCode, message: apiError(lastCode) };
+  }
+
   function eatItem(id){
     var found = null;
     mergedItems().forEach(function(it){ if (it.id === id) found = it; });
     if (!found) return;
-    setStatus(id, 'consumed');
-    var card = listEl.querySelector('[data-card="' + (window.CSS && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"')) + '"]');
+    if (state.busy[id]) return;
+
+    if (!getToken()) {
+      setStatus(id, 'consumed');
+      var card0 = cardEl(id);
+      if (card0) card0.classList.add('gone');
+      setTimeout(render, 170);
+      toast(found.name + ' · 다 먹었어요 ✓', '되돌리기', function(){ setStatus(id, null); render(); });
+      return;
+    }
+
+    state.busy[id] = true;
+    var card = cardEl(id);
     if (card) card.classList.add('gone');
-    setTimeout(render, 170);
-    toast(found.name + ' · 다 먹었어요 ✓', '되돌리기', function(){ setStatus(id, null); render(); });
+    toast(found.name + ' · GitHub에 저장하는 중…', null, null, true);
+
+    commitStatus(id, 'consumed', found.name).then(function(r){
+      delete state.busy[id];
+      if (r.ok) {
+        setStatus(id, null);
+        render();
+        toast(found.name + ' · 다 먹었어요 ✓ 저장됐어요', '되돌리기', function(){ undoConsume(id, found.name); });
+      } else {
+        render();
+        toast('저장 실패 · ' + r.message, '설정 열기', openSettings);
+      }
+    });
+  }
+
+  function undoConsume(id, name){
+    if (state.busy[id]) return;
+    if (!getToken()) {
+      setStatus(id, null);
+      render();
+      toast('되돌렸어요');
+      return;
+    }
+    state.busy[id] = true;
+    toast('되돌리는 중…', null, null, true);
+    commitStatus(id, 'active', name).then(function(r){
+      delete state.busy[id];
+      render();
+      if (r.ok) toast(name + ' · 되돌렸어요 ✓ 저장됐어요');
+      else toast('되돌리기 실패 · ' + r.message, '설정 열기', openSettings);
+    });
   }
 
   function deleteLocal(id){
@@ -852,7 +1163,7 @@
     render();
   });
 
-  /* ---------- modal ---------- */
+  /* ---------- add modal ---------- */
   var backdrop = $('#backdrop');
   var nameInput = $('#f-name');
 
@@ -893,9 +1204,6 @@
   $('#addBtn').addEventListener('click', openModal);
   $('#closeModal').addEventListener('click', closeModal);
   backdrop.addEventListener('click', function(e){ if (e.target === backdrop) closeModal(); });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && backdrop.classList.contains('show')) closeModal();
-  });
 
   $('#addForm').addEventListener('submit', function(e){
     e.preventDefault();
@@ -947,6 +1255,113 @@
     toast(wasSample ? '샘플을 끝내고 내 냉장고에 추가했어요 ✓' : name + ' 추가했어요 ✓');
   });
 
+  /* ---------- settings modal ---------- */
+  var setBackdrop = $('#setBackdrop');
+  var tokenInput = $('#tokenInput');
+
+  function renderSettings(){
+    var token = getToken();
+    var box = $('#connBox');
+    box.className = 'conn' + (state.syncIssue ? ' warn' : (token ? ' on' : ''));
+    if (state.syncIssue) {
+      $('#connTitle').textContent = '연결에 문제가 있어요';
+      $('#connDesc').textContent = state.syncIssue;
+    } else if (token) {
+      $('#connTitle').textContent = 'GitHub 자동 저장 연결됨';
+      $('#connDesc').textContent = '눌렀을 때 바로 inventory.json에 저장돼요. 다른 기기·새로고침에서도 최신으로 보여요.';
+    } else {
+      $('#connTitle').textContent = '이 기기에만 저장 중';
+      $('#connDesc').textContent = '토큰을 넣으면 ‘다 먹었어요’가 GitHub의 inventory.json에 바로 저장돼요.';
+    }
+    $('#deleteToken').classList.toggle('hidden', !token);
+    if (!store.ok) {
+      $('#tokenErr').textContent = '이 브라우저에서는 저장이 막혀 있어 토큰을 보관할 수 없어요. Chrome·삼성 인터넷으로 열어 주세요.';
+      $('#tokenErr').classList.remove('hidden');
+    }
+    tokenInput.placeholder = token ? '저장된 토큰이 있어요 · 바꾸려면 새로 붙여넣기' : 'github_pat_...';
+  }
+
+  function openSettings(){
+    tokenInput.value = '';
+    tokenInput.type = 'password';
+    $('#toggleToken').textContent = '👁';
+    $('#tokenErr').classList.add('hidden');
+    renderSettings();
+    setBackdrop.classList.add('show');
+    setBackdrop.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('locked');
+  }
+  function closeSettings(){
+    setBackdrop.classList.remove('show');
+    setBackdrop.setAttribute('aria-hidden', 'true');
+    if (!backdrop.classList.contains('show')) document.body.classList.remove('locked');
+  }
+
+  $('#gearBtn').addEventListener('click', openSettings);
+  $('#closeSettings').addEventListener('click', closeSettings);
+  $('#syncNoteBtn').addEventListener('click', openSettings);
+  setBackdrop.addEventListener('click', function(e){ if (e.target === setBackdrop) closeSettings(); });
+
+  $('#toggleToken').addEventListener('click', function(){
+    var show = tokenInput.type === 'password';
+    tokenInput.type = show ? 'text' : 'password';
+    $('#toggleToken').textContent = show ? '🙈' : '👁';
+  });
+
+  function tokenError(msg){
+    var el = $('#tokenErr');
+    if (msg) { el.textContent = msg; el.classList.remove('hidden'); }
+    else el.classList.add('hidden');
+  }
+
+  $('#saveToken').addEventListener('click', async function(){
+    var v = tokenInput.value.trim();
+    tokenError('');
+    if (!v) { tokenError('토큰을 붙여넣어 주세요.'); tokenInput.focus(); return; }
+    if (!/^(github_pat_|ghp_)/.test(v)) {
+      tokenError('Fine-grained 토큰은 보통 github_pat_ 로 시작해요. 복사한 값이 맞는지 확인해 주세요.');
+      return;
+    }
+    var btn = $('#saveToken');
+    btn.disabled = true;
+    btn.textContent = '연결 확인 중…';
+    var prev = getToken();
+    store.set(K.token, v);
+    try {
+      var got = await ghFetchDoc();
+      applyRemote(got.doc, got.sha);
+      tokenInput.value = '';
+      render();
+      closeSettings();
+      toast('연결됐어요 ✓ 이제 ‘다 먹었어요’가 GitHub에 저장돼요');
+    } catch (err) {
+      var code = err && err.code;
+      if (code === 401) { if (prev) store.set(K.token, prev); else store.remove(K.token); }
+      tokenError(apiError(code));
+      render();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '저장하고 연결 확인';
+      renderSettings();
+    }
+  });
+
+  $('#deleteToken').addEventListener('click', function(){
+    if (!window.confirm('저장된 GitHub 토큰을 이 기기에서 지울까요?\n(지우면 다시 이 기기에만 저장돼요)')) return;
+    store.remove(K.token);
+    state.sha = null;
+    state.syncIssue = '';
+    closeSettings();
+    toast('토큰을 지웠어요 · 이제 이 기기에만 저장돼요');
+    loadData();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    if (backdrop.classList.contains('show')) closeModal();
+    else if (setBackdrop.classList.contains('show')) closeSettings();
+  });
+
   /* ---------- reset ---------- */
   $('#resetLocal').addEventListener('click', function(){
     if (!window.confirm('이 기기에 저장한 직접 추가 항목과 ‘다 먹었어요’ 표시를 모두 지울까요?')) return;
@@ -962,11 +1377,57 @@
     toast('내 기록을 초기화했어요');
   });
 
+  /* ---------- load ---------- */
+  async function loadData(){
+    var token = getToken();
+    if (token) {
+      try {
+        var got = await ghFetchDoc();
+        applyRemote(got.doc, got.sha);
+        render();
+        return;
+      } catch (err) {
+        state.syncIssue = apiError(err && err.code);
+      }
+    }
+    try {
+      var res = await fetch('./inventory.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw mkErr(res.status);
+      var doc = await res.json();
+      if (!doc || !Array.isArray(doc.items)) throw mkErr('parse');
+      state.data = { items: doc.items, updated_at: doc.updated_at || '' };
+      state.source = 'file';
+      state.sha = null;
+      render();
+      return;
+    } catch (e) {
+      state.data = { items: (Array.isArray(EMBEDDED_ITEMS) ? EMBEDDED_ITEMS.slice(0) : []), updated_at: EMBEDDED_UPDATED_AT };
+      state.source = 'embed';
+      render();
+    }
+  }
+
   /* ---------- boot ---------- */
   if (!store.ok) {
     $('#storageNote').classList.remove('hidden');
   }
   render();
+  loadData();
+
+  /* 다른 탭/앱에서 돌아왔을 때 최신으로 */
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible' && getToken()) {
+      ghFetchDoc().then(function(got){
+        var prevAt = state.data && state.data.updated_at;
+        applyRemote(got.doc, got.sha);
+        if (prevAt !== state.data.updated_at) render();
+        else renderSync();
+      }).catch(function(err){
+        state.syncIssue = apiError(err && err.code);
+        renderSync();
+      });
+    }
+  });
 })();
 </script>
 </body>
