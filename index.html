@@ -1564,13 +1564,13 @@
 
   var BOSSES = [
     { name: '시든 대파 슬라임',   emoji: '🥬', hp: 100,  def: 0 },
-    { name: '요거트 고블린',      emoji: '🥛', hp: 160,  def: 2 },
-    { name: '화석 만두 드래곤',   emoji: '🥟', hp: 240,  def: 5 },
-    { name: '곰팡이 피자 골렘',   emoji: '🍕', hp: 340,  def: 8 },
-    { name: '김치통 크라켄',      emoji: '🫙', hp: 460,  def: 12 },
-    { name: '냉동 갈치 유령',     emoji: '🐟', hp: 620,  def: 16 },
-    { name: '푸석한 식빵 미라',   emoji: '🍞', hp: 820,  def: 20 },
-    { name: '시큼한 두부 망령',   emoji: '🧊', hp: 1080, def: 26 }
+    { name: '요거트 고블린',      emoji: '🥛', hp: 160,  def: 1 },
+    { name: '화석 만두 드래곤',   emoji: '🥟', hp: 240,  def: 2 },
+    { name: '곰팡이 피자 골렘',   emoji: '🍕', hp: 340,  def: 4 },
+    { name: '김치통 크라켄',      emoji: '🫙', hp: 460,  def: 6 },
+    { name: '냉동 갈치 유령',     emoji: '🐟', hp: 620,  def: 8 },
+    { name: '푸석한 식빵 미라',   emoji: '🍞', hp: 820,  def: 10 },
+    { name: '시큼한 두부 망령',   emoji: '🧊', hp: 1080, def: 12 }
   ];
 
   var SHOP = [
@@ -1620,7 +1620,7 @@
       name: (cycle > 0 ? '각성한 ' : '') + b.name,
       emoji: b.emoji,
       hp: Math.round(b.hp * (1 + cycle * 0.7)),
-      def: b.def + cycle * 8
+      def: b.def + cycle * 6
     };
   }
 
@@ -1676,7 +1676,10 @@
   function critRateOf(t){ return Math.min(100, RPG.CRIT_RATE_BASE + t.critRate * RPG.CRIT_RATE_STEP); }
   function critMultOf(t){ return Math.round(RPG.CRIT_MULT_BASE + t.critDmg * RPG.CRIT_DMG_STEP); }
   function effDmgOf(t, boss){
-    return Math.max(1, dmgBaseOf(t) - Math.max(0, boss.def - penOf(t)));
+    var atk = dmgBaseOf(t);
+    var def = Math.max(0, boss.def - penOf(t));
+    def = Math.min(def, Math.round(atk * 0.7));   /* 방어력이 아무리 높아도 최소 30%는 들어간다 */
+    return Math.max(1, atk - def);
   }
   function secTxt(ms){ return (ms / 1000).toFixed(2) + '초'; }
 
@@ -2768,13 +2771,18 @@
   var gameBackdrop = $('#gameBackdrop');
   function openGame(){
     var baseKills = rpgState().boss_kills;
-    var sc = readJSON(K.fight, null);
-    var scKills = (sc && Number(sc.kills) > baseKills) ? Math.floor(Number(sc.kills)) : baseKills;
-    fight.kills = scKills;
+    fight.kills = baseKills;
     fight.hp = bossAt(fight.kills).hp;
-    if (sc && sc.kills === fight.kills && sc.hp > 0) fight.hp = Math.min(sc.hp, bossAt(fight.kills).hp);
-    if (scKills > baseKills){
-      saveRpg(function(r){ r.boss_kills = Math.max(r.boss_kills, scKills); }, '냉장고 RPG: 빌런 처치 반영').then(afterRpgSave);
+    if (!state.sample){
+      var sc = readJSON(K.fight, null);
+      var scKills = sc ? Math.floor(Number(sc.kills) || 0) : -1;
+      if (scKills === baseKills && sc.hp > 0){
+        fight.hp = Math.min(sc.hp, bossAt(fight.kills).hp);
+      } else if (scKills > baseKills){
+        fight.kills = scKills;
+        fight.hp = bossAt(fight.kills).hp;
+        saveRpg(function(r){ r.boss_kills = Math.max(r.boss_kills, scKills); }, '냉장고 RPG: 빌런 처치 반영').then(afterRpgSave);
+      }
     }
     gpaneShow(state.gtab || 'battle');
     renderBattle();
@@ -2862,6 +2870,9 @@
   function enterSample(){
     state.sample = true;
     state.demoRpg = null;
+    fight.kills = 0;
+    fight.hp = 0;
+    stopAuto();
     store.set(K.sample, '1');
     state.storage = 'all';
     state.query = '';
@@ -2873,6 +2884,9 @@
   function exitSample(){
     state.sample = false;
     state.demoRpg = null;
+    fight.kills = 0;
+    fight.hp = 0;
+    stopAuto();
     store.remove(K.sample);
     render();
     toast('실제 냉장고 데이터로 돌아왔어요');
