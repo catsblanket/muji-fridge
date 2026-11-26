@@ -2848,6 +2848,13 @@
     if ((el = $('#aHpText'))) el.textContent = 'HP ' + fmtNum(Math.max(0, Math.round(fight.hp))) + ' / ' + fmtNum(fight.maxHp);
     if ((el = $('#aTime'))) el.textContent = fight.t.toFixed(1) + 's';
     if ((el = $('#aDps'))) el.textContent = 'DPS ' + fmtNum(dpsOf());
+    if ((el = $('#aTime'))) el.textContent = fight.t.toFixed(1) + 's';
+    if (c){
+      if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, bossAt(fight.kills), fight)));
+      if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
+      if ((el = $('#aCrit'))) el.textContent = Math.round(c.critRate) + '%';
+      if ((el = $('#aCritDmg'))) el.textContent = Math.round(c.critDmg) + '%';
+    }
     if ((el = $('#gGoldPill'))) el.textContent = '💰 ' + fmtNum(goldOf(mergedItems(), rpgState())) + ' G';
   }
 
