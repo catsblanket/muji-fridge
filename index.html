@@ -623,10 +623,10 @@
   .achip.stage{color:var(--boss-tone,#A8D67A);border-color:rgba(255,255,255,.22);background:rgba(0,0,0,.45)}
   .achip.dps{margin-left:auto;color:#9FE7B0;border-color:rgba(140,230,170,.3);background:rgba(30,60,40,.4)}
 
-  .arena-body{position:relative;display:flex;align-items:flex-end;justify-content:space-between;height:132px;z-index:2;padding:2px 4px 0}
+  .arena-body{position:relative;display:flex;align-items:flex-end;justify-content:space-between;height:156px;z-index:2;padding:2px 4px 0}
   .hero-col{display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:6px;flex:0 0 auto}
   .hero-ava{
-    width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:26px;
+    width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-size:26px;
     background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04));
     border:1px solid rgba(255,255,255,.18);box-shadow:0 4px 12px rgba(0,0,0,.35);
   }
@@ -647,7 +647,7 @@
   }
   @keyframes haloPulse{0%,100%{transform:scale(.94);opacity:.26}50%{transform:scale(1.08);opacity:.44}}
   .boss-ava{
-    position:relative;font-size:66px;line-height:1;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55));
+    position:relative;font-size:78px;line-height:1;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55));
     animation:bossFloat 3.4s ease-in-out infinite;
   }
   .boss-ava.hit{animation:bossHit .26s ease}
@@ -923,6 +923,23 @@
     .gtab i{font-size:16px}
     .gtab{font-size:8.5px}
   }
+
+  /* 장착 장비 미니 바 (전투 화면) */
+  .gearbar{display:flex;gap:4px;margin-top:9px}
+  .gearbar button{
+    flex:1 1 0;min-width:0;border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.04);border-radius:13px;padding:6px 1px 5px;
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:#7E7867;font-size:7.5px;font-weight:800;letter-spacing:-.02em;
+  }
+  .gearbar button .gi{font-size:16px;line-height:1.15;filter:grayscale(.35);opacity:.75}
+  .gearbar button .gn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gearbar button:active{background:rgba(255,255,255,.1)}
+  .gearbar button.rare{border-color:rgba(90,169,255,.42);background:rgba(90,169,255,.10);color:#7FC3FF}
+  .gearbar button.rare .gi{filter:none;opacity:1}
+  .gearbar button.unique{border-color:rgba(255,176,32,.58);background:rgba(255,176,32,.13);color:#FFC65C;
+    box-shadow:0 0 14px rgba(255,176,32,.13)}
+  .gearbar button.unique .gi{filter:none;opacity:1}
 
   #pickList .emptybox{color:#A9A290;border-color:#E7DFC8;background:#FFFDF6}
 </style>
@@ -1251,6 +1268,8 @@
           <div><span>치명</span><b id="aCrit">5%</b></div>
           <div><span>배율</span><b id="aCritDmg">150%</b></div>
         </div>
+
+        <div class="gearbar" id="gearBar" aria-label="장착 장비"></div>
       </section>
 
       <!-- 스탯 -->
@@ -2767,7 +2786,22 @@
     if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
     if ((el = $('#aCrit'))) el.textContent = Math.round(c.critRate) + '%';
     if ((el = $('#aCritDmg'))) el.textContent = Math.round(c.critDmg) + '%';
+    renderGearBar(rpg, c);
     updateHud(c);
+  }
+
+  function renderGearBar(rpg, c){
+    var bar = $('#gearBar');
+    if (!bar) return;
+    bar.innerHTML = SLOTS.map(function(s){
+      var it = c.eq[s.key];
+      var cls = it ? it.rarity : '';
+      var icon = it ? it.emoji : s.icon;
+      var label = it ? it.name : s.name;
+      return '<button type="button" class="' + cls + '" data-gear-tab="' + s.key + '" title="' +
+        esc(s.name + ' · ' + label) + '"><span class="gi" aria-hidden="true">' + icon + '</span>' +
+        '<span class="gn">' + esc(label) + '</span></button>';
+    }).join('');
   }
 
   function updateHud(c){
@@ -3263,6 +3297,12 @@
     if ((el = $('#slotGrid'))) el.addEventListener('click', function(e){
       var b = e.target.closest ? e.target.closest('[data-slot]') : null;
       if (b) openPicker(b.getAttribute('data-slot'));
+    });
+    if ((el = $('#gearBar'))) el.addEventListener('click', function(e){
+      var b = e.target.closest ? e.target.closest('[data-gear-tab]') : null;
+      if (!b) return;
+      showGtab('equip');
+      openPicker(b.getAttribute('data-gear-tab'));
     });
     if ((el = $('#invList'))) el.addEventListener('click', function(e){
       var eq = e.target.closest ? e.target.closest('[data-equip-uid]') : null;
