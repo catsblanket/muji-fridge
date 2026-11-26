@@ -602,8 +602,10 @@
   @keyframes paneIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
   /* 아레나 */
+  #gpane-battle{display:flex;flex-direction:column;min-height:calc(100dvh - 168px)}
   .arena{
     position:relative;overflow:hidden;border-radius:24px;padding:12px 13px 11px;
+    display:flex;flex-direction:column;flex:1 1 auto;min-height:300px;
     background:
       radial-gradient(90% 70% at 68% 12%, var(--boss-aura, rgba(160,200,120,.28)) 0%, rgba(0,0,0,0) 62%),
       linear-gradient(168deg, var(--boss-bg, #2A2822) 0%, #16150F 82%);
@@ -623,7 +625,7 @@
   .achip.stage{color:var(--boss-tone,#A8D67A);border-color:rgba(255,255,255,.22);background:rgba(0,0,0,.45)}
   .achip.dps{margin-left:auto;color:#9FE7B0;border-color:rgba(140,230,170,.3);background:rgba(30,60,40,.4)}
 
-  .arena-body{position:relative;display:flex;align-items:flex-end;justify-content:space-between;height:156px;z-index:2;padding:2px 4px 0}
+  .arena-body{position:relative;display:flex;align-items:flex-end;justify-content:space-between;flex:1 1 auto;min-height:146px;z-index:2;padding:2px 4px 0}
   .hero-col{display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:6px;flex:0 0 auto}
   .hero-ava{
     width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-size:26px;
@@ -2799,7 +2801,8 @@
       var icon = it ? it.emoji : s.icon;
       var label = it ? it.name : s.name;
       return '<button type="button" class="' + cls + '" data-gear-tab="' + s.key + '" title="' +
-        esc(s.name + ' · ' + label) + '"><span class="gi" aria-hidden="true">' + icon + '</span>' +
+        esc(s.name + ' · ' + label) + '" aria-label="' + esc(s.name + (it ? ' ' + label : ' 비어 있음')) + '">' +
+        '<span class="gi" aria-hidden="true">' + icon + '</span>' +
         '<span class="gn">' + esc(label) + '</span></button>';
     }).join('');
   }
