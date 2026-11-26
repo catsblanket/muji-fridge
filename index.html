@@ -2617,10 +2617,11 @@
     if (fight.firstPending){ dmg *= 2.5; fight.firstPending = false; kind = 'exec'; }
 
     var shown = Math.max(1, Math.round(dmg));
+    var gen = fight.kills;
     heroDash();
     bossShake();
     applyDamage(shown, kind);
-    if (!fight.on) return;
+    if (!fight.on || fight.kills !== gen) return;
 
     /* #3 열충격 */
     if (c.has('u-mainWeapon-3')){
@@ -2631,7 +2632,7 @@
         fight.heatUntil = fight.t + 3;
         pushLog('💨 열충격 폭발! 3초간 보스가 더 아파한다', 'big');
         applyDamage(hd, 'heat');
-        if (!fight.on) return;
+        if (!fight.on || fight.kills !== gen) return;
       }
     }
 
