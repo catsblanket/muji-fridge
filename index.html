@@ -855,14 +855,15 @@
     box-shadow:0 24px 60px rgba(0,0,0,.6)}
   .veil-box h3{margin:0 0 4px;font-size:15px;font-weight:900;letter-spacing:-.03em;color:#FFE7A6;text-align:center}
   .veil-box .vsub{text-align:center;font-size:10.5px;color:#A79E86;margin:0 0 11px;font-weight:700}
-  .gacha-results{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-  .gres{display:flex;align-items:center;gap:8px;padding:9px;border-radius:14px;background:rgba(255,255,255,.05);
+  .gacha-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .gres{display:flex;align-items:flex-start;gap:8px;padding:9px;border-radius:14px;background:rgba(255,255,255,.05);min-width:0;
     border:1px solid rgba(255,255,255,.08);animation:resIn .3s ease both}
   @keyframes resIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
   .gres .ge{width:32px;height:32px;flex:0 0 auto;border-radius:10px;display:grid;place-items:center;font-size:17px;background:rgba(0,0,0,.3)}
-  .gres .gt{min-width:0}
+  .gres .gt{min-width:0;flex:1 1 auto;overflow:hidden}
   .gres .gt b{display:block;font-size:10.5px;font-weight:900;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .gres .gt span{display:block;font-size:9px;color:#9A927E;margin-top:1px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gres .gt span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    font-size:8.6px;color:#9A927E;margin-top:2px;font-weight:700;line-height:1.35}
   .gres.common{border-color:rgba(255,255,255,.1)}
   .gres.rare{border-color:rgba(90,169,255,.45);background:linear-gradient(140deg,rgba(90,169,255,.14),rgba(255,255,255,.03))}
   .gres.unique{border-color:rgba(255,176,32,.7);background:linear-gradient(140deg,rgba(255,176,32,.2),rgba(255,255,255,.04));
