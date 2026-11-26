@@ -626,7 +626,7 @@
   .achip.dps{margin-left:auto;color:#9FE7B0;border-color:rgba(140,230,170,.3);background:rgba(30,60,40,.4)}
 
   .arena-body{position:relative;display:flex;align-items:center;justify-content:space-between;flex:1 1 auto;min-height:146px;z-index:2;padding:2px 4px 0}
-  .hero-col{display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:6px;flex:0 0 auto;align-self:flex-end;margin-bottom:10px}
+  .hero-col{display:flex;flex-direction:column;align-items:center;gap:4px;padding-bottom:6px;flex:0 0 auto}
   .hero-ava{
     width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-size:26px;
     background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04));
@@ -890,7 +890,7 @@
   .gtabbar{position:fixed;left:0;right:0;bottom:0;z-index:9;display:flex;justify-content:center;pointer-events:none}
   .gtabbar-in{
     pointer-events:auto;width:100%;max-width:520px;display:flex;gap:2px;
-    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+    padding:7px 8px calc(9px + env(safe-area-inset-bottom));
     background:linear-gradient(180deg,rgba(18,17,13,.9),rgba(12,11,9,.98));
     border-top:1px solid rgba(255,255,255,.08);
     -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
@@ -931,12 +931,16 @@
   .gearbar{display:flex;gap:4px;margin-top:9px}
   .gearbar button{
     flex:1 1 0;min-width:0;border:1px solid rgba(255,255,255,.09);
-    background:rgba(255,255,255,.04);border-radius:13px;padding:6px 1px 5px;
-    display:flex;flex-direction:column;align-items:center;gap:2px;
-    color:#7E7867;font-size:7.5px;font-weight:800;letter-spacing:-.02em;
+    background:rgba(255,255,255,.04);border-radius:14px;padding:0;
+    height:44px;display:grid;place-items:center;color:#7E7867;
+    position:relative;overflow:hidden;
   }
-  .gearbar button .gi{font-size:16px;line-height:1.15;filter:grayscale(.35);opacity:.75}
-  .gearbar button .gn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gearbar button .gi{font-size:19px;line-height:1;filter:grayscale(.4);opacity:.7}
+  .gearbar button .gn{
+    position:absolute;bottom:2px;left:0;right:0;text-align:center;
+    font-size:6.5px;font-weight:900;color:rgba(255,255,255,.42);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px;letter-spacing:-.03em;
+  }
   .gearbar button:active{background:rgba(255,255,255,.1)}
   .gearbar button.rare{border-color:rgba(90,169,255,.42);background:rgba(90,169,255,.10);color:#7FC3FF}
   .gearbar button.rare .gi{filter:none;opacity:1}
@@ -1424,7 +1428,7 @@
   'use strict';
 
   /* ==== 무지가 만드는 영역 시작 ==== */
-  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-26T17:57:51+09:00"/*__UPDATED_AT_END__*/;
+  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-26T10:55:00+09:00"/*__UPDATED_AT_END__*/;
   var EMBEDDED_ITEMS = /*__ITEMS_START__*/[
   {
     "id": "itm-20261125-001",
@@ -1465,15 +1469,12 @@
     "critRate": 0,
     "critDmg": 0
   },
-  "owned": [
-    "w-wood",
-    "a-glove"
-  ],
+  "owned": [],
   "equipped": {
-    "weapon": "w-wood",
-    "accessory": "a-glove"
+    "weapon": null,
+    "accessory": null
   },
-  "boss_kills": 3
+  "boss_kills": 0
 }/*__RPG_END__*/;
   /* ==== 무지가 만드는 영역 끝 ==== */
 
