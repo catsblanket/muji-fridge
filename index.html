@@ -2583,7 +2583,7 @@
     var btn = $('#aTapBtn'), badge = $('#aTapCombo'), lbl = $('#aTapLabel');
     var ready = fight.tapCombo >= TAP_COMBO_MAX;
     if (badge){
-      badge.textContent = ready ? '강타!' : fight.tapCombo + '/' + TAP_COMBO_MAX;
+      badge.textContent = ready ? '1.5배' : fight.tapCombo + '/' + TAP_COMBO_MAX;
       badge.classList.toggle('ready', ready);
     }
     if (lbl) lbl.textContent = ready ? '🔥 강타!' : '⚡ 직접 타격';
