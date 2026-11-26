@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T10:39:13+09:00",
+  "updated_at": "2026-11-26T10:39:56+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -28,7 +28,8 @@
       "tip": "",
       "price": 3000,
       "product_group": "바나나",
-      "status": "active"
+      "status": "consumed",
+      "consumed_at": "2026-11-26"
     }
   ]
 }
