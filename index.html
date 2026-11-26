@@ -499,7 +499,7 @@
   }
 
   /* =========================================================
-     v1.1 · 시작 화면 · 세로형 방치 RPG
+     v1.1.1 · 시작 화면 · 세로형 방치 RPG
      ========================================================= */
   .view{min-height:100vh;min-height:100dvh}
   .view.hidden{display:none !important}
@@ -699,6 +699,7 @@
   .fd.chain{font-size:13.5px;color:#7FE3FF;text-shadow:0 2px 10px rgba(60,190,255,.5)}
   .fd.heat{font-size:22px;color:#FF9F43;text-shadow:0 2px 16px rgba(255,110,20,.6)}
   .fd.exec{font-size:16px;color:#B6FF9E;text-shadow:0 2px 12px rgba(110,255,80,.45)}
+  .fd.heavy{font-size:27px;color:#FF9F43;text-shadow:0 2px 16px rgba(255,110,20,.7),0 2px 8px rgba(0,0,0,.8)}
   .fd.gold{font-size:14px;color:#FFD34D;top:56%;left:50%;font-weight:900}
 
   /* 전투 로그 */
@@ -721,19 +722,37 @@
     letter-spacing:-.02em;
   }
   .bbtn:active{transform:translateY(1px);filter:brightness(.96)}
+  #aTapBtn{position:relative;overflow:visible}
+  #aTapBtn.ready{background:linear-gradient(160deg,#FFB27A,#FF8043 58%,#E2451B);color:#2B1305;box-shadow:0 8px 22px rgba(255,120,50,.38), inset 0 -2px 0 rgba(0,0,0,.1)}
+  .bbtn .cb{
+    position:absolute;top:-7px;right:-5px;font-style:normal;font-size:9px;font-weight:900;letter-spacing:-.02em;
+    padding:2px 6px;border-radius:999px;background:rgba(10,9,6,.86);color:#FFD43B;
+    border:1px solid rgba(255,212,59,.38);box-shadow:0 2px 8px rgba(0,0,0,.35);
+  }
+  .bbtn .cb.ready{background:linear-gradient(160deg,#FF8A3D,#E8341B);color:#FFF6E6;border-color:rgba(255,180,120,.75);animation:cbPulse .9s ease-in-out infinite}
+  @keyframes cbPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
   .bbtn.ghost2{
     flex:0 0 92px;background:rgba(255,255,255,.07);color:#DED5B9;
     border:1px solid rgba(255,255,255,.14);box-shadow:none;font-size:12.5px;
   }
-  .battle-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}
-  .battle-sum > div{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:7px 4px;text-align:center}
-  .battle-sum span{display:block;font-size:9px;font-weight:800;color:#8F8875;letter-spacing:-.01em}
-  .battle-sum b{display:block;font-size:12px;font-weight:900;color:#EADFBF;margin-top:2px;letter-spacing:-.02em}
+  .battle-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:9px}
+  .battle-sum > div{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:6px 2px;text-align:center;min-width:0}
+  .battle-sum span{display:block;font-size:8.5px;font-weight:800;color:#8F8875;letter-spacing:-.02em;white-space:nowrap}
+  .battle-sum b{display:block;font-size:11.5px;font-weight:900;color:#EADFBF;margin-top:2px;letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
   /* 공통 카드/섹션 (다크) */
   .dcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:12px 13px;margin-top:10px}
   .dsec{margin:14px 2px 0;font-size:11.5px;font-weight:900;color:#A79E86;letter-spacing:-.01em}
   .dsec small{font-weight:700;color:#6F6A5B;font-size:10px;margin-left:4px}
+  .invfilter{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .fchip{
+    font-size:10px;font-weight:800;letter-spacing:-.02em;padding:5px 9px;border-radius:999px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:#A79E86;white-space:nowrap;
+  }
+  .fchip em{font-style:normal;font-weight:900;color:#6F6A5B;margin-left:3px}
+  .fchip.on{background:rgba(255,212,59,.16);border-color:rgba(255,212,59,.45);color:#FFD43B}
+  .fchip.on em{color:#FFE07A}
+  .fchip:active{filter:brightness(1.1)}
   .muted{font-size:10.5px;color:#8B8472;line-height:1.6;font-weight:600}
   .gbtn-main{
     width:100%;border:0;border-radius:16px;min-height:48px;font-size:14px;font-weight:900;color:#332B10;
@@ -1029,13 +1048,13 @@
       <div class="stat exp"><b id="statExp">0</b><span>만료</span></div>
     </div>
     <button type="button" class="game-card" id="gameCard" aria-label="냉장고 빌런 토벌전 열기">
-      <span class="g-boss" id="gBossEmoji" aria-hidden="true">🥬</span>
+      <span class="g-boss" id="gBossEmoji" aria-hidden="true">🌿</span>
       <span class="g-main">
         <span class="g-top">
           <span class="g-lv" id="gLevel">Lv.1</span>
           <span class="g-xp" id="gXP">💰 0 G</span>
         </span>
-        <span class="g-name" id="gBossName">시든 대파 슬라임</span>
+        <span class="g-name" id="gBossName">시든 대파 유령</span>
         <span class="hpbar" aria-hidden="true"><i id="gHpFill" style="width:0%"></i></span>
         <span class="g-foot">
           <span id="gHpText">XP 0 / 100</span>
@@ -1245,7 +1264,7 @@
   </div>
 </div>
 
-<!-- ===== 냉장고 빌런 토벌전 (v1.1) ===== -->
+<!-- ===== 냉장고 빌런 토벌전 (v1.1.1) ===== -->
 <section class="view hidden" id="viewGame" aria-label="냉장고 빌런 토벌전">
   <div class="gw">
     <header class="ghead">
@@ -1282,20 +1301,21 @@
           </div>
           <p class="boss-line" id="aBossLine">"국물 한 번만 더 우릴 수 있었는데..."</p>
           <div class="hp2" aria-hidden="true"><i id="aHpFill" style="width:100%"></i></div>
-          <div class="hptxt"><span id="aHpText">HP —</span><span class="t" id="aTime">0.0s</span></div>
+          <div class="hptxt"><span id="aHpText">HP —</span><span class="t">경과 <span id="aTime">0.0s</span></span></div>
           <div class="floats" id="aFloats" aria-hidden="true"></div>
         </div>
 
         <div class="logbox" id="aLog" aria-live="polite"></div>
 
         <div class="battlebtns">
-          <button type="button" class="bbtn" id="aTapBtn">⚡ 직접 타격</button>
+          <button type="button" class="bbtn" id="aTapBtn"><span id="aTapLabel">⚡ 직접 타격</span><i class="cb" id="aTapCombo" aria-live="polite">0/10</i></button>
           <button type="button" class="bbtn ghost2" id="aAutoBtn">⏸ 자동</button>
         </div>
 
         <div class="battle-sum">
           <div><span>1타</span><b id="aHitDmg">10</b></div>
           <div><span>공속</span><b id="aSpeed">0.95초</b></div>
+          <div><span>관통</span><b id="aPen">0</b></div>
           <div><span>치명</span><b id="aCrit">5%</b></div>
           <div><span>배율</span><b id="aCritDmg">150%</b></div>
         </div>
@@ -1321,6 +1341,7 @@
         <div class="dsec" style="margin-top:8px">착용 중 <small>슬롯을 눌러 바꿔요</small></div>
         <div class="slotgrid" id="slotGrid"></div>
         <div class="dsec">보유 장비 <small id="invCount">0개</small></div>
+        <div class="invfilter" id="invFilter" role="group" aria-label="보유 장비 슬롯 필터"></div>
         <div id="invList"></div>
         <button type="button" class="gbtn-sub" id="bulkSell" style="margin-top:10px">🧹 일반·레어 일괄 분해</button>
       </section>
@@ -1337,6 +1358,7 @@
           </div>
         </div>
         <div class="rates" id="rateList"></div>
+        <p class="muted" style="margin:8px 2px 0;text-align:center">골드 슬롯: 65% 5~25 G · 25% 30~60 G · 10% 100~160 G 잭팟 (평균 34 G)</p>
         <p class="muted" style="margin:10px 2px 0;text-align:center">골드는 유통기한 안에 먹은 품목 1개당 100 G, 빌런 처치마다 드랍돼요.</p>
       </section>
 
@@ -2015,7 +2037,7 @@
 
 
   /* =====================================================================
-     냉장고 RPG v1.1 — 세로형 방치형 토벌전
+     냉장고 RPG v1.1.1 — 세로형 방치형 토벌전
      ===================================================================== */
   var RPG = {
     XP_PER_LEVEL: 100,
@@ -2520,7 +2542,7 @@
   /* ---------- 전투 런타임 ---------- */
   var fight = {
     on: false, timer: null, lastTs: 0, hudTs: 0,
-    kills: 0, hp: 0, maxHp: 0, t: 0, acc: 0, hits: 0,
+    kills: 0, hp: 0, maxHp: 0, t: 0, acc: 0, hits: 0, tapCombo: 0,
     missStack: 0, colorStacks: 0, heatCount: 0, heatUntil: -1,
     pendingGold: 0, firstPending: false, postKill: 0, postKillNext: 0,
     dmgWin: [], logs: []
@@ -2531,7 +2553,7 @@
     fight.on = false;
     if (fight.timer){ clearInterval(fight.timer); fight.timer = null; }
     fight.lastTs = 0; fight.hudTs = 0;
-    fight.t = 0; fight.acc = 0; fight.hits = 0;
+    fight.t = 0; fight.acc = 0; fight.hits = 0; fight.tapCombo = 0;
     fight.missStack = 0; fight.colorStacks = 0; fight.heatCount = 0; fight.heatUntil = -1;
     fight.dmgWin = [];
     if (!silent) fight.logs = [];
@@ -2554,6 +2576,22 @@
     if (b) b.textContent = '▶ 재개';
   }
   function battleRunning(){ return fight.on; }
+
+  /* 직접 타격 콤보 (10타 누적 → 다음 타격 강타 1.5배) */
+  var TAP_COMBO_MAX = 10;
+  function updateTapCombo(){
+    var btn = $('#aTapBtn'), badge = $('#aTapCombo'), lbl = $('#aTapLabel');
+    var ready = fight.tapCombo >= TAP_COMBO_MAX;
+    if (badge){
+      badge.textContent = ready ? '강타!' : fight.tapCombo + '/' + TAP_COMBO_MAX;
+      badge.classList.toggle('ready', ready);
+    }
+    if (lbl) lbl.textContent = ready ? '🔥 강타!' : '⚡ 직접 타격';
+    if (btn){
+      btn.classList.toggle('ready', ready);
+      btn.setAttribute('aria-label', ready ? '강타로 때리기 (1.5배 피해)' : '직접 타격 (콤보 ' + fight.tapCombo + '/' + TAP_COMBO_MAX + ')');
+    }
+  }
 
   function pruneDmg(){
     var cut = fight.t - 5;
@@ -2652,7 +2690,7 @@
     if (fight.hp <= 0) onKill();
   }
 
-  function hit(echo){
+  function hit(echo, heavy){
     if (currentView !== 'game') return;
     var rpg = rpgState();
     var c = combatOf(rpg, fight);
@@ -2678,6 +2716,12 @@
       fight.missStack = Math.min(10, fight.missStack + 1);
     }
     if (c.has('u-ring-13')) fight.colorStacks = Math.min(20, fight.colorStacks + 1);
+    /* 직접 타격 콤보: 10타 누적 후 다음 타격은 강타(1.5배) */
+    if (heavy){
+      dmg *= 1.5;
+      if (kind !== 'exec') kind = 'heavy';
+      pushLog('🔥 강타! 콤보 보너스 1.5배 피해', 'big');
+    }
     if (fight.firstPending){ dmg *= 2.5; fight.firstPending = false; kind = 'exec'; }
 
     var shown = Math.max(1, Math.round(dmg));
@@ -2829,10 +2873,12 @@
     }
     if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, boss, fight)));
     if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
+    if ((el = $('#aPen'))) el.textContent = fmtNum(Math.round(c.pen));
     if ((el = $('#aCrit'))) el.textContent = Math.round(c.critRate) + '%';
     if ((el = $('#aCritDmg'))) el.textContent = Math.round(c.critDmg) + '%';
     renderGearBar(rpg, c);
     updateHud(c);
+    updateTapCombo();
   }
 
   function renderGearBar(rpg, c){
@@ -2861,6 +2907,7 @@
     if (c){
       if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, bossAt(fight.kills), fight)));
       if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
+      if ((el = $('#aPen'))) el.textContent = fmtNum(Math.round(c.pen));
       if ((el = $('#aCrit'))) el.textContent = Math.round(c.critRate) + '%';
       if ((el = $('#aCritDmg'))) el.textContent = Math.round(c.critDmg) + '%';
     }
@@ -2911,6 +2958,7 @@
   }
 
   /* ---------- 화면: 장비 ---------- */
+  var invSlotFilter = 'all';
   function renderEquip(){
     var rpg = rpgState();
     var byUid = {};
@@ -2941,11 +2989,24 @@
       });
 
     var list = $('#invList');
+    var chipBox = $('#invFilter');
+    if (chipBox){
+      var opts = [{ key: 'all', name: '전체' }].concat(SLOTS.map(function(s){ return { key: s.key, name: s.name }; }));
+      chipBox.innerHTML = opts.map(function(o){
+        var n = o.key === 'all' ? inv.length : inv.filter(function(i){ return i.slot === o.key; }).length;
+        var on = invSlotFilter === o.key;
+        return '<button type="button" class="fchip' + (on ? ' on' : '') + '" data-invslot="' + o.key + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
+          esc(o.name) + '<em>' + n + '</em></button>';
+      }).join('');
+    }
+    var shown = invSlotFilter === 'all' ? inv : inv.filter(function(i){ return i.slot === invSlotFilter; });
     if (list){
       if (!inv.length){
         list.innerHTML = '<div class="emptybox">보관 중인 장비가 없어요.<br>🎰 가챠로 뽑거나, 끼고 있는 장비를 눌러 해제해 보세요.</div>';
+      } else if (!shown.length){
+        list.innerHTML = '<div class="emptybox">' + esc(slotName(invSlotFilter)) + ' 슬롯에 보관 중인 장비가 없어요.<br>다른 슬롯을 골라 보세요.</div>';
       } else {
-        list.innerHTML = inv.map(function(it){
+        list.innerHTML = shown.map(function(it){
           var desc = it.rarity === 'unique' ? it.desc : statsText(it.stats);
           return '<div class="invrow">' +
             '<span class="ie" aria-hidden="true">' + it.emoji + '</span>' +
@@ -3126,12 +3187,14 @@
       name: u.name, emoji: u.emoji, stats: {}
     } };
   }
+  /* 골드 슬롯 v1.1.1: 비균등(도박성) 분포
+     65% 5~25 G(꽝) · 25% 30~60 G(본전 근접) · 10% 100~160 G(잭팟) → 평균 34 G
+     분해 45 G 상당(유니크 120·레어 40·일반 15)까지 더한 1회 회수 기대값 ≈ 33.2 G < 45 G(10연차 1회 단가) → 무한 골드 복사 차단 */
   function goldRoll(){
     var r = Math.random(), g;
-    if (r < 0.25) g = 10 + Math.floor(Math.random() * 15);        /* 꽝 10~24 */
-    else if (r < 0.65) g = 25 + Math.floor(Math.random() * 35);   /* 25~59 */
-    else if (r < 0.92) g = 60 + Math.floor(Math.random() * 50);   /* 60~109 */
-    else g = 120 + Math.floor(Math.random() * 31);                /* 대박 120~150 */
+    if (r < 0.65) g = 5 + Math.floor(Math.random() * 21);          /* 꽝 5~25 */
+    else if (r < 0.90) g = 30 + Math.floor(Math.random() * 31);   /* 본전 근접 30~60 */
+    else g = 100 + Math.floor(Math.random() * 61);                /* 잭팟 100~160 */
     return { kind: 'gold', amount: g };
   }
 
@@ -3290,7 +3353,7 @@
         fight.hp = Math.min(sc.hp, b.hp);
       }
     }
-    fight.t = 0; fight.acc = 0; fight.hits = 0;
+    fight.t = 0; fight.acc = 0; fight.hits = 0; fight.tapCombo = 0;
     fight.missStack = 0; fight.colorStacks = 0; fight.heatCount = 0; fight.heatUntil = -1;
     fight.dmgWin = [];
     fight.logs = [];
@@ -3333,8 +3396,11 @@
 
     if ((el = $('#aTapBtn'))) el.addEventListener('click', function(){
       if (currentView !== 'game') return;
-      hit(0);
+      var heavy = fight.tapCombo >= TAP_COMBO_MAX;
+      hit(0, heavy);
+      fight.tapCombo = heavy ? 0 : fight.tapCombo + 1;
       fight.acc = 0;
+      updateTapCombo();
     });
     if ((el = $('#aAutoBtn'))) el.addEventListener('click', function(){
       if (fight.on) stopBattle();
@@ -3356,6 +3422,12 @@
       if (!b) return;
       showGtab('equip');
       openPicker(b.getAttribute('data-gear-tab'));
+    });
+    if ((el = $('#invFilter'))) el.addEventListener('click', function(e){
+      var b = e.target.closest ? e.target.closest('[data-invslot]') : null;
+      if (!b) return;
+      invSlotFilter = b.getAttribute('data-invslot');
+      renderEquip();
     });
     if ((el = $('#invList'))) el.addEventListener('click', function(e){
       var eq = e.target.closest ? e.target.closest('[data-equip-uid]') : null;
