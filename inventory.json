@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T11:10:07+09:00",
+  "updated_at": "2026-11-26T11:10:12+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -47,6 +47,6 @@
       "weapon": "w-wood",
       "accessory": null
     },
-    "boss_kills": 1
+    "boss_kills": 2
   }
 }
