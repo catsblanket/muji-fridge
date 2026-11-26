@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T11:09:54+09:00",
+  "updated_at": "2026-11-26T11:10:07+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -40,9 +40,11 @@
       "critRate": 0,
       "critDmg": 0
     },
-    "owned": [],
+    "owned": [
+      "w-wood"
+    ],
     "equipped": {
-      "weapon": null,
+      "weapon": "w-wood",
       "accessory": null
     },
     "boss_kills": 1
