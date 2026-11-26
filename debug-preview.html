@@ -2483,7 +2483,7 @@
     if (has('u-necklace-12') && f && f.postKill > 0) spdMul *= 1.6;
 
     var atk = (RPG.BASE_ATK + p.atk * 2) * atkMul;
-    var interval = Math.max(RPG.MIN_INTERVAL, RPG.BASE_INTERVAL - p.spd * RPG.SPD_STEP) / spdMul;
+    var interval = Math.max(RPG.MIN_INTERVAL, (RPG.BASE_INTERVAL - p.spd * RPG.SPD_STEP) / spdMul);
     var pen = p.pen * 2 * penMul;
     var critRate = RPG.CRIT_RATE_BASE + p.critRate * RPG.CRIT_RATE_STEP + crAdd;
     var critDmg = RPG.CRIT_MULT_BASE + p.critDmg * RPG.CRIT_DMG_STEP + cdAdd;
