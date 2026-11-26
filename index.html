@@ -2252,16 +2252,27 @@
     var eq = (raw.equipped && typeof raw.equipped === 'object') ? raw.equipped : {};
     var byUid = {};
     out.owned.forEach(function(i){ byUid[i.uid] = i; });
+    var want = { mainWeapon: null, subWeapon: null, hat: null, necklace: null, ring: null, rune: null, charm: null };
     SLOTS.forEach(function(s){
-      var want = eq[s.key];
-      if (legacyMode && !want){
-        if (s.key === 'mainWeapon' && eq.weapon) want = 'L-' + eq.weapon;
-        if (s.key === 'necklace' && eq.accessory) want = 'L-' + eq.accessory;
+      var w = eq[s.key];
+      if (legacyMode && !w){
+        if (s.key === 'mainWeapon' && eq.weapon) w = 'L-' + eq.weapon;
+        if (s.key === 'necklace' && eq.accessory) w = 'L-' + eq.accessory;
       }
-      if (!want) return;
-      if (byUid[want]) out.equipped[s.key] = want;
-      else if (byUid['L-' + want]) out.equipped[s.key] = 'L-' + want;
+      if (!w) return;
+      if (byUid[w]) want[s.key] = w;
+      else if (byUid['L-' + w]) want[s.key] = 'L-' + w;
     });
+    /* 아이템의 실제 슬롯과 어긋나면 그 아이템의 슬롯으로 옮긴다 */
+    SLOTS.forEach(function(s){
+      var uid = want[s.key];
+      if (!uid) return;
+      var real = byUid[uid].slot;
+      if (real === s.key) return;
+      want[s.key] = null;
+      if (SLOTS.some(function(x){ return x.key === real; }) && !want[real]) want[real] = uid;
+    });
+    out.equipped = want;
 
     if (typeof raw.goldDelta === 'number' && isFinite(raw.goldDelta)){
       out.goldDelta = Math.round(raw.goldDelta);
