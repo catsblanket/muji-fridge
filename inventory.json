@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T10:25:00+09:00",
+  "updated_at": "2026-11-26T10:39:13+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -15,6 +15,20 @@
       "consumed_at": "2026-11-26",
       "price": null,
       "product_group": "바나나"
+    },
+    {
+      "id": "itm-20261126-001",
+      "name": "바나나",
+      "category": "과일",
+      "storage": "fridge",
+      "quantity": "1개",
+      "purchased_at": "2026-11-26",
+      "expiry_date": "2026-12-03",
+      "expiry_estimated": true,
+      "tip": "",
+      "price": 3000,
+      "product_group": "바나나",
+      "status": "active"
     }
   ]
 }
