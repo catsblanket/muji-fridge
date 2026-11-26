@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T10:39:56+09:00",
+  "updated_at": "2026-11-26T10:55:00+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -31,5 +31,20 @@
       "status": "consumed",
       "consumed_at": "2026-11-26"
     }
-  ]
+  ],
+  "rpg": {
+    "stats": {
+      "atk": 0,
+      "spd": 0,
+      "pen": 0,
+      "critRate": 0,
+      "critDmg": 0
+    },
+    "owned": [],
+    "equipped": {
+      "weapon": null,
+      "accessory": null
+    },
+    "boss_kills": 0
+  }
 }
