@@ -1234,7 +1234,13 @@
     { name:'푸석한 식빵 미라',        emoji:'🍞', hp:400 },
     { name:'시큼한 두부 망령',        emoji:'🧊', hp:450 }
   ];
-  var RANKS = ['냉장고 새내기','냉장고 수호자','냉장고 용사','냉장고 전설','냉장고 신'];
+  function rankOf(kills){
+    if (kills >= 20) return '냉장고 신';
+    if (kills >= 10) return '냉장고 전설';
+    if (kills >= 5) return '냉장고 용사';
+    if (kills >= 2) return '냉장고 수호자';
+    return '냉장고 새내기';
+  }
 
   function bossProgress(xp){
     var remain = xp, idx = 0, kills = 0, defeated = [];
@@ -1270,7 +1276,7 @@
       xp: xp, priceXP: priceXP, bonusXP: bonusXP, bonusCount: bonusCount,
       spent: spent, priceCount: priceCount, prog: prog,
       level: prog.kills + 1,
-      rank: RANKS[Math.min(prog.kills, RANKS.length - 1)]
+      rank: rankOf(prog.kills)
     };
   }
 
