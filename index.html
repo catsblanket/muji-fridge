@@ -955,6 +955,13 @@
     pointer-events:none;
   }
 
+  /* 장비 선택 시트: 밝은 테마 버튼 */
+  #pickList .gbtn-sub{
+    border:1px solid #E4DCC6;background:#fff;color:#6B6555;
+    border-radius:14px;min-height:44px;font-size:12.5px;font-weight:800;
+  }
+  #pickList .gbtn-sub:active{background:#F4EFE2}
+
   #pickList .emptybox{color:#A9A290;border-color:#E7DFC8;background:#FFFDF6}
 </style>
 </head>
@@ -2976,10 +2983,10 @@
       var now = (i === curIdx);
       var seen = n > 0 || now;
       return '<div class="codex' + (now ? ' now' : '') + (seen ? '' : ' locked') + '" style="--boss-tone:' + b.tone + '">' +
-        '<span class="ce" aria-hidden="true">' + (seen ? b.emoji : '❓') + '</span>' +
-        '<span class="ct"><b>' + (seen ? esc(b.name) : '???') + '<em>Stage ' + (i + 1) + '</em></b>' +
-          '<p>' + (seen ? esc(b.line) : '아직 만나지 못한 빌런이에요.') + '</p></span>' +
-        '<span class="cc"><b>' + n + '</b>처치</span>' +
+        '<span class="ce" aria-hidden="true">' + b.emoji + '</span>' +
+        '<span class="ct"><b>' + esc(b.name) + '<em>Stage ' + (i + 1) + '</em></b>' +
+          '<p>' + esc(b.line) + '</p></span>' +
+        '<span class="cc"><b>' + n + '</b>' + (n ? '처치' : '미조우') + '</span>' +
       '</div>';
     }).join('');
   }
