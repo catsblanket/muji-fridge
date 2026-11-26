@@ -3401,6 +3401,7 @@
       fight.tapCombo = heavy ? 0 : fight.tapCombo + 1;
       fight.acc = 0;
       updateTapCombo();
+      updateHud(combatOf(rpgState(), fight));   /* 자동 전투를 멈춰도 직접 타격하면 HP·DPS가 바로 갱신 */
     });
     if ((el = $('#aAutoBtn'))) el.addEventListener('click', function(){
       if (fight.on) stopBattle();
