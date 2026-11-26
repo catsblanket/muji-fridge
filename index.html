@@ -392,9 +392,11 @@
     background:#EDF7EA;border-radius:999px;padding:3px 8px;white-space:nowrap;
   }
   .unitrow{display:flex;gap:6px;margin-top:7px;align-items:center;flex-wrap:wrap}
+  .unit-label{font-size:11px;font-weight:700;color:#8B8577;flex:0 0 auto}
   .unitrow select{
     height:40px;border:1px solid var(--line);border-radius:11px;background:#fff;
     font-size:13px;color:var(--ink);padding:0 7px;flex:0 0 auto;outline:none;
+    width:auto;min-width:64px;
   }
   .unitrow input{
     flex:1 1 92px;min-width:0;height:40px;border:1px solid var(--line);border-radius:11px;
@@ -782,6 +784,7 @@
       </div>
       <small class="err hidden" id="dPriceErr"></small>
       <div class="unitrow">
+        <span class="unit-label">단위·양</span>
         <select id="dUnitType" aria-label="단위">
           <option value="g">g (그램)</option>
           <option value="count">개</option>
@@ -2174,9 +2177,11 @@
       : '<button type="button" class="price-chip empty" data-price="' + esc(it.id) + '">＋ 가격 입력</button>';
 
     var upVal = unitPriceOf(it);
-    var upChip = (upVal !== null)
-      ? '<span class="unit-chip"' + (unitOf(it).guessed ? ' title="수량에서 추정한 단가예요"' : '') + '>' +
-        esc(unitPriceLabel(unitOf(it).type, upVal)) + '</span>'
+    var uCard = unitOf(it);
+    var showChip = upVal !== null && !(uCard.type === 'count' && uCard.amount === 1);
+    var upChip = showChip
+      ? '<span class="unit-chip"' + (uCard.guessed ? ' title="수량에서 추정한 단가예요"' : '') + '>' +
+        esc(unitPriceLabel(uCard.type, upVal)) + '</span>'
       : '';
 
     var foot = inTrash
