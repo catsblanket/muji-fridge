@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:45:18+09:00",
+  "updated_at": "2026-11-28T00:45:20+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -176,6 +176,17 @@
           "pen": 2,
           "critDmg": 3
         }
+      },
+      {
+        "uid": "g5kjt7qh26",
+        "id": "gc5kjt7btt6",
+        "rarity": "common",
+        "slot": "rune",
+        "name": "흐릿한 네임펜 라벨",
+        "emoji": "🖊️",
+        "stats": {
+          "critDmg": 4
+        }
       }
     ],
     "equipped": {
@@ -189,7 +200,7 @@
     },
     "stageKills": 264,
     "boss_kills": 26,
-    "goldDelta": -51,
+    "goldDelta": -101,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
