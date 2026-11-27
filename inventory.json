@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:45:41+09:00",
+  "updated_at": "2026-11-28T00:45:47+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -152,41 +152,6 @@
         "stats": {
           "spd": 4
         }
-      },
-      {
-        "uid": "g5kfxajhp1",
-        "id": "gc5kfxan6j4",
-        "rarity": "common",
-        "slot": "mainWeapon",
-        "name": "무딘 과도",
-        "emoji": "🔪",
-        "stats": {
-          "atk": 2
-        }
-      },
-      {
-        "uid": "g5kh4w0ne6",
-        "id": "gr5kh4wv3t2",
-        "rarity": "rare",
-        "slot": "charm",
-        "name": "고순도 베이킹소다 주머니",
-        "emoji": "🧂",
-        "stats": {
-          "spd": 3,
-          "pen": 2,
-          "critDmg": 3
-        }
-      },
-      {
-        "uid": "g5kjt7qh26",
-        "id": "gc5kjt7btt6",
-        "rarity": "common",
-        "slot": "rune",
-        "name": "흐릿한 네임펜 라벨",
-        "emoji": "🖊️",
-        "stats": {
-          "critDmg": 4
-        }
       }
     ],
     "equipped": {
@@ -200,7 +165,7 @@
     },
     "stageKills": 267,
     "boss_kills": 26,
-    "goldDelta": -77,
+    "goldDelta": -55,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
