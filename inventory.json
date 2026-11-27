@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T16:16:36+09:00",
+  "updated_at": "2026-11-27T16:16:48+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -12,7 +12,7 @@
       "expiry_estimated": false,
       "tip": "미개봉 상태는 0~10℃ 냉장 보관하시고, 개봉 후 남은 두부는 깨끗한 물에 잠기게 담아 밀폐 보관한 뒤 2~3일 내로 드시는 게 좋아요.",
       "status": "active",
-      "price": null,
+      "price": 2000,
       "product_group": "두부",
       "unit_type": "g",
       "unit_amount": 550,
