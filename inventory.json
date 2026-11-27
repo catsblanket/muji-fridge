@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:11:07+09:00",
+  "updated_at": "2026-11-27T18:11:20+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -106,9 +106,9 @@
       "rune": null,
       "charm": null
     },
-    "stageKills": 61,
+    "stageKills": 62,
     "boss_kills": 6,
-    "goldDelta": -31,
+    "goldDelta": -25,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
@@ -139,7 +139,7 @@
       "mon-22": 2,
       "mon-23": 2,
       "mon-24": 2,
-      "mon-25": 1,
+      "mon-25": 2,
       "mon-26": 1,
       "boss-2": 1,
       "mon-27": 1,
