@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:12:55+09:00",
+  "updated_at": "2026-11-27T18:13:00+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -95,6 +95,17 @@
           "spd": 2,
           "pen": 2
         }
+      },
+      {
+        "uid": "grk1sijcn8",
+        "id": "gcrk1siaxr0",
+        "rarity": "common",
+        "slot": "charm",
+        "name": "다 쓴 녹차 티백",
+        "emoji": "🍵",
+        "stats": {
+          "spd": 2
+        }
       }
     ],
     "equipped": {
@@ -104,11 +115,11 @@
       "necklace": null,
       "ring": "L-a-glove",
       "rune": null,
-      "charm": null
+      "charm": "grk1sijcn8"
     },
     "stageKills": 69,
     "boss_kills": 6,
-    "goldDelta": -21,
+    "goldDelta": -71,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
