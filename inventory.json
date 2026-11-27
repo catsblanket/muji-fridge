@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T17:47:58+09:00",
+  "updated_at": "2026-11-27T17:48:00+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -64,17 +64,6 @@
     },
     "owned": [
       {
-        "uid": "L-w-wood",
-        "id": "w-wood",
-        "rarity": "common",
-        "slot": "mainWeapon",
-        "name": "무딘 과도",
-        "emoji": "🔪",
-        "stats": {
-          "atk": 3
-        }
-      },
-      {
         "uid": "L-a-glove",
         "id": "a-glove",
         "rarity": "common",
@@ -104,17 +93,6 @@
         "name": "초음파 야채 다지기",
         "emoji": "🌀",
         "stats": {}
-      },
-      {
-        "uid": "gqn3kyv27w",
-        "id": "gcqn3kyo52r",
-        "rarity": "common",
-        "slot": "mainWeapon",
-        "name": "무딘 과도",
-        "emoji": "🔪",
-        "stats": {
-          "atk": 4
-        }
       }
     ],
     "equipped": {
@@ -128,7 +106,7 @@
     },
     "stageKills": 30,
     "boss_kills": 3,
-    "goldDelta": -120,
+    "goldDelta": -110,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
