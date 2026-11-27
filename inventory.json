@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:29:35+09:00",
+  "updated_at": "2026-11-27T18:29:39+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -156,6 +156,96 @@
           "spd": 3,
           "critRate": 3
         }
+      },
+      {
+        "uid": "gs5gotysfy",
+        "id": "grs5got5vuo",
+        "rarity": "rare",
+        "slot": "charm",
+        "name": "고순도 베이킹소다 주머니",
+        "emoji": "🧂",
+        "stats": {
+          "atk": 3,
+          "pen": 3,
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gs5gotd1k8",
+        "id": "gcs5gotwxj3",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "일회용 위생모",
+        "emoji": "🧢",
+        "stats": {
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gs5got5vq5",
+        "id": "gcs5gotzn6q",
+        "rarity": "common",
+        "slot": "rune",
+        "name": "흐릿한 네임펜 라벨",
+        "emoji": "🖊️",
+        "stats": {
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gs5gotmaa2",
+        "id": "u-hat-7",
+        "rarity": "unique",
+        "slot": "hat",
+        "name": "영하 20도 급속냉동 헬멧",
+        "emoji": "❄️",
+        "stats": {}
+      },
+      {
+        "uid": "gs5gotklib",
+        "id": "gcs5gotiyz0",
+        "rarity": "common",
+        "slot": "ring",
+        "name": "노란 고무줄",
+        "emoji": "🟡",
+        "stats": {
+          "critRate": 3
+        }
+      },
+      {
+        "uid": "gs5gotapd6",
+        "id": "gcs5gotabp9",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "플라스틱 주걱",
+        "emoji": "🥄",
+        "stats": {
+          "pen": 4
+        }
+      },
+      {
+        "uid": "gs5gota6lk",
+        "id": "grs5gotjvth",
+        "rarity": "rare",
+        "slot": "ring",
+        "name": "티타늄 밀봉 클립",
+        "emoji": "🔗",
+        "stats": {
+          "atk": 3,
+          "pen": 2,
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gs5gotuzws",
+        "id": "gcs5got18yp",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "찌그러진 양은냄비 뚜껑",
+        "emoji": "🍲",
+        "stats": {
+          "critRate": 3
+        }
       }
     ],
     "equipped": {
@@ -169,7 +259,7 @@
     },
     "stageKills": 160,
     "boss_kills": 16,
-    "goldDelta": 404,
+    "goldDelta": -3,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
