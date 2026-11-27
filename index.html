@@ -2107,7 +2107,7 @@
     GOLD_PER_ITEM: 25,            /* v1.3: 품목 등록 1건당 +25 G */
     BASE_ATK: 10,
     BASE_INTERVAL: 1000,          /* v1.2: 기본 공격 간격 1.00초 */
-    SPD_STEP: 15,                 /* v1.2: 포인트당 -15ms */
+    SPD_STEP: 7.5,                /* v1.3.2: 포인트당 -7.5ms (v1.2~v1.3.1은 -15ms) */
     MIN_INTERVAL: 190,
     CRIT_RATE_BASE: 5,
     CRIT_RATE_STEP: 0.75,
@@ -2137,8 +2137,8 @@
 
   var STATS = [
     { key: 'atk',      name: '공격력',     icon: '🗡', desc: '포인트당 타격 피해 +2' },
-    { key: 'spd',      name: '공격속도',   icon: '⚡', desc: '포인트당 공격 간격 -15ms' },
-    { key: 'pen',      name: '관통력',     icon: '🛡', desc: '포인트당 방어 관통 +2' },
+    { key: 'spd',      name: '공격속도',   icon: '⚡', desc: '포인트당 공격 간격 -7.5ms' },
+    { key: 'pen',      name: '관통력',     icon: '🛡', desc: '포인트당 방어 관통 +1' },
     { key: 'critRate', name: '치명타율',   icon: '🎯', desc: '포인트당 치명타 확률 +0.75%' },
     { key: 'critDmg',  name: '치명타배율', icon: '💥', desc: '포인트당 치명타 피해 +2.5%' }
   ];
@@ -2717,7 +2717,7 @@
 
     var atk = (RPG.BASE_ATK + p.atk * 2) * atkMul;
     var interval = Math.max(RPG.MIN_INTERVAL, (RPG.BASE_INTERVAL - p.spd * RPG.SPD_STEP) / spdMul);
-    var pen = p.pen * 2 * penMul;
+    var pen = p.pen * 1 * penMul;              /* v1.3.2: 포인트당 +1 (v1.3.1은 +2) */
     var critRate = RPG.CRIT_RATE_BASE + p.critRate * RPG.CRIT_RATE_STEP + crAdd;
     var critDmg = RPG.CRIT_MULT_BASE + p.critDmg * RPG.CRIT_DMG_STEP + cdAdd;
     /* #14 다이아몬드 칼갈이 링 (v1.2: 치명타 스케일 25%에 맞춰 기준선 50%) */
