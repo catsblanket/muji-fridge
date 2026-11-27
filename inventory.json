@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T01:13:08+09:00",
+  "updated_at": "2026-11-28T01:13:20+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -153,6 +153,19 @@
         "name": "장인의 사시미 칼",
         "emoji": "🔪",
         "stats": {}
+      },
+      {
+        "uid": "g6klb19cn5",
+        "id": "gr6klb1yev5",
+        "rarity": "rare",
+        "slot": "rune",
+        "name": "방수 라벨 프린터 문양",
+        "emoji": "🖨️",
+        "stats": {
+          "atk": 2,
+          "critRate": 3,
+          "critDmg": 3
+        }
       }
     ],
     "equipped": {
@@ -166,7 +179,7 @@
     },
     "stageKills": 273,
     "boss_kills": 27,
-    "goldDelta": -23,
+    "goldDelta": -73,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
