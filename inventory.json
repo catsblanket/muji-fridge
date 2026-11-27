@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T19:23:52+09:00",
+  "updated_at": "2026-11-27T19:23:58+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -132,67 +132,6 @@
           "pen": 2,
           "critRate": 2
         }
-      },
-      {
-        "uid": "gu2mkjm69j",
-        "id": "gru2mkjngwz",
-        "rarity": "rare",
-        "slot": "hat",
-        "name": "이중 유리 찜기 뚜껑",
-        "emoji": "🍲",
-        "stats": {
-          "spd": 2,
-          "pen": 2,
-          "critRate": 2
-        }
-      },
-      {
-        "uid": "gu2mkjw9c3",
-        "id": "gru2mkj31z8",
-        "rarity": "rare",
-        "slot": "charm",
-        "name": "활성탄 탈취 부적",
-        "emoji": "🧿",
-        "stats": {
-          "spd": 3,
-          "pen": 3,
-          "critRate": 3
-        }
-      },
-      {
-        "uid": "gu2mkjwf4f",
-        "id": "gcu2mkjnih9",
-        "rarity": "common",
-        "slot": "charm",
-        "name": "다 쓴 녹차 티백",
-        "emoji": "🍵",
-        "stats": {
-          "critDmg": 4
-        }
-      },
-      {
-        "uid": "gu2mkjob0v",
-        "id": "gcu2mkj3sh4",
-        "rarity": "common",
-        "slot": "rune",
-        "name": "30% 할인 딱지",
-        "emoji": "🏷️",
-        "stats": {
-          "pen": 2
-        }
-      },
-      {
-        "uid": "gu2mkjijs1",
-        "id": "gru2mkj772w",
-        "rarity": "rare",
-        "slot": "ring",
-        "name": "진공 실리콘 패킹",
-        "emoji": "🟠",
-        "stats": {
-          "spd": 3,
-          "pen": 3,
-          "critDmg": 3
-        }
       }
     ],
     "equipped": {
@@ -206,7 +145,7 @@
     },
     "stageKills": 246,
     "boss_kills": 24,
-    "goldDelta": 68,
+    "goldDelta": 114,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
