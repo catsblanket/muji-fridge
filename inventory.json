@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:43:45+09:00",
+  "updated_at": "2026-11-28T00:43:48+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -145,6 +145,17 @@
           "spd": 2,
           "critDmg": 3
         }
+      },
+      {
+        "uid": "g5impgff5f",
+        "id": "gc5impgnu9c",
+        "rarity": "common",
+        "slot": "subWeapon",
+        "name": "미니 계량컵",
+        "emoji": "🥛",
+        "stats": {
+          "pen": 2
+        }
       }
     ],
     "equipped": {
@@ -158,7 +169,7 @@
     },
     "stageKills": 259,
     "boss_kills": 25,
-    "goldDelta": 185,
+    "goldDelta": 135,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
