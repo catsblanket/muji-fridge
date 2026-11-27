@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:45:11+09:00",
+  "updated_at": "2026-11-28T00:45:13+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -152,6 +152,17 @@
         "stats": {
           "spd": 4
         }
+      },
+      {
+        "uid": "g5kfxajhp1",
+        "id": "gc5kfxan6j4",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "무딘 과도",
+        "emoji": "🔪",
+        "stats": {
+          "atk": 2
+        }
       }
     ],
     "equipped": {
@@ -165,7 +176,7 @@
     },
     "stageKills": 264,
     "boss_kills": 26,
-    "goldDelta": 96,
+    "goldDelta": 46,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
