@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T17:47:14+09:00",
+  "updated_at": "2026-11-27T17:47:17+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -84,12 +84,23 @@
         "stats": {
           "spd": 2
         }
+      },
+      {
+        "uid": "gqmz1strs5",
+        "id": "gcqmz1sd8f9",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "찌그러진 양은냄비 뚜껑",
+        "emoji": "🍲",
+        "stats": {
+          "spd": 4
+        }
       }
     ],
     "equipped": {
       "mainWeapon": "L-w-wood",
       "subWeapon": null,
-      "hat": null,
+      "hat": "gqmz1strs5",
       "necklace": null,
       "ring": "L-a-glove",
       "rune": null,
@@ -97,7 +108,7 @@
     },
     "stageKills": 22,
     "boss_kills": 2,
-    "goldDelta": 78,
+    "goldDelta": 28,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
