@@ -3346,7 +3346,7 @@
       el.innerHTML = STATS.map(function(s){
         var own = rpg.stats[s.key] || 0;
         var eff = '';
-        if (s.key === 'atk') eff = '1타 ' + fmtNum(Math.round(c.atk));
+        if (s.key === 'atk') eff = '공격력 ' + fmtNum(Math.round(c.atk));
         else if (s.key === 'spd') eff = '공격 간격 ' + (c.interval / 1000).toFixed(2) + '초';
         else if (s.key === 'pen') eff = '방어 무시 ' + fmtNum(Math.round(c.pen));
         else if (s.key === 'critRate') eff = '치명타 ' + pctText(c.critRate);
@@ -3361,7 +3361,7 @@
     }
     if ((el = $('#stReset'))) el.disabled = used === 0;
     if ((el = $('#stPreview'))){
-      el.textContent = '지금 1타 ' + fmtNum(Math.round(c.atk)) + ' · 타격 간격 ' + (c.interval / 1000).toFixed(2) +
+      el.textContent = '지금 공격력 ' + fmtNum(Math.round(c.atk)) + ' · 타격 간격 ' + (c.interval / 1000).toFixed(2) +
         '초 · 치명타 ' + pctText(c.critRate) + ' / ' + pctText(c.critDmg) +
         ' · 🧚 버프 ×' + buffMulOf(lv).toFixed(1) + ' (' + fmtClock(buffLeftSec(mergedItems(), rpg)) + ' 대기)';
     }
