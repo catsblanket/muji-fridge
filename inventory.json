@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:44:54+09:00",
+  "updated_at": "2026-11-28T00:44:57+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -99,19 +99,6 @@
         }
       },
       {
-        "uid": "gs5gotysfy",
-        "id": "grs5got5vuo",
-        "rarity": "rare",
-        "slot": "charm",
-        "name": "고순도 베이킹소다 주머니",
-        "emoji": "🧂",
-        "stats": {
-          "atk": 3,
-          "pen": 3,
-          "critRate": 2
-        }
-      },
-      {
         "uid": "gs5gotmaa2",
         "id": "u-hat-7",
         "rarity": "unique",
@@ -119,43 +106,6 @@
         "name": "영하 20도 급속냉동 헬멧",
         "emoji": "❄️",
         "stats": {}
-      },
-      {
-        "uid": "gs5gota6lk",
-        "id": "grs5gotjvth",
-        "rarity": "rare",
-        "slot": "ring",
-        "name": "티타늄 밀봉 클립",
-        "emoji": "🔗",
-        "stats": {
-          "atk": 3,
-          "pen": 2,
-          "critRate": 2
-        }
-      },
-      {
-        "uid": "g5ikbio4yc",
-        "id": "gr5ikbicg5k",
-        "rarity": "rare",
-        "slot": "hat",
-        "name": "방열 실리콘 헬멧",
-        "emoji": "⛑️",
-        "stats": {
-          "atk": 2,
-          "spd": 2,
-          "critDmg": 3
-        }
-      },
-      {
-        "uid": "g5impgff5f",
-        "id": "gc5impgnu9c",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "미니 계량컵",
-        "emoji": "🥛",
-        "stats": {
-          "pen": 2
-        }
       },
       {
         "uid": "g5irb30clt",
@@ -171,17 +121,6 @@
         }
       },
       {
-        "uid": "g5irb474l2",
-        "id": "gc5irb4qpzc",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "녹슨 후추통",
-        "emoji": "🧂",
-        "stats": {
-          "spd": 4
-        }
-      },
-      {
         "uid": "g5irb4f1bz",
         "id": "gr5irb4z61u",
         "rarity": "rare",
@@ -192,28 +131,6 @@
           "atk": 2,
           "spd": 3,
           "pen": 3
-        }
-      },
-      {
-        "uid": "g5irb4cp12",
-        "id": "gc5irb46ozy",
-        "rarity": "common",
-        "slot": "charm",
-        "name": "젖은 신문지 조각",
-        "emoji": "📰",
-        "stats": {
-          "spd": 3
-        }
-      },
-      {
-        "uid": "g5irb4gm27",
-        "id": "gc5irb4h72k",
-        "rarity": "common",
-        "slot": "hat",
-        "name": "일회용 위생모",
-        "emoji": "🧢",
-        "stats": {
-          "critDmg": 4
         }
       },
       {
@@ -248,7 +165,7 @@
     },
     "stageKills": 263,
     "boss_kills": 26,
-    "goldDelta": 50,
+    "goldDelta": 106,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
