@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:14:45+09:00",
+  "updated_at": "2026-11-27T18:14:50+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -106,11 +106,24 @@
         "stats": {
           "spd": 2
         }
+      },
+      {
+        "uid": "grmeto90hk",
+        "id": "grrmetopotp",
+        "rarity": "rare",
+        "slot": "subWeapon",
+        "name": "정밀 주방 타이머",
+        "emoji": "⏱️",
+        "stats": {
+          "atk": 3,
+          "spd": 2,
+          "critRate": 2
+        }
       }
     ],
     "equipped": {
       "mainWeapon": "gqn21ddj3o",
-      "subWeapon": null,
+      "subWeapon": "grmeto90hk",
       "hat": "grg7omlpuf",
       "necklace": null,
       "ring": "L-a-glove",
@@ -119,7 +132,7 @@
     },
     "stageKills": 73,
     "boss_kills": 7,
-    "goldDelta": -25,
+    "goldDelta": -75,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
