@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:08:38+09:00",
+  "updated_at": "2026-11-27T18:08:40+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -75,17 +75,6 @@
         }
       },
       {
-        "uid": "gqmz1strs5",
-        "id": "gcqmz1sd8f9",
-        "rarity": "common",
-        "slot": "hat",
-        "name": "찌그러진 양은냄비 뚜껑",
-        "emoji": "🍲",
-        "stats": {
-          "spd": 4
-        }
-      },
-      {
         "uid": "gqn21ddj3o",
         "id": "u-mainWeapon-2",
         "rarity": "unique",
@@ -117,7 +106,7 @@
     },
     "stageKills": 50,
     "boss_kills": 5,
-    "goldDelta": -36,
+    "goldDelta": -31,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
