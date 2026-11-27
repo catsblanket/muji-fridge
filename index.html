@@ -2561,7 +2561,7 @@
         uid: uid, id: it.id, rarity: it.rarity, slot: it.slot,
         name: it.name, emoji: it.emoji, stats: it.stats
       };
-      if (it.rarity === 'unique') rec.plus = plusOf(it);   /* v1.4: 유니크만 강화 수치를 갖는다 */
+      if (it.rarity === 'unique' && plusOf(it) > 0) rec.plus = plusOf(it);   /* v1.4: 유니크만, 강화된 경우에만 */
       out.owned.push(rec);
     });
 
