@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T17:47:21+09:00",
+  "updated_at": "2026-11-27T17:47:23+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -95,6 +95,15 @@
         "stats": {
           "spd": 4
         }
+      },
+      {
+        "uid": "gqn21ddj3o",
+        "id": "u-mainWeapon-2",
+        "rarity": "unique",
+        "slot": "mainWeapon",
+        "name": "초음파 야채 다지기",
+        "emoji": "🌀",
+        "stats": {}
       }
     ],
     "equipped": {
@@ -108,7 +117,7 @@
     },
     "stageKills": 23,
     "boss_kills": 2,
-    "goldDelta": -11,
+    "goldDelta": -61,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
