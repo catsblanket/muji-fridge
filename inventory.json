@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:43:38+09:00",
+  "updated_at": "2026-11-28T00:43:45+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -132,6 +132,19 @@
           "pen": 2,
           "critRate": 2
         }
+      },
+      {
+        "uid": "g5ikbio4yc",
+        "id": "gr5ikbicg5k",
+        "rarity": "rare",
+        "slot": "hat",
+        "name": "방열 실리콘 헬멧",
+        "emoji": "⛑️",
+        "stats": {
+          "atk": 2,
+          "spd": 2,
+          "critDmg": 3
+        }
       }
     ],
     "equipped": {
@@ -145,7 +158,7 @@
     },
     "stageKills": 259,
     "boss_kills": 25,
-    "goldDelta": 235,
+    "goldDelta": 185,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
