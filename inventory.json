@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:22:08+09:00",
+  "updated_at": "2026-11-27T18:22:14+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -130,6 +130,19 @@
         "stats": {
           "atk": 4
         }
+      },
+      {
+        "uid": "grvxbsee6a",
+        "id": "grrvxbsj11w",
+        "rarity": "rare",
+        "slot": "ring",
+        "name": "진공 실리콘 패킹",
+        "emoji": "🟠",
+        "stats": {
+          "atk": 2,
+          "critRate": 3,
+          "critDmg": 3
+        }
       }
     ],
     "equipped": {
@@ -143,7 +156,7 @@
     },
     "stageKills": 90,
     "boss_kills": 9,
-    "goldDelta": -2,
+    "goldDelta": -52,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
