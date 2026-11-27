@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:08:07+09:00",
+  "updated_at": "2026-11-27T18:08:23+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -93,6 +93,17 @@
         "name": "초음파 야채 다지기",
         "emoji": "🌀",
         "stats": {}
+      },
+      {
+        "uid": "gre43di70j",
+        "id": "gcre43d32np",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "찌그러진 양은냄비 뚜껑",
+        "emoji": "🍲",
+        "stats": {
+          "atk": 4
+        }
       }
     ],
     "equipped": {
@@ -106,7 +117,7 @@
     },
     "stageKills": 49,
     "boss_kills": 4,
-    "goldDelta": -9,
+    "goldDelta": -59,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
