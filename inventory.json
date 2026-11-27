@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T14:32:00+09:00",
+  "updated_at": "2026-11-27T14:59:03+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -49,7 +49,9 @@
         "slot": "mainWeapon",
         "name": "무딘 과도",
         "emoji": "🔪",
-        "stats": { "atk": 3 }
+        "stats": {
+          "atk": 3
+        }
       },
       {
         "uid": "L-a-glove",
@@ -58,7 +60,9 @@
         "slot": "ring",
         "name": "노란 고무줄",
         "emoji": "🟡",
-        "stats": { "spd": 2 }
+        "stats": {
+          "spd": 2
+        }
       }
     ],
     "equipped": {
@@ -70,11 +74,13 @@
       "rune": null,
       "charm": null
     },
-    "stageKills": 0,
+    "stageKills": 1,
     "boss_kills": 0,
-    "goldDelta": 200,
+    "goldDelta": 202,
     "buffUsedSec": 0,
     "bonusXp": 370,
-    "kills": {}
+    "kills": {
+      "mon-0": 1
+    }
   }
 }
