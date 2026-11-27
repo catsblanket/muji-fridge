@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:43:53+09:00",
+  "updated_at": "2026-11-28T00:43:55+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -156,20 +156,99 @@
         "stats": {
           "pen": 2
         }
+      },
+      {
+        "uid": "g5irb30clt",
+        "id": "gr5irb3oub8",
+        "rarity": "rare",
+        "slot": "ring",
+        "name": "진공 실리콘 패킹",
+        "emoji": "🟠",
+        "stats": {
+          "pen": 3,
+          "critRate": 3,
+          "critDmg": 2
+        }
+      },
+      {
+        "uid": "g5irb474l2",
+        "id": "gc5irb4qpzc",
+        "rarity": "common",
+        "slot": "subWeapon",
+        "name": "녹슨 후추통",
+        "emoji": "🧂",
+        "stats": {
+          "spd": 4
+        }
+      },
+      {
+        "uid": "g5irb4f1bz",
+        "id": "gr5irb4z61u",
+        "rarity": "rare",
+        "slot": "charm",
+        "name": "활성탄 탈취 부적",
+        "emoji": "🧿",
+        "stats": {
+          "atk": 2,
+          "spd": 3,
+          "pen": 3
+        }
+      },
+      {
+        "uid": "g5irb4cp12",
+        "id": "gc5irb46ozy",
+        "rarity": "common",
+        "slot": "charm",
+        "name": "젖은 신문지 조각",
+        "emoji": "📰",
+        "stats": {
+          "spd": 3
+        }
+      },
+      {
+        "uid": "g5irb4gm27",
+        "id": "gc5irb4h72k",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "일회용 위생모",
+        "emoji": "🧢",
+        "stats": {
+          "critDmg": 4
+        }
+      },
+      {
+        "uid": "g5irb4jcjk",
+        "id": "u-mainWeapon-2",
+        "rarity": "unique",
+        "slot": "mainWeapon",
+        "name": "초음파 야채 다지기",
+        "emoji": "🌀",
+        "stats": {}
+      },
+      {
+        "uid": "g5irb4uc1o",
+        "id": "gc5irb4ad6v",
+        "rarity": "common",
+        "slot": "necklace",
+        "name": "낡은 수은 온도계",
+        "emoji": "🌡️",
+        "stats": {
+          "spd": 4
+        }
       }
     ],
     "equipped": {
       "mainWeapon": "gqn21ddj3o",
       "subWeapon": "grmeto90hk",
       "hat": "gs5gotmaa2",
-      "necklace": null,
+      "necklace": "g5irb4uc1o",
       "ring": "gs5gota6lk",
       "rune": "grxbizv3h8",
       "charm": "gs5gotysfy"
     },
     "stageKills": 259,
     "boss_kills": 25,
-    "goldDelta": 378,
+    "goldDelta": -5,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
