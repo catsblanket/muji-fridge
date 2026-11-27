@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T16:12:12+09:00",
+  "updated_at": "2026-11-27T16:16:36+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -29,7 +29,7 @@
       "expiry_estimated": true,
       "tip": "물기가 닿으면 금방 물러지므로 씻지 말고 키친타올로 감싸 지퍼백이나 밀폐용기에 넣어 냉장 보관하세요. 오래 두려면 갓과 대를 손질해 냉동 보관도 가능해요.",
       "status": "active",
-      "price": null,
+      "price": 3000,
       "product_group": "표고버섯",
       "unit_type": "count",
       "unit_amount": 1,
