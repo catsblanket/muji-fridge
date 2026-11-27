@@ -499,7 +499,7 @@
   }
 
   /* =========================================================
-     v1.1.1 · 시작 화면 · 세로형 방치 RPG
+     v1.2 · 시작 화면 · 세로형 방치 RPG
      ========================================================= */
   .view{min-height:100vh;min-height:100dvh}
   .view.hidden{display:none !important}
@@ -1264,7 +1264,7 @@
   </div>
 </div>
 
-<!-- ===== 냉장고 빌런 토벌전 (v1.1.1) ===== -->
+<!-- ===== 냉장고 빌런 토벌전 (v1.2) ===== -->
 <section class="view hidden" id="viewGame" aria-label="냉장고 빌런 토벌전">
   <div class="gw">
     <header class="ghead">
@@ -1309,12 +1309,13 @@
 
         <div class="battlebtns">
           <button type="button" class="bbtn" id="aTapBtn"><span id="aTapLabel">⚡ 직접 타격</span><i class="cb" id="aTapCombo" aria-live="polite">0/10</i></button>
-          <button type="button" class="bbtn ghost2" id="aAutoBtn">⏸ 자동</button>
+          <button type="button" class="bbtn ghost2" id="aAutoBtn" aria-pressed="false">▶ 자동 (00:00)</button>
         </div>
+        <p class="muted" id="aAutoHint" style="margin:6px 2px 0;text-align:center">자동 타격 --:-- 남음 · 기한 내 소비 1건당 +5분</p>
 
         <div class="battle-sum">
           <div><span>1타</span><b id="aHitDmg">10</b></div>
-          <div><span>공속</span><b id="aSpeed">0.95초</b></div>
+          <div><span>공속</span><b id="aSpeed">1.00초</b></div>
           <div><span>관통</span><b id="aPen">0</b></div>
           <div><span>치명</span><b id="aCrit">5%</b></div>
           <div><span>배율</span><b id="aCritDmg">150%</b></div>
@@ -1358,8 +1359,8 @@
           </div>
         </div>
         <div class="rates" id="rateList"></div>
-        <p class="muted" style="margin:8px 2px 0;text-align:center">골드 슬롯: 65% 5~25 G · 25% 30~60 G · 10% 100~160 G 잭팟 (평균 34 G)</p>
-        <p class="muted" style="margin:10px 2px 0;text-align:center">골드는 유통기한 안에 먹은 품목 1개당 100 G, 빌런 처치마다 드랍돼요.</p>
+        <p class="muted" style="margin:8px 2px 0;text-align:center">골드 슬롯: 82% 1~8 G · 13% 12~30 G · 5% 180~260 G 잭팟 (평균 17 G)</p>
+        <p class="muted" style="margin:10px 2px 0;text-align:center">골드는 빌런 처치·가챠·장비 분해로만 벌 수 있어요. 기한 안에 먹은 품목 1개당 자동 타격 5분을 드려요.</p>
       </section>
 
       <!-- 도감 -->
@@ -1627,6 +1628,11 @@
   function fmtNum(n){
     var s = String(Math.round(Number(n) || 0));
     return s.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  /* v1.2: 치명타 수치가 소수(0.75%) 단위라 소수 한 자리까지 보여 준다 */
+  function pctText(v){
+    var r = Math.round((Number(v) || 0) * 10) / 10;
+    return (r % 1 === 0 ? String(Math.round(r)) : r.toFixed(1)) + '%';
   }
 
   function todayStr(offset){
@@ -2037,20 +2043,20 @@
 
 
   /* =====================================================================
-     냉장고 RPG v1.1.1 — 세로형 방치형 토벌전
+     냉장고 RPG v1.2 — 세로형 수동 타격 토벌전 + 누적 자동 타격
      ===================================================================== */
   var RPG = {
     XP_PER_LEVEL: 100,
     POINTS_PER_LEVEL: 3,
-    GOLD_PER_MEAL: 100,
+    AUTO_SEC_PER_MEAL: 300,      /* v1.2: 기한 내 소비 1품목 = 자동 타격 5분 */
     BASE_ATK: 10,
-    BASE_INTERVAL: 950,
-    SPD_STEP: 60,
+    BASE_INTERVAL: 1000,         /* v1.2: 기본 공격 간격 1.00초 */
+    SPD_STEP: 15,                /* v1.2: 포인트당 -15ms (기존 60ms의 25%) */
     MIN_INTERVAL: 190,
     CRIT_RATE_BASE: 5,
-    CRIT_RATE_STEP: 3,
+    CRIT_RATE_STEP: 0.75,        /* v1.2: 포인트당 +0.75% (기존 3%의 25%) */
     CRIT_MULT_BASE: 150,
-    CRIT_DMG_STEP: 10,
+    CRIT_DMG_STEP: 2.5,          /* v1.2: 포인트당 +2.5% (기존 10%의 25%) */
     GACHA_1: 50,
     GACHA_10: 450
   };
@@ -2074,10 +2080,10 @@
 
   var STATS = [
     { key: 'atk',      name: '공격력',     icon: '🗡', desc: '포인트당 타격 피해 +2' },
-    { key: 'spd',      name: '공격속도',   icon: '⚡', desc: '포인트당 공격 간격 -60ms' },
+    { key: 'spd',      name: '공격속도',   icon: '⚡', desc: '포인트당 공격 간격 -15ms' },
     { key: 'pen',      name: '관통력',     icon: '🛡', desc: '포인트당 방어 관통 +2' },
-    { key: 'critRate', name: '치명타율',   icon: '🎯', desc: '포인트당 치명타 확률 +3%' },
-    { key: 'critDmg',  name: '치명타배율', icon: '💥', desc: '포인트당 치명타 피해 +10%' }
+    { key: 'critRate', name: '치명타율',   icon: '🎯', desc: '포인트당 치명타 확률 +0.75%' },
+    { key: 'critDmg',  name: '치명타배율', icon: '💥', desc: '포인트당 치명타 피해 +2.5%' }
   ];
   function statMeta(k){
     for (var i = 0; i < STATS.length; i++) if (STATS[i].key === k) return STATS[i];
@@ -2085,26 +2091,26 @@
   }
 
   var RARITY = {
-    common: { name: '일반', sell: 15, cls: 'common' },
-    rare:   { name: '레어', sell: 40, cls: 'rare' },
-    unique: { name: '유니크', sell: 120, cls: 'unique' }
+    common: { name: '일반', sell: 3, cls: 'common' },
+    rare:   { name: '레어', sell: 8, cls: 'rare' },
+    unique: { name: '유니크', sell: 24, cls: 'unique' }
   };
   var RARITY_RANK = { common: 1, rare: 2, unique: 3 };
 
   /* ---------- 보스 12종 ---------- */
   var BOSSES = [
-    { name: '시든 대파 유령', emoji: '🌿', line: '국물 한 번만 더 우릴 수 있었는데...', hp: 90,  def: 0,  gold: 40,  bg: '#26301F', aura: 'rgba(150,200,110,.34)', tone: '#A8D67A' },
-    { name: '싹 난 감자 군주', emoji: '🥔', line: '어둠 속에서 조용히 세력을 키웠지.', hp: 118, def: 1,  gold: 46,  bg: '#2A2418', aura: 'rgba(178,146,92,.32)',  tone: '#CBA96E' },
-    { name: '유통기한 지난 두부 슬라임', emoji: '⬜', line: '아직... 안 상한 것 같기도 하고...', hp: 150, def: 2,  gold: 52,  bg: '#2A2822', aura: 'rgba(210,205,188,.28)', tone: '#E4DFD0' },
-    { name: '곰팡이 피어난 식빵 기사', emoji: '🍞', line: '포자는 내 명예의 훈장이다!', hp: 190, def: 3,  gold: 58,  bg: '#232A26', aura: 'rgba(120,200,180,.3)',  tone: '#8FD3C0' },
-    { name: '굳어버린 밥알 골렘', emoji: '🍚', line: '전자레인지 없인 날 뚫을 수 없다.', hp: 240, def: 8,  gold: 64,  bg: '#282825', aura: 'rgba(220,218,205,.26)', tone: '#E8E6DC' },
-    { name: '끈적한 소스병 히드라', emoji: '🧴', line: '문쪽 선반에 갇힌 지 2년째... 오늘 터진다.', hp: 320, def: 5,  gold: 70,  bg: '#2E1A1A', aura: 'rgba(220,90,80,.32)',   tone: '#E0645A' },
-    { name: '시큼한 묵은지 군단장', emoji: '🥬', line: '익을수록 강해지는 법! 뚜껑 열면 다친다!', hp: 410, def: 6,  gold: 76,  bg: '#2E1417', aura: 'rgba(200,60,80,.3)',    tone: '#D8455A' },
-    { name: '냉장실 뒷벽 서리 거인', emoji: '🧊', line: '내 뒤엔 3년 전 산 명란젓이 잠들어 있다.', hp: 520, def: 16, gold: 82,  bg: '#16222E', aura: 'rgba(120,190,240,.32)', tone: '#7FC0F0' },
-    { name: '정체불명의 검은 비닐봉지', emoji: '🛍️', line: '열어보기 전까진 슈뢰딩거의 반찬이지.', hp: 660, def: 9,  gold: 88,  bg: '#18181C', aura: 'rgba(170,150,230,.28)', tone: '#B9A6E8' },
-    { name: '화석화된 냉동실 떡 블록', emoji: '🍡', line: '식칼도 부러뜨리는 영하 20도의 고밀도 탄수화물.', hp: 830, def: 24, gold: 94,  bg: '#1C2026', aura: 'rgba(200,220,240,.3)',  tone: '#D9E6F2' },
-    { name: '부풀어 오른 요거트 폭탄', emoji: '🥛', line: '건드리면 3초 뒤에 폭발할지도?', hp: 1020, def: 11, gold: 100, bg: '#2B2A1C', aura: 'rgba(255,210,80,.3)',   tone: '#FFD34D' },
-    { name: '[최종] 심연의 타파웨어 마왕', emoji: '🍱', line: '설거지를 열 번 해도 내 붉은 자국은 지워지지 않는다.', hp: 1250, def: 18, gold: 120, bg: '#241018', aura: 'rgba(255,130,60,.34)',  tone: '#FF8A3D' }
+    { name: '시든 대파 유령', emoji: '🌿', line: '국물 한 번만 더 우릴 수 있었는데...', hp: 90,  def: 0,  gold: 8,  bg: '#26301F', aura: 'rgba(150,200,110,.34)', tone: '#A8D67A' },
+    { name: '싹 난 감자 군주', emoji: '🥔', line: '어둠 속에서 조용히 세력을 키웠지.', hp: 118, def: 1,  gold: 9,  bg: '#2A2418', aura: 'rgba(178,146,92,.32)',  tone: '#CBA96E' },
+    { name: '유통기한 지난 두부 슬라임', emoji: '⬜', line: '아직... 안 상한 것 같기도 하고...', hp: 150, def: 2,  gold: 10,  bg: '#2A2822', aura: 'rgba(210,205,188,.28)', tone: '#E4DFD0' },
+    { name: '곰팡이 피어난 식빵 기사', emoji: '🍞', line: '포자는 내 명예의 훈장이다!', hp: 190, def: 3,  gold: 12,  bg: '#232A26', aura: 'rgba(120,200,180,.3)',  tone: '#8FD3C0' },
+    { name: '굳어버린 밥알 골렘', emoji: '🍚', line: '전자레인지 없인 날 뚫을 수 없다.', hp: 240, def: 8,  gold: 13,  bg: '#282825', aura: 'rgba(220,218,205,.26)', tone: '#E8E6DC' },
+    { name: '끈적한 소스병 히드라', emoji: '🧴', line: '문쪽 선반에 갇힌 지 2년째... 오늘 터진다.', hp: 320, def: 5,  gold: 14,  bg: '#2E1A1A', aura: 'rgba(220,90,80,.32)',   tone: '#E0645A' },
+    { name: '시큼한 묵은지 군단장', emoji: '🥬', line: '익을수록 강해지는 법! 뚜껑 열면 다친다!', hp: 410, def: 6,  gold: 15,  bg: '#2E1417', aura: 'rgba(200,60,80,.3)',    tone: '#D8455A' },
+    { name: '냉장실 뒷벽 서리 거인', emoji: '🧊', line: '내 뒤엔 3년 전 산 명란젓이 잠들어 있다.', hp: 520, def: 16, gold: 16,  bg: '#16222E', aura: 'rgba(120,190,240,.32)', tone: '#7FC0F0' },
+    { name: '정체불명의 검은 비닐봉지', emoji: '🛍️', line: '열어보기 전까진 슈뢰딩거의 반찬이지.', hp: 660, def: 9,  gold: 18,  bg: '#18181C', aura: 'rgba(170,150,230,.28)', tone: '#B9A6E8' },
+    { name: '화석화된 냉동실 떡 블록', emoji: '🍡', line: '식칼도 부러뜨리는 영하 20도의 고밀도 탄수화물.', hp: 830, def: 24, gold: 19,  bg: '#1C2026', aura: 'rgba(200,220,240,.3)',  tone: '#D9E6F2' },
+    { name: '부풀어 오른 요거트 폭탄', emoji: '🥛', line: '건드리면 3초 뒤에 폭발할지도?', hp: 1020, def: 11, gold: 20, bg: '#2B2A1C', aura: 'rgba(255,210,80,.3)',   tone: '#FFD34D' },
+    { name: '[최종] 심연의 타파웨어 마왕', emoji: '🍱', line: '설거지를 열 번 해도 내 붉은 자국은 지워지지 않는다.', hp: 1250, def: 18, gold: 24, bg: '#241018', aura: 'rgba(255,130,60,.34)',  tone: '#FF8A3D' }
   ];
 
   /* ---------- 일반 / 레어 장비 이름 풀 ---------- */
@@ -2150,19 +2156,19 @@
     { id: 'u-necklace-10', slot: 'necklace', name: '냉장고 문짝 마그넷 부적판', emoji: '🧲',
       desc: '장착한 레어·유니크 수에 비례해 모든 기본 스탯 효율 증가' },
     { id: 'u-necklace-11', slot: 'necklace', name: '스마트 심부 온도계', emoji: '🌡️',
-      desc: '보스 체력 50% 이하일 때 치명타율 +25% · 치명타배율 +60%' },
+      desc: '보스 체력 50% 이하일 때 치명타율 +10% · 치명타배율 +20%' },
     { id: 'u-necklace-12', slot: 'necklace', name: '비상금 숨긴 반찬통 자물쇠', emoji: '🔐',
       desc: '보스 처치 시 25% 확률로 골드 2배 · 다음 보스 5초간 공속 급상승' },
     { id: 'u-ring-13', slot: 'ring', name: '영구 착색 실리콘 패킹', emoji: '🟠',
       desc: '타격마다 착색 중첩(최대 20) · 중첩당 보스가 받는 피해 +2%' },
     { id: 'u-ring-14', slot: 'ring', name: '다이아몬드 칼갈이 링', emoji: '💎',
-      desc: '치명타율 100% 초과분 1%당 치명타배율 +3% 전환' },
+      desc: '치명타율 50% 초과분 1%당 치명타배율 +4% 전환' },
     { id: 'u-ring-15', slot: 'ring', name: '진공 압축 펌프 링', emoji: '🫧',
       desc: '보스 방어력 30% 감소 · 관통력이 방어력을 웃돌면 추가 공격력' },
     { id: 'u-rune-16', slot: 'rune', name: '오늘까지! 마감 세일 딱지', emoji: '🏷️',
       desc: '보스 처치가 10초 이내면 골드 +40% · 다음 보스 첫 타격 피해 +150%' },
     { id: 'u-rune-17', slot: 'rune', name: '유기농 신선도 인증 마크', emoji: '🌱',
-      desc: '치명타 적중 시 1~2 G 즉시 획득 · 보유 골드 기반 공속 보너스' },
+      desc: '치명타 적중 시 50% 확률로 1 G 즉시 획득 · 보유 골드 기반 공속 보너스' },
     { id: 'u-rune-18', slot: 'rune', name: '비밀 레시피 바코드', emoji: '📊',
       desc: '공속·관통·치명타율 중 가장 높은 스탯의 35%만큼 나머지 두 스탯 보정' },
     { id: 'u-charm-19', slot: 'charm', name: '만년 묵은 냉동실 성에 부적', emoji: '🧊',
@@ -2173,7 +2179,7 @@
   var UNIQUE_BY_ID = {};
   UNIQUES.forEach(function(u){ UNIQUE_BY_ID[u.id] = u; });
 
-  /* ---------- v1.0 → v1.1 장비 마이그레이션 ---------- */
+  /* ---------- v1.0 → v1.1 장비 마이그레이션 (v1.2에서도 유지) ---------- */
   var LEGACY_ITEMS = {
     'w-wood':     { slot: 'mainWeapon', rarity: 'common', name: '무딘 과도', emoji: '🔪', stats: { atk: 3 }, price: 80 },
     'w-steel':    { slot: 'mainWeapon', rarity: 'rare', name: '단조 중식도', emoji: '🔪', stats: { atk: 4, spd: 1, pen: 1 }, price: 260 },
@@ -2248,14 +2254,16 @@
   /* ---------- RPG 상태 정규화 + 마이그레이션 ---------- */
   function normRpg(raw){
     raw = (raw && typeof raw === 'object') ? raw : {};
-    var legacyMode = (raw.v !== 2);
+    var rawVer = Math.floor(Number(raw.v) || 0);
+    var legacyMode = !(rawVer >= 2);
     var out = {
-      v: 2,
+      v: 3,
       stats: {},
       owned: [],
       equipped: { mainWeapon: null, subWeapon: null, hat: null, necklace: null, ring: null, rune: null, charm: null },
       boss_kills: 0,
       goldDelta: 0,
+      autoUsedSec: 0,
       kills: {}
     };
 
@@ -2319,6 +2327,10 @@
     } else {
       out.goldDelta = Math.round(out.boss_kills * 40 - spending);
     }
+    /* v1.2: '기한 내 소비 = 골드' 폐지 → 예전 음수 잔액은 0 G로 안전 정산(마이너스 골드 방지) */
+    if (rawVer < 3 && out.goldDelta < 0) out.goldDelta = 0;
+    /* v1.2: 자동 타격 누적 사용 시간(초) */
+    out.autoUsedSec = Math.max(0, Math.round(Number(raw.autoUsedSec) || 0));
 
     var km = (raw.kills && typeof raw.kills === 'object') ? raw.kills : null;
     if (km){
@@ -2355,7 +2367,8 @@
     var base = rpgState();
     mutator(base);
     base = normRpg(base);
-    base.v = 2;
+    base.v = 3;
+    base.autoUsedSec = autoUsedLive(base.autoUsedSec);
     if (state.sample){
       state.demoRpg = base;
       return Promise.resolve({ ok: true, demo: true });
@@ -2410,15 +2423,23 @@
     });
     return n;
   }
+  /* v1.2: 기한 내 소비 1건 = 자동 타격 300초(5분) 누적 */
+  function autoTotalSec(items){
+    return mealsInTimeOf(items) * RPG.AUTO_SEC_PER_MEAL;
+  }
+  function autoLeftSec(items, rpg){
+    var used = rpg ? Math.max(0, Math.round(Number(rpg.autoUsedSec) || 0)) : 0;
+    return Math.max(0, autoTotalSec(items) - used);
+  }
   function goldOf(items, rpg){
-    var base = mealsInTimeOf(items) * RPG.GOLD_PER_MEAL;
+    /* v1.2: 기한 내 소비 골드 보상 폐지 · 보유 골드 = goldDelta(최소 0 G) */
     var delta = rpg ? Math.round(Number(rpg.goldDelta) || 0) : 0;
-    return Math.max(0, base + delta);
+    return Math.max(0, delta);
   }
   function goldNoteFor(it){
     var today = todayStr(0);
-    if (it && it.expiry_date && today > it.expiry_date) return ' · 기한이 지나서 골드는 없어요';
-    return ' · 💰 +' + RPG.GOLD_PER_MEAL + ' G';
+    if (it && it.expiry_date && today > it.expiry_date) return ' · 기한이 지나서 자동 타격은 없어요';
+    return ' · ⏱ 자동 타격 +' + Math.round(RPG.AUTO_SEC_PER_MEAL / 60) + '분';
   }
 
   function bossAt(kills){
@@ -2431,7 +2452,7 @@
       bg: b.bg, aura: b.aura, tone: b.tone,
       hp: Math.round(b.hp * (1 + cycle * 0.85)),
       def: b.def + cycle * 4,
-      gold: Math.round(b.gold + cycle * 22)
+      gold: Math.round(b.gold + cycle * 4.4)
     };
   }
 
@@ -2495,21 +2516,21 @@
       atkMul *= 1 + 0.06 * n;
       penMul *= 1 + 0.06 * n;
       spdMul *= 1 + 0.05 * n;
-      crAdd += 2 * n;
-      cdAdd += 4 * n;
+      crAdd += 1.2 * n;
+      cdAdd += 2 * n;
     }
     /* #7 급속냉동 헬멧 */
     if (has('u-hat-7')) spdMul *= 1 + Math.floor(p.pen / 10) * 0.05;
-    /* #6 황금 계량스푼 */
-    if (has('u-subWeapon-6')) atkMul *= 1 + Math.min(0.8, gold / 2500);
+    /* #6 황금 계량스푼 (v1.2: 골드 경제 1/5에 맞춰 기준선도 1/5) */
+    if (has('u-subWeapon-6')) atkMul *= 1 + Math.min(0.8, gold / 500);
     /* #17 신선도 인증 마크 */
-    if (has('u-rune-17')) spdMul *= 1 + Math.min(0.35, Math.floor(gold / 400) * 0.05 * amp);
+    if (has('u-rune-17')) spdMul *= 1 + Math.min(0.35, Math.floor(gold / 80) * 0.05 * amp);
     /* #4 미슐랭 토치 (조우 3초) */
-    if (t < 3 && has('u-subWeapon-4')){ atkMul *= 1.8; cdAdd += 100; }
+    if (t < 3 && has('u-subWeapon-4')){ atkMul *= 1.8; cdAdd += 40; }
     /* #20 보증서 (조우 3초) */
-    if (t < 3 && has('u-charm-20')){ atkMul *= 1.25; crAdd += 15; }
+    if (t < 3 && has('u-charm-20')){ atkMul *= 1.25; crAdd += 6; }
     /* #11 스마트 온도계 */
-    if (has('u-necklace-11') && f && f.maxHp > 0 && (f.hp / f.maxHp) <= 0.5){ crAdd += 25; cdAdd += 60; }
+    if (has('u-necklace-11') && f && f.maxHp > 0 && (f.hp / f.maxHp) <= 0.5){ crAdd += 10; cdAdd += 20; }
     /* #12 자물쇠 (처치 직후 5초) */
     if (has('u-necklace-12') && f && f.postKill > 0) spdMul *= 1.6;
 
@@ -2518,8 +2539,8 @@
     var pen = p.pen * 2 * penMul;
     var critRate = RPG.CRIT_RATE_BASE + p.critRate * RPG.CRIT_RATE_STEP + crAdd;
     var critDmg = RPG.CRIT_MULT_BASE + p.critDmg * RPG.CRIT_DMG_STEP + cdAdd;
-    /* #14 다이아몬드 칼갈이 링 */
-    if (has('u-ring-14') && critRate > 100) critDmg += (critRate - 100) * 3;
+    /* #14 다이아몬드 칼갈이 링 (v1.2: 치명타 스케일 25%에 맞춰 기준선 50%) */
+    if (has('u-ring-14') && critRate > 50) critDmg += (critRate - 50) * 4;
 
     return {
       atk: atk, interval: interval, pen: pen, critRate: critRate, critDmg: critDmg,
@@ -2545,6 +2566,7 @@
     kills: 0, hp: 0, maxHp: 0, t: 0, acc: 0, hits: 0, tapCombo: 0,
     missStack: 0, colorStacks: 0, heatCount: 0, heatUntil: -1,
     pendingGold: 0, firstPending: false, postKill: 0, postKillNext: 0,
+    autoLeft: 0, autoTotal: 0, autoInit: false, autoSaved: 0,
     dmgWin: [], logs: []
   };
   resetRun(true);
@@ -2555,25 +2577,74 @@
     fight.lastTs = 0; fight.hudTs = 0;
     fight.t = 0; fight.acc = 0; fight.hits = 0; fight.tapCombo = 0;
     fight.missStack = 0; fight.colorStacks = 0; fight.heatCount = 0; fight.heatUntil = -1;
+    fight.autoLeft = 0; fight.autoTotal = 0; fight.autoInit = false; fight.autoSaved = 0;
     fight.dmgWin = [];
     if (!silent) fight.logs = [];
   }
+  function fmtClock(sec){
+    var s = Math.max(0, Math.ceil(sec));
+    var mm = Math.floor(s / 60), ss = s % 60;
+    return (mm < 10 ? '0' : '') + mm + ':' + (ss < 10 ? '0' : '') + ss;
+  }
+  /* 저장할 때 화면의 남은 자동 시간을 사용량으로 반영 */
+  function autoUsedLive(stored){
+    if (!fight.autoInit) return stored;
+    var total = autoTotalSec(mergedItems());
+    return Math.max(0, Math.min(total, Math.round(total - fight.autoLeft)));
+  }
+  function flushAuto(force){
+    if (!fight.autoInit) return;
+    var total = autoTotalSec(mergedItems());
+    var used = Math.max(0, Math.min(total, Math.round(total - fight.autoLeft)));
+    if (used === fight.autoSaved) return;
+    if (!force && Math.abs(used - fight.autoSaved) < 30) return;
+    fight.autoSaved = used;
+    saveRpg(function(r){ r.autoUsedSec = used; },
+      '냉장고 RPG: 자동 타격 ' + fmtClock(Math.max(0, total - used)) + ' 남음');
+  }
   function stopAuto(){ stopBattle(); }
   function startAuto(){ startBattle(); }
+  function renderAutoBtn(){
+    var b = $('#aAutoBtn'), hint = $('#aAutoHint');
+    if (b){
+      if (fight.autoLeft <= 0){
+        b.textContent = '자동 00:00 · 기한내 소비로 +5분';
+        b.classList.remove('on');
+      } else if (fight.on){
+        b.textContent = '⏸ 자동 (' + fmtClock(fight.autoLeft) + ')';
+        b.classList.add('on');
+      } else {
+        b.textContent = '▶ 자동 (' + fmtClock(fight.autoLeft) + ')';
+        b.classList.remove('on');
+      }
+      b.setAttribute('aria-pressed', fight.on ? 'true' : 'false');
+    }
+    if (hint){
+      var meals = mealsInTimeOf(mergedItems());
+      hint.textContent = '자동 타격 ' + fmtClock(fight.autoLeft) + ' 남음 · 기한 내 소비 ' + meals +
+        '건 × 5분' + (fight.on ? ' · 자동 타격 중' : ' · 직접 타격 중');
+    }
+  }
   function startBattle(){
     if (currentView !== 'game') return;
+    if (fight.autoLeft <= 0){
+      toast('⏱ 자동 타격 시간이 없어요 · 기한 내 소비 1건당 +5분', '전투로', function(){ showView('game'); });
+      renderAutoBtn();
+      return;
+    }
     fight.on = true;
     if (fight.timer) clearInterval(fight.timer);
     fight.lastTs = (typeof performance !== 'undefined' ? performance.now() : Date.now());
     fight.timer = setInterval(tick, 90);
-    var b = $('#aAutoBtn');
-    if (b) b.textContent = '⏸ 자동';
+    renderAutoBtn();
   }
-  function stopBattle(){
+  function stopBattle(reason){
+    var was = fight.on;
     fight.on = false;
     if (fight.timer){ clearInterval(fight.timer); fight.timer = null; }
-    var b = $('#aAutoBtn');
-    if (b) b.textContent = '▶ 재개';
+    renderAutoBtn();
+    if (was) flushAuto(true);
+    if (reason === 'timeout') toast('⏱ 자동 타격 시간을 다 썼어요 · 수동 모드로 전환');
   }
   function battleRunning(){ return fight.on; }
 
@@ -2613,6 +2684,20 @@
     fight.lastTs = now;
     fight.t += dt;
     if (fight.postKill > 0) fight.postKill = Math.max(0, fight.postKill - dt);
+
+    /* v1.2: 자동 타격은 보유 시간을 깎아 쓴다. 0초가 되면 자동으로 끄고 수동 모드로 */
+    if (fight.autoLeft > 0){
+      fight.autoLeft = Math.max(0, fight.autoLeft - dt);
+      if (fight.autoLeft <= 0){
+        fight.autoLeft = 0;
+        stopBattle('timeout');
+        return;
+      }
+      flushAuto(false);
+    } else {
+      stopBattle('timeout');
+      return;
+    }
 
     var rpg = rpgState();
     var c = combatOf(rpg, fight);
@@ -2705,12 +2790,12 @@
     if (crit){
       var mult = c.critDmg / 100;
       if (c.has('u-hat-8') && fight.missStack > 0){
-        mult += fight.missStack * 0.25 * c.amp;
+        mult += fight.missStack * 0.15 * c.amp;
         fight.missStack = 0;
       }
       dmg *= mult;
       if (c.has('u-mainWeapon-1')) dmg += c.pen * 1.5 * c.amp;
-      if (c.has('u-rune-17')) fight.pendingGold += 1 + Math.floor(Math.random() * 2);
+      if (c.has('u-rune-17') && Math.random() < 0.5 * c.amp) fight.pendingGold += 1;
       kind = 'crit';
     } else if (c.has('u-hat-8')){
       fight.missStack = Math.min(10, fight.missStack + 1);
@@ -2874,11 +2959,12 @@
     if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, boss, fight)));
     if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
     if ((el = $('#aPen'))) el.textContent = fmtNum(Math.round(c.pen));
-    if ((el = $('#aCrit'))) el.textContent = Math.round(c.critRate) + '%';
-    if ((el = $('#aCritDmg'))) el.textContent = Math.round(c.critDmg) + '%';
+    if ((el = $('#aCrit'))) el.textContent = pctText(c.critRate);
+    if ((el = $('#aCritDmg'))) el.textContent = pctText(c.critDmg);
     renderGearBar(rpg, c);
     updateHud(c);
     updateTapCombo();
+    renderAutoBtn();
   }
 
   function renderGearBar(rpg, c){
@@ -2908,10 +2994,11 @@
       if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, bossAt(fight.kills), fight)));
       if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
       if ((el = $('#aPen'))) el.textContent = fmtNum(Math.round(c.pen));
-      if ((el = $('#aCrit'))) el.textContent = Math.round(c.critRate) + '%';
-      if ((el = $('#aCritDmg'))) el.textContent = Math.round(c.critDmg) + '%';
+      if ((el = $('#aCrit'))) el.textContent = pctText(c.critRate);
+      if ((el = $('#aCritDmg'))) el.textContent = pctText(c.critDmg);
     }
     if ((el = $('#gGoldPill'))) el.textContent = '💰 ' + fmtNum(goldOf(mergedItems(), rpgState())) + ' G';
+    renderAutoBtn();
   }
 
   /* ---------- 화면: 스탯 ---------- */
@@ -2940,8 +3027,8 @@
         if (s.key === 'atk') eff = '1타 ' + fmtNum(Math.round(c.atk));
         else if (s.key === 'spd') eff = '공격 간격 ' + (c.interval / 1000).toFixed(2) + '초';
         else if (s.key === 'pen') eff = '방어 관통 ' + fmtNum(Math.round(c.pen));
-        else if (s.key === 'critRate') eff = '치명타 ' + Math.round(c.critRate) + '%';
-        else eff = '치명타 피해 ' + Math.round(c.critDmg) + '%';
+        else if (s.key === 'critRate') eff = '치명타 ' + pctText(c.critRate);
+        else eff = '치명타 피해 ' + pctText(c.critDmg);
         return '<div class="srow">' +
           '<div class="smain"><b>' + s.icon + ' ' + esc(s.name) + ' <em>+' + own + '</em></b>' +
             '<span><i>' + esc(eff) + '</i> · ' + esc(s.desc) + '</span></div>' +
@@ -2952,8 +3039,9 @@
     }
     if ((el = $('#stReset'))) el.disabled = used === 0;
     if ((el = $('#stPreview'))){
-      el.textContent = '지금 1타 ' + fmtNum(Math.round(c.atk)) + ' · ' + (c.interval / 1000).toFixed(2) +
-        '초마다 자동 공격 · 치명타 ' + Math.round(c.critRate) + '% / ' + Math.round(c.critDmg) + '%';
+      el.textContent = '지금 1타 ' + fmtNum(Math.round(c.atk)) + ' · 타격 간격 ' + (c.interval / 1000).toFixed(2) +
+        '초 · 치명타 ' + pctText(c.critRate) + ' / ' + pctText(c.critDmg) +
+        ' · 자동 타격 ' + fmtClock(autoLeftSec(mergedItems(), rpg)) + ' 남음';
     }
   }
 
@@ -3187,14 +3275,14 @@
       name: u.name, emoji: u.emoji, stats: {}
     } };
   }
-  /* 골드 슬롯 v1.1.1: 비균등(도박성) 분포
-     65% 5~25 G(꽝) · 25% 30~60 G(본전 근접) · 10% 100~160 G(잭팟) → 평균 34 G
-     분해 45 G 상당(유니크 120·레어 40·일반 15)까지 더한 1회 회수 기대값 ≈ 33.2 G < 45 G(10연차 1회 단가) → 무한 골드 복사 차단 */
+  /* 골드 슬롯 v1.2: 비균등(도박성) 분포 — 대부분 꽝, 아주 가끔 초대박
+     82% 1~8 G(꽝) · 13% 12~30 G(소액) · 5% 180~260 G(잭팟) → 평균 ≈ 17.4 G
+     분해 회수(유니크 24 · 레어 8 · 일반 3)까지 더한 1회 회수 기대값 ≈ 10.4 G < 45 G(10연차 1회 단가) → 무한 골드 복사 차단 */
   function goldRoll(){
     var r = Math.random(), g;
-    if (r < 0.65) g = 5 + Math.floor(Math.random() * 21);          /* 꽝 5~25 */
-    else if (r < 0.90) g = 30 + Math.floor(Math.random() * 31);   /* 본전 근접 30~60 */
-    else g = 100 + Math.floor(Math.random() * 61);                /* 잭팟 100~160 */
+    if (r < 0.82) g = 1 + Math.floor(Math.random() * 8);          /* 꽝 1~8 */
+    else if (r < 0.95) g = 12 + Math.floor(Math.random() * 19);   /* 소액 12~30 */
+    else g = 180 + Math.floor(Math.random() * 81);                /* 잭팟 180~260 */
     return { kind: 'gold', amount: g };
   }
 
@@ -3329,7 +3417,7 @@
   }
   function showView(name){
     if (name === currentView){
-      if (name === 'game') startBattle();
+      if (name === 'game') renderBattle();
       return;
     }
     if (currentView === 'game') leaveGame();
@@ -3357,15 +3445,23 @@
     fight.missStack = 0; fight.colorStacks = 0; fight.heatCount = 0; fight.heatUntil = -1;
     fight.dmgWin = [];
     fight.logs = [];
+    /* v1.2: 기본은 수동 타격. 보유한 자동 타격 시간만큼만 [▶ 자동] 사용 가능 */
+    fight.autoTotal = autoTotalSec(mergedItems());
+    fight.autoLeft = autoLeftSec(mergedItems(), rpg);
+    fight.autoSaved = Math.max(0, Math.round(fight.autoTotal - fight.autoLeft));
+    fight.autoInit = true;
     pushLog('▶ Stage ' + (fight.kills + 1) + ' · ' + b.name + ' 등장', 'good');
     pushLog('"' + b.line + '"');
+    pushLog(fight.autoLeft > 0
+      ? '⚡ 직접 타격 모드 · [▶ 자동]은 ' + fmtClock(fight.autoLeft) + ' 가능'
+      : '⚡ 직접 타격 모드 · 기한 내 소비 1건당 자동 타격 +5분', 'good');
     showGtab(state.gtab || 'battle');
     renderBattle(); renderStats(); renderEquip(); renderGacha(); renderCodex();
     renderGame(mergedItems());
-    startBattle();
   }
   function leaveGame(){
     stopBattle();
+    fight.autoInit = false;
     if (!state.sample) writeJSON(K.fight, { kills: fight.kills, hp: Math.max(1, Math.round(fight.hp)) });
     if (fight.pendingGold > 0){
       var pg = fight.pendingGold;
@@ -3407,7 +3503,6 @@
       if (fight.on) stopBattle();
       else startBattle();
     });
-
     if ((el = $('#stList'))) el.addEventListener('click', function(e){
       var b = e.target.closest ? e.target.closest('[data-stat]') : null;
       if (b) investStat(b.getAttribute('data-stat'));
@@ -4571,7 +4666,8 @@
   /* 다른 탭/앱에서 돌아왔을 때 최신으로 */
   document.addEventListener('visibilitychange', function(){
     if (document.visibilityState === 'hidden'){ stopAuto(); return; }
-    if (viewIs('game')) startBattle();
+    /* v1.2: 자동 타격은 사용자가 켜야만 돈다(기본 수동) → 돌아와도 자동으로 켜지 않는다 */
+    if (viewIs('game')) renderBattle();
     if (document.visibilityState === 'visible' && getToken() && !state.busy[detailId]){
       ghFetchDoc().then(function(got){
         var prevAt = state.data && state.data.updated_at;
