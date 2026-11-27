@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T00:45:13+09:00",
+  "updated_at": "2026-11-28T00:45:15+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -163,6 +163,19 @@
         "stats": {
           "atk": 2
         }
+      },
+      {
+        "uid": "g5kh4w0ne6",
+        "id": "gr5kh4wv3t2",
+        "rarity": "rare",
+        "slot": "charm",
+        "name": "고순도 베이킹소다 주머니",
+        "emoji": "🧂",
+        "stats": {
+          "spd": 3,
+          "pen": 2,
+          "critDmg": 3
+        }
       }
     ],
     "equipped": {
@@ -176,7 +189,7 @@
     },
     "stageKills": 264,
     "boss_kills": 26,
-    "goldDelta": 46,
+    "goldDelta": -4,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
