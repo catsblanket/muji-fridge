@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T18:30:32+09:00",
+  "updated_at": "2026-11-27T18:30:34+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -257,9 +257,9 @@
       "rune": "grxbizv3h8",
       "charm": "gs5gotysfy"
     },
-    "stageKills": 165,
+    "stageKills": 166,
     "boss_kills": 16,
-    "goldDelta": 32,
+    "goldDelta": 39,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
@@ -295,7 +295,7 @@
       "boss-2": 2,
       "mon-27": 5,
       "mon-28": 5,
-      "mon-29": 4,
+      "mon-29": 5,
       "boss-3": 2,
       "boss-4": 2,
       "boss-5": 2,
