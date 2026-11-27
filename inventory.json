@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-26T17:57:51+09:00",
+  "updated_at": "2026-11-27T13:09:13+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -30,6 +30,20 @@
       "product_group": "바나나",
       "status": "consumed",
       "consumed_at": "2026-11-26"
+    },
+    {
+      "id": "itm-20261127-001",
+      "name": "바나나",
+      "category": "과일",
+      "storage": "pantry",
+      "quantity": "1개",
+      "purchased_at": "2026-11-27",
+      "expiry_date": "2026-12-04",
+      "expiry_estimated": true,
+      "tip": "",
+      "price": 3000,
+      "product_group": "바나나",
+      "status": "active"
     }
   ],
   "rpg": {
