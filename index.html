@@ -661,6 +661,14 @@
     100%{transform:translateX(0) scale(1)}
   }
   .fireworks{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;border-radius:24px}
+  .fairy{
+    position:absolute;left:23%;top:20%;z-index:4;font-size:28px;line-height:1;pointer-events:none;
+    opacity:0;transform:scale(.6);transition:opacity .25s ease,transform .25s ease;
+    filter:drop-shadow(0 0 10px rgba(160,255,200,.9));
+  }
+  .fairy.on{opacity:1;transform:scale(1);animation:fairyFloat 1.7s ease-in-out infinite}
+  @keyframes fairyFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-9px) rotate(5deg)}}
+  .arena.buffed{box-shadow:inset 0 0 60px rgba(120,255,175,.16),0 8px 24px rgba(0,0,0,.35)}
   .spark{position:absolute;font-size:15px;animation:sparkUp 1.1s ease-out forwards;opacity:0}
   @keyframes sparkUp{0%{opacity:0;transform:translate(0,0) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(var(--sx,0),var(--sy,-60px)) scale(1.1)}}
 
@@ -701,6 +709,7 @@
   .fd.exec{font-size:16px;color:#B6FF9E;text-shadow:0 2px 12px rgba(110,255,80,.45)}
   .fd.heavy{font-size:27px;color:#FF9F43;text-shadow:0 2px 16px rgba(255,110,20,.7),0 2px 8px rgba(0,0,0,.8)}
   .fd.gold{font-size:14px;color:#FFD34D;top:56%;left:50%;font-weight:900}
+  .fd.buff{font-size:19px;color:#B6FFD0;text-shadow:0 2px 14px rgba(90,255,170,.55),0 2px 8px rgba(0,0,0,.8)}
 
   /* 전투 로그 */
   .logbox{
@@ -711,6 +720,7 @@
   .logbox .lg{opacity:.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .logbox .lg:last-child{opacity:1;color:#EADFBF;font-weight:700}
   .logbox .lg.good{color:#9FE7B0}
+  .logbox .lg.buff{color:#8CF0C0;font-weight:800}
   .logbox .lg.big{color:#FFD43B;font-weight:800}
 
   /* 전투 하단 조작 */
@@ -722,19 +732,26 @@
     letter-spacing:-.02em;
   }
   .bbtn:active{transform:translateY(1px);filter:brightness(.96)}
-  #aTapBtn{position:relative;overflow:visible}
-  #aTapBtn.ready{background:linear-gradient(160deg,#FFB27A,#FF8043 58%,#E2451B);color:#2B1305;box-shadow:0 8px 22px rgba(255,120,50,.38), inset 0 -2px 0 rgba(0,0,0,.1)}
+  /* v1.3: 버프 요정 버튼 (기존 [⚡ 직접 타격] 자리) */
+  .bbtn.buff{
+    display:flex;align-items:center;justify-content:center;gap:7px;position:relative;
+    background:linear-gradient(160deg,#D8FBE4,#8FE4B1 58%,#4FC286);color:#0F2A1C;
+    box-shadow:0 8px 20px rgba(80,200,140,.26), inset 0 -2px 0 rgba(0,0,0,.07);
+  }
+  .bbtn.buff.on{
+    background:linear-gradient(160deg,#F2FFF7,#B4F7CE 48%,#37C083);color:#062015;
+    box-shadow:0 0 0 2px rgba(150,255,195,.32),0 10px 26px rgba(60,220,140,.4), inset 0 -2px 0 rgba(0,0,0,.08);
+  }
+  .bbtn.buff.off{
+    background:rgba(255,255,255,.06);color:#8E9885;border:1px solid rgba(255,255,255,.12);
+    box-shadow:none;font-size:12.5px;
+  }
   .bbtn .cb{
-    position:absolute;top:-7px;right:-5px;font-style:normal;font-size:9px;font-weight:900;letter-spacing:-.02em;
-    padding:2px 6px;border-radius:999px;background:rgba(10,9,6,.86);color:#FFD43B;
-    border:1px solid rgba(255,212,59,.38);box-shadow:0 2px 8px rgba(0,0,0,.35);
+    flex:0 0 auto;font-style:normal;font-size:9px;font-weight:900;letter-spacing:-.02em;
+    padding:2px 6px;border-radius:999px;background:rgba(10,9,6,.82);color:#A8F0C0;
+    border:1px solid rgba(150,240,190,.42);
   }
-  .bbtn .cb.ready{background:linear-gradient(160deg,#FF8A3D,#E8341B);color:#FFF6E6;border-color:rgba(255,180,120,.75);animation:cbPulse .9s ease-in-out infinite}
-  @keyframes cbPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-  .bbtn.ghost2{
-    flex:0 0 92px;background:rgba(255,255,255,.07);color:#DED5B9;
-    border:1px solid rgba(255,255,255,.14);box-shadow:none;font-size:12.5px;
-  }
+  .bbtn .cb.on{background:linear-gradient(160deg,#2ED47A,#0F9E56);color:#F2FFF7;border-color:rgba(200,255,220,.8)}
   .battle-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:9px}
   .battle-sum > div{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:6px 2px;text-align:center;min-width:0}
   .battle-sum span{display:block;font-size:8.5px;font-weight:800;color:#8F8875;letter-spacing:-.02em;white-space:nowrap}
@@ -1012,10 +1029,10 @@
     </button>
 
     <button type="button" class="mode-btn battle" id="modeGame">
-      <span class="mb-emoji" aria-hidden="true" id="homeBossEmoji">🌿</span>
+      <span class="mb-emoji" aria-hidden="true" id="homeBossEmoji">🍅</span>
       <span class="mb-main">
         <b>냉장고 빌런 토벌전</b>
-        <span id="homeGameSub">Stage 1 · Lv.1 · 시든 대파 유령</span>
+        <span id="homeGameSub">Stage 1-1 · Lv.1 · 쭈글쭈글 방울토마토</span>
       </span>
       <span class="mb-go" aria-hidden="true">›</span>
     </button>
@@ -1048,13 +1065,13 @@
       <div class="stat exp"><b id="statExp">0</b><span>만료</span></div>
     </div>
     <button type="button" class="game-card" id="gameCard" aria-label="냉장고 빌런 토벌전 열기">
-      <span class="g-boss" id="gBossEmoji" aria-hidden="true">🌿</span>
+      <span class="g-boss" id="gBossEmoji" aria-hidden="true">🍅</span>
       <span class="g-main">
         <span class="g-top">
           <span class="g-lv" id="gLevel">Lv.1</span>
           <span class="g-xp" id="gXP">💰 0 G</span>
         </span>
-        <span class="g-name" id="gBossName">시든 대파 유령</span>
+        <span class="g-name" id="gBossName">쭈글쭈글 방울토마토</span>
         <span class="hpbar" aria-hidden="true"><i id="gHpFill" style="width:0%"></i></span>
         <span class="g-foot">
           <span id="gHpText">XP 0 / 100</span>
@@ -1278,8 +1295,9 @@
       <section class="gpane" id="gpane-battle" aria-label="전투">
         <div class="arena" id="arena">
           <div class="fireworks" id="aSparks" aria-hidden="true"></div>
+          <div class="fairy" id="aFairy" aria-hidden="true">🧚</div>
           <div class="arena-top">
-            <span class="achip stage" id="aStage">Stage 1</span>
+            <span class="achip stage" id="aStage">Stage 1-1</span>
             <span class="achip" id="aDef">🛡 방어 0</span>
             <span class="achip dps" id="aDps">DPS 0</span>
           </div>
@@ -1292,14 +1310,14 @@
             </div>
             <div class="boss-col">
               <div class="boss-halo" aria-hidden="true"></div>
-              <div class="boss-ava" id="aBossEmoji" aria-hidden="true">🌿</div>
+              <div class="boss-ava" id="aBossEmoji" aria-hidden="true">🍅</div>
             </div>
           </div>
           <div class="boss-meta">
-            <b id="aBossName">시든 대파 유령</b>
-            <span class="cyc hidden" id="aCycle">2회차</span>
+            <b id="aBossName">쭈글쭈글 방울토마토</b>
+            <span class="cyc hidden" id="aCycle">Loop 2</span>
           </div>
-          <p class="boss-line" id="aBossLine">"국물 한 번만 더 우릴 수 있었는데..."</p>
+          <p class="boss-line" id="aBossLine">"터지기 일보 직전이라고!"</p>
           <div class="hp2" aria-hidden="true"><i id="aHpFill" style="width:100%"></i></div>
           <div class="hptxt"><span id="aHpText">HP —</span><span class="t">경과 <span id="aTime">0.0s</span></span></div>
           <div class="floats" id="aFloats" aria-hidden="true"></div>
@@ -1308,10 +1326,11 @@
         <div class="logbox" id="aLog" aria-live="polite"></div>
 
         <div class="battlebtns">
-          <button type="button" class="bbtn" id="aTapBtn"><span id="aTapLabel">⚡ 직접 타격</span><i class="cb" id="aTapCombo" aria-live="polite">0/10</i></button>
-          <button type="button" class="bbtn ghost2" id="aAutoBtn" aria-pressed="false">▶ 자동 (00:00)</button>
+          <button type="button" class="bbtn buff" id="aBuffBtn" aria-pressed="false" aria-label="신선 요정 싱싱 소환">
+            <span id="aBuffLabel">🧚 신선 요정 싱싱 소환 (00:00)</span><i class="cb" id="aBuffMul">×2.0</i>
+          </button>
         </div>
-        <p class="muted" id="aAutoHint" style="margin:6px 2px 0;text-align:center">자동 타격 --:-- 남음 · 기한 내 소비 1건당 +5분</p>
+        <p class="muted" id="aBuffHint" style="margin:6px 2px 0;text-align:center">⚡ 상시 자동 전투 · 기한 내 소비 1건당 버프 요정 +1분</p>
 
         <div class="battle-sum">
           <div><span>1타</span><b id="aHitDmg">10</b></div>
@@ -1334,7 +1353,7 @@
         <div id="stList"></div>
         <button type="button" class="gbtn-sub" id="stReset" style="margin-top:10px">🔄 스탯 초기화 (무료)</button>
         <p class="muted" style="margin:9px 2px 0;text-align:center" id="stPreview"></p>
-        <p class="muted" style="margin:6px 2px 0;text-align:center">구매가격 100원 = 1 XP · 100 XP마다 레벨업(+3 P) · 초기화해도 포인트는 그대로</p>
+        <p class="muted" style="margin:6px 2px 0;text-align:center">구매가격 100원 = 1 XP · 100 XP마다 레벨업(+5 P) · 초기화해도 포인트는 그대로</p>
       </section>
 
       <!-- 장비 -->
@@ -1359,14 +1378,17 @@
           </div>
         </div>
         <div class="rates" id="rateList"></div>
-        <p class="muted" style="margin:8px 2px 0;text-align:center">골드 슬롯: 82% 1~8 G · 13% 12~30 G · 5% 180~260 G 잭팟 (평균 17 G)</p>
-        <p class="muted" style="margin:10px 2px 0;text-align:center">골드는 빌런 처치·가챠·장비 분해로만 벌 수 있어요. 기한 안에 먹은 품목 1개당 자동 타격 5분을 드려요.</p>
+        <p class="muted" style="margin:8px 2px 0;text-align:center">골드 슬롯: 82% 2~12 G · 13% 18~45 G · 5% 270~390 G 잭팟 (평균 26 G)</p>
+        <p class="muted" style="margin:10px 2px 0;text-align:center">골드는 빌런 처치·가챠·장비 분해·품목 등록(1건당 25 G)으로 벌 수 있어요. 기한 안에 먹은 품목 1개당 버프 요정 1분을 드려요.</p>
       </section>
 
       <!-- 도감 -->
-      <section class="gpane hidden" id="gpane-codex" aria-label="보스 도감">
-        <div class="dsec" style="margin-top:8px">냉장고 빌런 도감 <small id="codexSum">0 / 12</small></div>
-        <div id="codexList"></div>
+      <section class="gpane hidden" id="gpane-codex" aria-label="빌런 도감">
+        <div class="dsec" style="margin-top:8px">냉장고 빌런 도감 <small id="codexSum">보스 0/10 · 일반 0/30</small></div>
+        <div class="dsec" style="margin-top:6px">👑 보스 10종 <small>Stage x-10</small></div>
+        <div id="codexBossList"></div>
+        <div class="dsec" style="margin-top:12px">👾 일반 몬스터 30종 <small>Stage x-1 ~ x-9 순환</small></div>
+        <div id="codexMonList"></div>
       </section>
     </div>
 
@@ -1454,7 +1476,7 @@
   'use strict';
 
   /* ==== 무지가 만드는 영역 시작 ==== */
-  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-26T17:57:51+09:00"/*__UPDATED_AT_END__*/;
+  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-27T14:32:00+09:00"/*__UPDATED_AT_END__*/;
   var EMBEDDED_ITEMS = /*__ITEMS_START__*/[
   {
     "id": "itm-20261125-001",
@@ -1488,6 +1510,7 @@
   }
 ]/*__ITEMS_END__*/;
   var EMBEDDED_RPG = /*__RPG_START__*/{
+  "v": 4,
   "stats": {
     "atk": 0,
     "spd": 0,
@@ -1496,14 +1519,44 @@
     "critDmg": 0
   },
   "owned": [
-    "w-wood",
-    "a-glove"
+    {
+      "uid": "L-w-wood",
+      "id": "w-wood",
+      "rarity": "common",
+      "slot": "mainWeapon",
+      "name": "무딘 과도",
+      "emoji": "🔪",
+      "stats": {
+        "atk": 3
+      }
+    },
+    {
+      "uid": "L-a-glove",
+      "id": "a-glove",
+      "rarity": "common",
+      "slot": "ring",
+      "name": "노란 고무줄",
+      "emoji": "🟡",
+      "stats": {
+        "spd": 2
+      }
+    }
   ],
   "equipped": {
-    "weapon": "w-wood",
-    "accessory": "a-glove"
+    "mainWeapon": "L-w-wood",
+    "subWeapon": null,
+    "hat": null,
+    "necklace": null,
+    "ring": "L-a-glove",
+    "rune": null,
+    "charm": null
   },
-  "boss_kills": 3
+  "stageKills": 0,
+  "boss_kills": 0,
+  "goldDelta": 200,
+  "buffUsedSec": 0,
+  "bonusXp": 370,
+  "kills": {}
 }/*__RPG_END__*/;
   /* ==== 무지가 만드는 영역 끝 ==== */
 
@@ -2043,20 +2096,24 @@
 
 
   /* =====================================================================
-     냉장고 RPG v1.2 — 세로형 수동 타격 토벌전 + 누적 자동 타격
+     냉장고 RPG v1.3 — 상시 자동 전투 + 버프 요정 · Stage 1-1 ~ 10-10
      ===================================================================== */
   var RPG = {
     XP_PER_LEVEL: 100,
-    POINTS_PER_LEVEL: 3,
-    AUTO_SEC_PER_MEAL: 300,      /* v1.2: 기한 내 소비 1품목 = 자동 타격 5분 */
+    POINTS_PER_LEVEL: 5,          /* v1.3: 레벨업당 5점 */
+    BUFF_SEC_PER_MEAL: 60,        /* v1.3: 기한 내 소비 1품목 = 버프 요정 1분 */
+    BUFF_BASE_MUL: 2.0,           /* v1.3: 버프 요정 기본 공격 데미지 2.0배 */
+    BUFF_MUL_PER_5LV: 0.5,        /* v1.3: 5레벨마다 +0.5배 (Lv.5 ×2.5, Lv.10 ×3.0 ...) */
+    GOLD_PER_ITEM: 25,            /* v1.3: 품목 등록 1건당 +25 G */
     BASE_ATK: 10,
-    BASE_INTERVAL: 1000,         /* v1.2: 기본 공격 간격 1.00초 */
-    SPD_STEP: 15,                /* v1.2: 포인트당 -15ms (기존 60ms의 25%) */
+    BASE_INTERVAL: 1000,          /* v1.2: 기본 공격 간격 1.00초 */
+    SPD_STEP: 15,                 /* v1.2: 포인트당 -15ms */
     MIN_INTERVAL: 190,
     CRIT_RATE_BASE: 5,
-    CRIT_RATE_STEP: 0.75,        /* v1.2: 포인트당 +0.75% (기존 3%의 25%) */
+    CRIT_RATE_STEP: 0.75,
     CRIT_MULT_BASE: 150,
-    CRIT_DMG_STEP: 2.5,          /* v1.2: 포인트당 +2.5% (기존 10%의 25%) */
+    CRIT_DMG_STEP: 2.5,
+    STAGES_PER_LOOP: 100,         /* v1.3: 10열 × 10행 = 100스테이지 = 1루프 */
     GACHA_1: 50,
     GACHA_10: 450
   };
@@ -2091,27 +2148,70 @@
   }
 
   var RARITY = {
-    common: { name: '일반', sell: 3, cls: 'common' },
-    rare:   { name: '레어', sell: 8, cls: 'rare' },
-    unique: { name: '유니크', sell: 24, cls: 'unique' }
+    common: { name: '일반', sell: 5, cls: 'common' },
+    rare:   { name: '레어', sell: 12, cls: 'rare' },
+    unique: { name: '유니크', sell: 36, cls: 'unique' }
   };
   var RARITY_RANK = { common: 1, rare: 2, unique: 3 };
 
-  /* ---------- 보스 12종 ---------- */
-  var BOSSES = [
-    { name: '시든 대파 유령', emoji: '🌿', line: '국물 한 번만 더 우릴 수 있었는데...', hp: 90,  def: 0,  gold: 8,  bg: '#26301F', aura: 'rgba(150,200,110,.34)', tone: '#A8D67A' },
-    { name: '싹 난 감자 군주', emoji: '🥔', line: '어둠 속에서 조용히 세력을 키웠지.', hp: 118, def: 1,  gold: 9,  bg: '#2A2418', aura: 'rgba(178,146,92,.32)',  tone: '#CBA96E' },
-    { name: '유통기한 지난 두부 슬라임', emoji: '⬜', line: '아직... 안 상한 것 같기도 하고...', hp: 150, def: 2,  gold: 10,  bg: '#2A2822', aura: 'rgba(210,205,188,.28)', tone: '#E4DFD0' },
-    { name: '곰팡이 피어난 식빵 기사', emoji: '🍞', line: '포자는 내 명예의 훈장이다!', hp: 190, def: 3,  gold: 12,  bg: '#232A26', aura: 'rgba(120,200,180,.3)',  tone: '#8FD3C0' },
-    { name: '굳어버린 밥알 골렘', emoji: '🍚', line: '전자레인지 없인 날 뚫을 수 없다.', hp: 240, def: 8,  gold: 13,  bg: '#282825', aura: 'rgba(220,218,205,.26)', tone: '#E8E6DC' },
-    { name: '끈적한 소스병 히드라', emoji: '🧴', line: '문쪽 선반에 갇힌 지 2년째... 오늘 터진다.', hp: 320, def: 5,  gold: 14,  bg: '#2E1A1A', aura: 'rgba(220,90,80,.32)',   tone: '#E0645A' },
-    { name: '시큼한 묵은지 군단장', emoji: '🥬', line: '익을수록 강해지는 법! 뚜껑 열면 다친다!', hp: 410, def: 6,  gold: 15,  bg: '#2E1417', aura: 'rgba(200,60,80,.3)',    tone: '#D8455A' },
-    { name: '냉장실 뒷벽 서리 거인', emoji: '🧊', line: '내 뒤엔 3년 전 산 명란젓이 잠들어 있다.', hp: 520, def: 16, gold: 16,  bg: '#16222E', aura: 'rgba(120,190,240,.32)', tone: '#7FC0F0' },
-    { name: '정체불명의 검은 비닐봉지', emoji: '🛍️', line: '열어보기 전까진 슈뢰딩거의 반찬이지.', hp: 660, def: 9,  gold: 18,  bg: '#18181C', aura: 'rgba(170,150,230,.28)', tone: '#B9A6E8' },
-    { name: '화석화된 냉동실 떡 블록', emoji: '🍡', line: '식칼도 부러뜨리는 영하 20도의 고밀도 탄수화물.', hp: 830, def: 24, gold: 19,  bg: '#1C2026', aura: 'rgba(200,220,240,.3)',  tone: '#D9E6F2' },
-    { name: '부풀어 오른 요거트 폭탄', emoji: '🥛', line: '건드리면 3초 뒤에 폭발할지도?', hp: 1020, def: 11, gold: 20, bg: '#2B2A1C', aura: 'rgba(255,210,80,.3)',   tone: '#FFD34D' },
-    { name: '[최종] 심연의 타파웨어 마왕', emoji: '🍱', line: '설거지를 열 번 해도 내 붉은 자국은 지워지지 않는다.', hp: 1250, def: 18, gold: 24, bg: '#241018', aura: 'rgba(255,130,60,.34)',  tone: '#FF8A3D' }
+  /* ---------- v1.3: 일반 몬스터 30종 (미지 디자인) ---------- */
+  var MONSTERS = [
+    { name: '쭈글쭈글 방울토마토', emoji: '🍅', line: '터지기 일보 직전이라고!', tone: '#D94E41' },
+    { name: '물러진 오이 조각', emoji: '🥒', line: '반만 잘라 쓰고 날 잊었지...', tone: '#6B9E5B' },
+    { name: '시들시들 상추 잎', emoji: '🥬', line: '쌈 싸 먹기엔 이미 늦었어.', tone: '#7FB069' },
+    { name: '멍든 바나나 껍질', emoji: '🍌', line: '검은 점이 늘수록 강해진다구.', tone: '#C9A227' },
+    { name: '말라비틀어진 당근 꼬투리', emoji: '🥕', line: '카레에 들어갈 줄 알았는데...', tone: '#D97236' },
+    { name: '색 바랜 레몬 반쪽', emoji: '🍋', line: '신맛만 남고 수분은 증발했어.', tone: '#E2C044' },
+    { name: '갈변한 사과 슬라이스', emoji: '🍎', line: '공기랑 만난 죄밖에 없어.', tone: '#A85D44' },
+    { name: '까먹은 깐마늘 알', emoji: '🧄', line: '바닥 구석에서 굴러다닌 지 3주째!', tone: '#D8CFC2' },
+    { name: '눈 뜬 양파 껍질', emoji: '🧅', line: '껍질만 벗기면 나도 울릴 수 있어.', tone: '#B57C4A' },
+    { name: '굳어버린 치즈 자투리', emoji: '🧀', line: '비닐만 덮어두면 다 되는 줄 알았지?', tone: '#E0A938' },
+    { name: '미끄덩한 달걀 흰자', emoji: '🥚', line: '껍질 금 간 틈으로 탈출했지롱.', tone: '#EAE3D2' },
+    { name: '뭉쳐버린 소시지 꼬마', emoji: '🌭', line: '하나만 굽고 나머진 방치됐어.', tone: '#C45A4A' },
+    { name: '기름 뜬 베이컨 조각', emoji: '🥓', line: '한 줄만 굽고 봉지째 방치됐어.', tone: '#B04A3F' },
+    { name: '식어버린 치킨 조각', emoji: '🍗', line: '에어프라이어 돌리기 귀찮았지?', tone: '#B87333' },
+    { name: '눅눅한 감자튀김 병사', emoji: '🍟', line: '바삭했던 시절은 기억도 안 나.', tone: '#C9A959' },
+    { name: '딱딱한 바게트 파편', emoji: '🥖', line: '던지면 창문도 깰 수 있을걸?', tone: '#C2955D' },
+    { name: '퍼져버린 우동 면발', emoji: '🍜', line: '국물 다 마시고 나만 남겼잖아.', tone: '#D9C79E' },
+    { name: '말라붙은 피자 꼬다리', emoji: '🍕', line: '치즈 없는 끝부분은 언제나 내 몫.', tone: '#D46A43' },
+    { name: '설탕 결정 낀 잼 병', emoji: '🍓', line: '뚜껑이 안 열려서 6개월째 동면 중.', tone: '#A63446' },
+    { name: '덩어리진 마요네즈 유령', emoji: '🫙', line: '거꾸로 세워놔도 안 내려간다!', tone: '#E8DFC5' },
+    { name: '굳은 고추장 뚜껑 마개', emoji: '🌶️', line: '세게 짜면 갑자기 폭발할지도 몰라.', tone: '#B83227' },
+    { name: '짠맛 덩어리 간장 종지', emoji: '🥣', line: '랩도 안 씌워서 냉장고 냄새 흡수 중.', tone: '#3D2B24' },
+    { name: '밍밍해진 탄산수 병', emoji: '🫧', line: '김 빠진 내 마음을 알아?', tone: '#7EB8DA' },
+    { name: '바닥만 남은 우유 팩', emoji: '🥛', line: '한 모금 남았을 때 제일 무섭지.', tone: '#DCE4E8' },
+    { name: '쉰내 풍기는 막걸리 병', emoji: '🍶', line: '흔들면 뚜껑이 로켓처럼 날아갈걸.', tone: '#C7C3B8' },
+    { name: '녹았다 다시 언 아이스크림', emoji: '🍨', line: '서리 결정이 갑옷처럼 덮였어.', tone: '#A9C6D9' },
+    { name: '껍질 들러붙은 만두 덩어리', emoji: '🥟', line: '한 몸처럼 엉겨 붙어서 안 떨어져!', tone: '#D4CFC4' },
+    { name: '정체 모를 냉동 국물 팩', emoji: '🧊', line: '해동하기 전엔 무슨 국인지 아무도 몰라.', tone: '#6E9DC4' },
+    { name: '반쯤 뜯긴 일회용 소스 팩', emoji: '🥡', line: '배달 올 때마다 서랍에 쌓여만 가.', tone: '#C94C4C' },
+    { name: '녹았다 굳은 버터 조각', emoji: '🧈', line: '은박지가 찢어져서 냄새 다 배었어.', tone: '#E6C86E' }
   ];
+
+  /* ---------- v1.3: 보스 10종 (Stage 1-10 ~ 10-10, 미지 디자인) ---------- */
+  var BOSSES = [
+    { name: '시든 대파 유령', emoji: '🌿', line: '국물 한 번만 더 우릴 수 있었는데...', tone: '#8FA876', bg: '#26301F', aura: 'rgba(143,168,118,.32)' },
+    { name: '싹 난 감자 군주', emoji: '🥔', line: '어둠 속에서 조용히 세력을 키웠지.', tone: '#7D6252', bg: '#2A2418', aura: 'rgba(125,98,82,.34)' },
+    { name: '유통기한 지난 두부 슬라임', emoji: '⬜', line: '아직... 안 상한 것 같기도 하고...', tone: '#D6D2C4', bg: '#2A2822', aura: 'rgba(214,210,196,.26)' },
+    { name: '곰팡이 피어난 식빵 기사', emoji: '🍞', line: '포자는 내 명예의 훈장이다!', tone: '#5B9A8B', bg: '#232A26', aura: 'rgba(91,154,139,.32)' },
+    { name: '굳어버린 밥알 골렘', emoji: '🍚', line: '전자레인지 없인 날 뚫을 수 없다.', tone: '#C5C6C7', bg: '#282825', aura: 'rgba(197,198,199,.24)' },
+    { name: '끈적한 소스병 히드라', emoji: '🧴', line: '문쪽 선반에 갇힌 지 2년째... 오늘 터진다.', tone: '#8B1E24', bg: '#2E1A1A', aura: 'rgba(139,30,36,.42)' },
+    { name: '시큼한 묵은지 군단장', emoji: '🥬', line: '익을수록 강해지는 법! 뚜껑 열면 다친다!', tone: '#A61C28', bg: '#2E1417', aura: 'rgba(166,28,40,.38)' },
+    { name: '냉장실 뒷벽 서리 거인', emoji: '❄️', line: '내 뒤엔 3년 전 산 명란젓이 잠들어 있다.', tone: '#5DA9E9', bg: '#16222E', aura: 'rgba(93,169,233,.32)' },
+    { name: '화석화된 냉동실 떡 블록', emoji: '🍡', line: '식칼도 부러뜨리는 영하 20도의 고밀도 탄수화물.', tone: '#9AA5B1', bg: '#1C2026', aura: 'rgba(154,165,177,.3)' },
+    { name: '심연의 타파웨어 마왕', emoji: '🍱', line: '설거지를 열 번 해도 내 붉은 자국은 지워지지 않는다.', tone: '#E85D04', bg: '#241018', aura: 'rgba(232,93,4,.34)' }
+  ];
+
+  /* v1.2 도감(보스 12종)에서 넘어올 때 처치 기록을 이름으로 잇는다 */
+  var OLD_BOSS_NAMES = [
+    '시든 대파 유령', '싹 난 감자 군주', '유통기한 지난 두부 슬라임', '곰팡이 피어난 식빵 기사',
+    '굳어버린 밥알 골렘', '끈적한 소스병 히드라', '시큼한 묵은지 군단장', '냉장실 뒷벽 서리 거인',
+    '정체불명의 검은 비닐봉지', '화석화된 냉동실 떡 블록', '부풀어 오른 요거트 폭탄', '[최종] 심연의 타파웨어 마왕'
+  ];
+  function bossIdxByName(n){
+    for (var i = 0; i < BOSSES.length; i++) if (BOSSES[i].name === n) return i;
+    return -1;
+  }
 
   /* ---------- 일반 / 레어 장비 이름 풀 ---------- */
   var COMMON_POOL = {
@@ -2257,13 +2357,15 @@
     var rawVer = Math.floor(Number(raw.v) || 0);
     var legacyMode = !(rawVer >= 2);
     var out = {
-      v: 3,
+      v: 4,
       stats: {},
       owned: [],
       equipped: { mainWeapon: null, subWeapon: null, hat: null, necklace: null, ring: null, rune: null, charm: null },
+      stageKills: 0,
       boss_kills: 0,
       goldDelta: 0,
-      autoUsedSec: 0,
+      buffUsedSec: 0,
+      bonusXp: 0,
       kills: {}
     };
 
@@ -2329,19 +2431,34 @@
     }
     /* v1.2: '기한 내 소비 = 골드' 폐지 → 예전 음수 잔액은 0 G로 안전 정산(마이너스 골드 방지) */
     if (rawVer < 3 && out.goldDelta < 0) out.goldDelta = 0;
-    /* v1.2: 자동 타격 누적 사용 시간(초) */
-    out.autoUsedSec = Math.max(0, Math.round(Number(raw.autoUsedSec) || 0));
+    /* v1.3: 버프 요정 사용 시간(초) — v1.2 이하는 0에서 시작 */
+    out.buffUsedSec = Math.max(0, Math.round(Number(raw.buffUsedSec) || 0));
+    /* v1.3: 관리자가 넣어 주는 보너스 XP(테스트·이벤트용) */
+    out.bonusXp = Math.max(0, Math.round(Number(raw.bonusXp) || 0));
+    /* v1.3: 스테이지 진행(누적 처치). 없으면 v1.2의 boss_kills에서 잇는다 */
+    var rawStage = Number(raw.stageKills);
+    if (isFinite(rawStage) && rawStage >= 0) out.stageKills = Math.floor(rawStage);
+    else out.stageKills = Math.max(0, Math.floor(Number(raw.boss_kills) || 0));
 
     var km = (raw.kills && typeof raw.kills === 'object') ? raw.kills : null;
     if (km){
+      var killsV4 = {};
       Object.keys(km).forEach(function(k){
         var v = Math.floor(Number(km[k]) || 0);
-        if (v > 0) out.kills[String(k)] = v;
+        if (v <= 0) return;
+        if (/^(boss|mon)-\d+$/.test(k)){ killsV4[k] = (killsV4[k] || 0) + v; return; }
+        /* v1.2 이하 숫자 키 = 12종 보스 인덱스 → 이름으로 새 10종 인덱스에 잇는다 */
+        var oldName = OLD_BOSS_NAMES[Math.floor(Number(k))];
+        var ni = oldName ? bossIdxByName(oldName) : -1;
+        if (ni >= 0) killsV4['boss-' + ni] = (killsV4['boss-' + ni] || 0) + v;
       });
-    } else {
-      for (var i = 0; i < out.boss_kills; i++){
-        var idx = String(i % BOSSES.length);
-        out.kills[idx] = (out.kills[idx] || 0) + 1;
+      out.kills = killsV4;
+    } else if (out.boss_kills > 0){
+      /* kills 기록이 없던 예전 데이터: 보스 처치 수만큼 10종 보스를 차례로 채운다 */
+      var seedN = Math.min(out.boss_kills, 100);
+      for (var ki = 0; ki < seedN; ki++){
+        var kk = 'boss-' + (ki % BOSSES.length);
+        out.kills[kk] = (out.kills[kk] || 0) + 1;
       }
     }
     return out;
@@ -2367,8 +2484,8 @@
     var base = rpgState();
     mutator(base);
     base = normRpg(base);
-    base.v = 3;
-    base.autoUsedSec = autoUsedLive(base.autoUsedSec);
+    base.v = 4;
+    base.buffUsedSec = buffUsedLive(base.buffUsedSec);
     if (state.sample){
       state.demoRpg = base;
       return Promise.resolve({ ok: true, demo: true });
@@ -2402,13 +2519,15 @@
   }
 
   /* ---------- 파생 수치 ---------- */
-  function xpOf(items){
+  function xpOf(items, rpg){
+    rpg = rpg || rpgState();
     var xp = 0;
     (items || []).forEach(function(it){
       if (it.status === 'discarded') return;
       if (!(it.price > 0)) return;
       xp += Math.floor(it.price / 100);
     });
+    xp += Math.max(0, Math.round(Number(rpg && rpg.bonusXp) || 0));
     return xp;
   }
   function levelOf(xp){ return 1 + Math.floor(xp / RPG.XP_PER_LEVEL); }
@@ -2423,37 +2542,99 @@
     });
     return n;
   }
-  /* v1.2: 기한 내 소비 1건 = 자동 타격 300초(5분) 누적 */
-  function autoTotalSec(items){
-    return mealsInTimeOf(items) * RPG.AUTO_SEC_PER_MEAL;
+  /* v1.3: 기한 내 소비 1건 = 버프 요정 60초(1분) 누적 */
+  function buffTotalSec(items){
+    return mealsInTimeOf(items) * RPG.BUFF_SEC_PER_MEAL;
   }
-  function autoLeftSec(items, rpg){
-    var used = rpg ? Math.max(0, Math.round(Number(rpg.autoUsedSec) || 0)) : 0;
-    return Math.max(0, autoTotalSec(items) - used);
+  function buffLeftSec(items, rpg){
+    var used = rpg ? Math.max(0, Math.round(Number(rpg.buffUsedSec) || 0)) : 0;
+    return Math.max(0, buffTotalSec(items) - used);
   }
+  /* v1.3: 버프 요정 배율 — 2.0 + floor(레벨/5) × 0.5 (Lv.5 ×2.5 · Lv.10 ×3.0) */
+  function buffMulOf(level){
+    var lv = Math.max(0, Math.floor(Number(level) || 0));
+    return RPG.BUFF_BASE_MUL + Math.floor(lv / 5) * RPG.BUFF_MUL_PER_5LV;
+  }
+  function buffMulNow(){
+    return buffMulOf(levelOf(xpOf(mergedItems())));
+  }
+  function buffActive(){ return !!(fight.buffOn && fight.buffLeft > 0); }
   function goldOf(items, rpg){
-    /* v1.2: 기한 내 소비 골드 보상 폐지 · 보유 골드 = goldDelta(최소 0 G) */
+    /* v1.3: 보유 골드 = goldDelta + 등록 품목 1건당 25 G (최소 0 G) */
     var delta = rpg ? Math.round(Number(rpg.goldDelta) || 0) : 0;
-    return Math.max(0, delta);
+    var n = (items || []).length;
+    return Math.max(0, delta + n * RPG.GOLD_PER_ITEM);
   }
   function goldNoteFor(it){
     var today = todayStr(0);
-    if (it && it.expiry_date && today > it.expiry_date) return ' · 기한이 지나서 자동 타격은 없어요';
-    return ' · ⏱ 자동 타격 +' + Math.round(RPG.AUTO_SEC_PER_MEAL / 60) + '분';
+    if (it && it.expiry_date && today > it.expiry_date) return ' · 기한이 지나서 버프 요정은 없어요';
+    return ' · 🧚 버프 요정 +' + Math.round(RPG.BUFF_SEC_PER_MEAL / 60) + '분';
   }
 
-  function bossAt(kills){
+  /* ---------- v1.3: Stage 1-1 ~ 10-10 (100단계 = 1루프) ---------- */
+  var MON_HP_COL    = [30, 42, 58, 78, 104, 136, 176, 224, 280, 346];
+  var MON_DEF_COL   = [0, 1, 2, 3, 5, 7, 10, 13, 16, 20];
+  var BOSS_HP_COL   = [90, 140, 200, 280, 380, 500, 650, 830, 1040, 1280];
+  var BOSS_DEF_COL  = [0, 2, 4, 6, 9, 12, 16, 20, 24, 30];
+  var BOSS_GOLD_COL = [12, 15, 17, 20, 23, 26, 28, 31, 34, 36];
+
+  function hexParts(hex){
+    var h = String(hex || '').replace('#', '');
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    var n = parseInt(h, 16);
+    if (!isFinite(n)) return [120, 160, 110];
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  function darkOf(hex, f){
+    var p = hexParts(hex);
+    return 'rgb(' + Math.round(p[0] * f) + ',' + Math.round(p[1] * f) + ',' + Math.round(p[2] * f) + ')';
+  }
+  function auraOf(hex){
+    var p = hexParts(hex);
+    return 'rgba(' + p[0] + ',' + p[1] + ',' + p[2] + ',.3)';
+  }
+
+  function stageAt(kills){
     var k = Math.max(0, Math.floor(Number(kills) || 0));
-    var idx = k % BOSSES.length;
-    var cycle = Math.floor(k / BOSSES.length);
-    var b = BOSSES[idx];
-    return {
-      idx: idx, cycle: cycle, name: b.name, emoji: b.emoji, line: b.line,
-      bg: b.bg, aura: b.aura, tone: b.tone,
-      hp: Math.round(b.hp * (1 + cycle * 0.85)),
-      def: b.def + cycle * 4,
-      gold: Math.round(b.gold + cycle * 4.4)
-    };
+    var loop = Math.floor(k / RPG.STAGES_PER_LOOP) + 1;
+    var inLoop = k % RPG.STAGES_PER_LOOP;
+    var col = Math.floor(inLoop / 10) + 1;      /* 1 ~ 10 */
+    var row = (inLoop % 10) + 1;                /* 1 ~ 10 (10 = 보스) */
+    var isBoss = (row === 10);
+    var up = loop - 1;
+    var out;
+    if (isBoss){
+      var b = BOSSES[col - 1];
+      out = {
+        name: b.name, emoji: b.emoji, line: b.line, bg: b.bg, aura: b.aura, tone: b.tone,
+        hp: Math.round(BOSS_HP_COL[col - 1] * (1 + up * 0.9)),
+        def: BOSS_DEF_COL[col - 1] + up * 6,
+        gold: BOSS_GOLD_COL[col - 1] + up * 7
+      };
+      out.bossIdx = col - 1;
+      out.monIdx = -1;
+      out.killKey = 'boss-' + (col - 1);
+    } else {
+      var mi = ((col - 1) * 9 + (row - 1)) % MONSTERS.length;
+      var m = MONSTERS[mi];
+      out = {
+        name: m.name, emoji: m.emoji, line: m.line,
+        bg: darkOf(m.tone, 0.26), aura: auraOf(m.tone), tone: m.tone,
+        hp: Math.round(MON_HP_COL[col - 1] * (1 + up * 0.75)),
+        def: MON_DEF_COL[col - 1] + up * 4,
+        gold: Math.max(1, Math.round(BOSS_GOLD_COL[col - 1] * 0.2)) + Math.min(2, up)
+      };
+      out.bossIdx = -1;
+      out.monIdx = mi;
+      out.killKey = 'mon-' + mi;
+    }
+    out.kills = k;
+    out.loop = loop;
+    out.col = col;
+    out.row = row;
+    out.isBoss = isBoss;
+    out.label = 'Stage ' + col + '-' + row;
+    return out;
   }
 
   /* ---------- 장비 → 전투 수치 ---------- */
@@ -2559,14 +2740,20 @@
     if (f && f.heatUntil > f.t) dmg *= 1.15;
     return dmg;
   }
+  /* v1.3: 화면에 보여 줄 1타 데미지 (버프 요정 반영) */
+  function shownHitDamage(c, stage){
+    var d = baseHitDamage(c, stage, fight);
+    if (buffActive()) d *= buffMulNow();
+    return Math.round(d);
+  }
 
-  /* ---------- 전투 런타임 ---------- */
+  /* ---------- 전투 런타임 (v1.3: 상시 자동 전투 + 버프 요정) ---------- */
   var fight = {
     on: false, timer: null, lastTs: 0, hudTs: 0,
-    kills: 0, hp: 0, maxHp: 0, t: 0, acc: 0, hits: 0, tapCombo: 0,
+    kills: 0, hp: 0, maxHp: 0, t: 0, acc: 0, hits: 0,
     missStack: 0, colorStacks: 0, heatCount: 0, heatUntil: -1,
     pendingGold: 0, firstPending: false, postKill: 0, postKillNext: 0,
-    autoLeft: 0, autoTotal: 0, autoInit: false, autoSaved: 0,
+    buffLeft: 0, buffTotal: 0, buffOn: false, buffInit: false, buffSaved: 0,
     dmgWin: [], logs: []
   };
   resetRun(true);
@@ -2575,9 +2762,8 @@
     fight.on = false;
     if (fight.timer){ clearInterval(fight.timer); fight.timer = null; }
     fight.lastTs = 0; fight.hudTs = 0;
-    fight.t = 0; fight.acc = 0; fight.hits = 0; fight.tapCombo = 0;
+    fight.t = 0; fight.acc = 0; fight.hits = 0;
     fight.missStack = 0; fight.colorStacks = 0; fight.heatCount = 0; fight.heatUntil = -1;
-    fight.autoLeft = 0; fight.autoTotal = 0; fight.autoInit = false; fight.autoSaved = 0;
     fight.dmgWin = [];
     if (!silent) fight.logs = [];
   }
@@ -2586,83 +2772,85 @@
     var mm = Math.floor(s / 60), ss = s % 60;
     return (mm < 10 ? '0' : '') + mm + ':' + (ss < 10 ? '0' : '') + ss;
   }
-  /* 저장할 때 화면의 남은 자동 시간을 사용량으로 반영 */
-  function autoUsedLive(stored){
-    if (!fight.autoInit) return stored;
-    var total = autoTotalSec(mergedItems());
-    return Math.max(0, Math.min(total, Math.round(total - fight.autoLeft)));
+  /* 저장할 때 화면의 남은 버프 시간을 사용량으로 반영 */
+  function buffUsedLive(stored){
+    if (!fight.buffInit) return stored;
+    var total = buffTotalSec(mergedItems());
+    return Math.max(0, Math.min(total, Math.round(total - fight.buffLeft)));
   }
-  function flushAuto(force){
-    if (!fight.autoInit) return;
-    var total = autoTotalSec(mergedItems());
-    var used = Math.max(0, Math.min(total, Math.round(total - fight.autoLeft)));
-    if (used === fight.autoSaved) return;
-    if (!force && Math.abs(used - fight.autoSaved) < 30) return;
-    fight.autoSaved = used;
-    saveRpg(function(r){ r.autoUsedSec = used; },
-      '냉장고 RPG: 자동 타격 ' + fmtClock(Math.max(0, total - used)) + ' 남음');
+  function flushBuff(force){
+    if (!fight.buffInit) return;
+    var total = buffTotalSec(mergedItems());
+    var used = Math.max(0, Math.min(total, Math.round(total - fight.buffLeft)));
+    if (used === fight.buffSaved) return;
+    if (!force && Math.abs(used - fight.buffSaved) < 15) return;
+    fight.buffSaved = used;
+    saveRpg(function(r){ r.buffUsedSec = used; },
+      '냉장고 RPG: 버프 요정 ' + fmtClock(Math.max(0, total - used)) + ' 남음');
   }
-  function stopAuto(){ stopBattle(); }
-  function startAuto(){ startBattle(); }
-  function renderAutoBtn(){
-    var b = $('#aAutoBtn'), hint = $('#aAutoHint');
+  function renderBuffBtn(){
+    var b = $('#aBuffBtn'), hint = $('#aBuffHint');
+    var mul = buffMulNow();
+    var left = fight.buffLeft;
+    var on = !!(fight.buffOn && left > 0);
     if (b){
-      if (fight.autoLeft <= 0){
-        b.textContent = '자동 00:00 · 기한내 소비로 +5분';
-        b.classList.remove('on');
-      } else if (fight.on){
-        b.textContent = '⏸ 자동 (' + fmtClock(fight.autoLeft) + ')';
-        b.classList.add('on');
-      } else {
-        b.textContent = '▶ 자동 (' + fmtClock(fight.autoLeft) + ')';
-        b.classList.remove('on');
+      /* 내부 HTML을 매 tick 다시 그리면 터치가 씹히므로 텍스트만 바꾼다 */
+      var lbl = $('#aBuffLabel'), mulEl = $('#aBuffMul');
+      if (lbl){
+        lbl.textContent = on
+          ? '🧚 버프 요정 발동 중 · ' + fmtClock(left)
+          : '🧚 신선 요정 싱싱 소환 (' + fmtClock(left) + ')';
       }
-      b.setAttribute('aria-pressed', fight.on ? 'true' : 'false');
+      if (mulEl){
+        mulEl.textContent = '×' + mul.toFixed(1);
+        mulEl.classList.toggle('on', on);
+      }
+      b.classList.toggle('on', on);
+      b.classList.toggle('off', left < 1);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.setAttribute('aria-label', on ? '버프 요정 발동 중 · 눌러서 일시정지' : '신선 요정 싱싱 소환');
     }
+    var fairy = $('#aFairy');
+    if (fairy) fairy.classList.toggle('on', on);
+    var arena = $('#arena');
+    if (arena) arena.classList.toggle('buffed', on);
     if (hint){
       var meals = mealsInTimeOf(mergedItems());
-      hint.textContent = '자동 타격 ' + fmtClock(fight.autoLeft) + ' 남음 · 기한 내 소비 ' + meals +
-        '건 × 5분' + (fight.on ? ' · 자동 타격 중' : ' · 직접 타격 중');
+      hint.textContent = '⚡ 상시 자동 전투 중 · 기한 내 소비 ' + meals + '건 × 1분 = 버프 ' + fmtClock(left) + ' 대기';
     }
+  }
+  function toggleBuff(){
+    if (currentView !== 'game') return;
+    if (fight.buffLeft < 1){
+      toast('🧚 버프 요정을 부르려면 기한 내 소비가 필요해요 · 1건당 +1분');
+      return;
+    }
+    fight.buffOn = !fight.buffOn;
+    if (fight.buffOn){
+      pushLog('🧚 신선 요정 싱싱! 공격 데미지 ×' + buffMulNow().toFixed(1) + ' · ' + fmtClock(fight.buffLeft) + ' 동안', 'buff');
+      sparks();
+    } else {
+      pushLog('🧚 신선 요정이 잠시 물러났어요 · ' + fmtClock(fight.buffLeft) + ' 남음', 'good');
+      flushBuff(true);
+    }
+    renderBuffBtn();
+    updateHud(combatOf(rpgState(), fight));
   }
   function startBattle(){
     if (currentView !== 'game') return;
-    if (fight.autoLeft <= 0){
-      toast('⏱ 자동 타격 시간이 없어요 · 기한 내 소비 1건당 +5분', '전투로', function(){ showView('game'); });
-      renderAutoBtn();
-      return;
-    }
     fight.on = true;
     if (fight.timer) clearInterval(fight.timer);
     fight.lastTs = (typeof performance !== 'undefined' ? performance.now() : Date.now());
     fight.timer = setInterval(tick, 90);
-    renderAutoBtn();
+    renderBuffBtn();
   }
   function stopBattle(reason){
-    var was = fight.on;
     fight.on = false;
     if (fight.timer){ clearInterval(fight.timer); fight.timer = null; }
-    renderAutoBtn();
-    if (was) flushAuto(true);
-    if (reason === 'timeout') toast('⏱ 자동 타격 시간을 다 썼어요 · 수동 모드로 전환');
+    if (reason === 'buffEnd') toast('🧚 신선 요정의 기운이 다 했어요 · 기한 내 소비로 다시 충전');
+    flushBuff(true);
   }
   function battleRunning(){ return fight.on; }
-
-  /* 직접 타격 콤보 (10타 누적 → 다음 타격 강타 1.5배) */
-  var TAP_COMBO_MAX = 10;
-  function updateTapCombo(){
-    var btn = $('#aTapBtn'), badge = $('#aTapCombo'), lbl = $('#aTapLabel');
-    var ready = fight.tapCombo >= TAP_COMBO_MAX;
-    if (badge){
-      badge.textContent = ready ? '1.5배' : fight.tapCombo + '/' + TAP_COMBO_MAX;
-      badge.classList.toggle('ready', ready);
-    }
-    if (lbl) lbl.textContent = ready ? '🔥 강타!' : '⚡ 직접 타격';
-    if (btn){
-      btn.classList.toggle('ready', ready);
-      btn.setAttribute('aria-label', ready ? '강타로 때리기 (1.5배 피해)' : '직접 타격 (콤보 ' + fight.tapCombo + '/' + TAP_COMBO_MAX + ')');
-    }
-  }
 
   function pruneDmg(){
     var cut = fight.t - 5;
@@ -2685,18 +2873,22 @@
     fight.t += dt;
     if (fight.postKill > 0) fight.postKill = Math.max(0, fight.postKill - dt);
 
-    /* v1.2: 자동 타격은 보유 시간을 깎아 쓴다. 0초가 되면 자동으로 끄고 수동 모드로 */
-    if (fight.autoLeft > 0){
-      fight.autoLeft = Math.max(0, fight.autoLeft - dt);
-      if (fight.autoLeft <= 0){
-        fight.autoLeft = 0;
-        stopBattle('timeout');
-        return;
+    /* v1.3: 버프 요정은 켜 둔 동안에만 시간이 줄고, 0초가 되면 자동 종료 */
+    if (fight.buffOn){
+      if (fight.buffLeft > 0){
+        fight.buffLeft = Math.max(0, fight.buffLeft - dt);
+        flushBuff(false);
+        if (fight.buffLeft <= 0){
+          fight.buffOn = false;
+          fight.buffLeft = 0;
+          pushLog('🧚 신선 요정의 기운이 다 했어요', 'good');
+          stopBattle('buffEnd');
+          renderBuffBtn();
+          return;
+        }
+      } else {
+        fight.buffOn = false;
       }
-      flushAuto(false);
-    } else {
-      stopBattle('timeout');
-      return;
     }
 
     var rpg = rpgState();
@@ -2705,10 +2897,10 @@
     var guard = 0;
     while (fight.acc >= c.interval && guard < 4 && fight.on){
       fight.acc -= c.interval;
-      hit(0);
+      hit();
       guard++;
       c = combatOf(rpgState(), fight);
-      if (fight.acc > c.interval * 4) fight.acc = 0;
+      if (fight.acc > c.interval * 6) fight.acc = 0;
     }
     if (now - fight.hudTs > 120){
       fight.hudTs = now;
@@ -2775,16 +2967,16 @@
     if (fight.hp <= 0) onKill();
   }
 
-  function hit(echo, heavy){
+  function hit(echo){
     if (currentView !== 'game') return;
     var rpg = rpgState();
     var c = combatOf(rpg, fight);
-    var boss = bossAt(fight.kills);
+    var stage = stageAt(fight.kills);
     fight.hits++;
 
     var forced = c.has('u-mainWeapon-2') && fight.hits % 10 === 0;
     var crit = forced || Math.random() * 100 < c.critRate;
-    var dmg = baseHitDamage(c, boss, fight);
+    var dmg = baseHitDamage(c, stage, fight);
     var kind = 'normal';
 
     if (crit){
@@ -2801,11 +2993,10 @@
       fight.missStack = Math.min(10, fight.missStack + 1);
     }
     if (c.has('u-ring-13')) fight.colorStacks = Math.min(20, fight.colorStacks + 1);
-    /* 직접 타격 콤보: 10타 누적 후 다음 타격은 강타(1.5배) */
-    if (heavy){
-      dmg *= 1.5;
-      if (kind !== 'exec') kind = 'heavy';
-      pushLog('🔥 강타! 콤보 보너스 1.5배 피해', 'big');
+    /* v1.3: 버프 요정 — 발동 중엔 공격 데미지 ×(2.0 + 5레벨마다 0.5) */
+    if (buffActive()){
+      dmg *= buffMulNow();
+      if (kind === 'normal') kind = 'buff';
     }
     if (fight.firstPending){ dmg *= 2.5; fight.firstPending = false; kind = 'exec'; }
 
@@ -2839,8 +3030,8 @@
   function onKill(){
     var rpg = rpgState();
     var c = combatOf(rpg, fight);
-    var boss = bossAt(fight.kills);
-    var gold = boss.gold;
+    var stage = stageAt(fight.kills);
+    var gold = stage.gold;
     var fast = fight.t <= 10;
 
     if (c.has('u-subWeapon-6')) gold = Math.round(gold * 1.25);
@@ -2856,15 +3047,17 @@
     fight.pendingGold = 0;
     gold = Math.max(1, Math.round(gold));
 
-    var killedIdx = boss.idx;
-    var killedName = boss.name;
+    var killedKey = stage.killKey;
+    var killedName = stage.name;
+    var wasBoss = stage.isBoss;
+    var prevLoop = stage.loop;
     pushLog('🎉 ' + killedName + ' 처치! +' + fmtNum(gold) + ' G', 'big');
     floatDmg('+' + fmtNum(gold) + ' G', 'gold');
     sparks();
     try { if (navigator.vibrate) navigator.vibrate(28); } catch (e) {}
 
     fight.kills++;
-    var next = bossAt(fight.kills);
+    var next = stageAt(fight.kills);
     fight.hp = next.hp;
     fight.maxHp = next.hp;
     fight.t = 0;
@@ -2879,11 +3072,18 @@
     fight.postKillNext = 0;
     if (!state.sample) writeJSON(K.fight, { kills: fight.kills, hp: fight.hp });
 
-    var idxKey = String(killedIdx);
+    if (next.loop > prevLoop){
+      pushLog('🌀 Loop ' + next.loop + ' 돌입! Stage 1-1 · 모든 몬스터가 강해졌어요', 'big');
+      sparks();
+    } else {
+      pushLog('▶ ' + next.label + ' · ' + next.name + ' 등장', 'good');
+    }
+
     saveRpg(function(r){
-      r.boss_kills = Math.max(r.boss_kills, fight.kills);
+      r.stageKills = Math.max(Math.floor(Number(r.stageKills) || 0), fight.kills);
+      if (wasBoss) r.boss_kills = Math.floor(Number(r.boss_kills) || 0) + 1;
       r.goldDelta = Math.round((r.goldDelta || 0) + gold);
-      r.kills[idxKey] = (r.kills[idxKey] || 0) + 1;
+      r.kills[killedKey] = (r.kills[killedKey] || 0) + 1;
     }, '냉장고 RPG: ' + killedName + ' 처치').then(function(res){
       afterRpgSave();
       if (res && res.ok) toast('🎉 ' + killedName + ' 처치! +' + fmtNum(gold) + ' G');
@@ -2896,27 +3096,27 @@
   function renderGame(all){
     all = all || mergedItems();
     var rpg = rpgState();
-    var xp = xpOf(all);
+    var xp = xpOf(all, rpg);
     var lv = levelOf(xp);
     var into = xp % RPG.XP_PER_LEVEL;
-    var boss = bossAt(rpg.boss_kills);
+    var stage = stageAt(rpg.stageKills);
     var gold = goldOf(all, rpg);
 
     var el;
     if ((el = $('#gLevel'))) el.textContent = 'Lv.' + lv;
     if ((el = $('#gXP'))) el.textContent = '💰 ' + fmtNum(gold) + ' G';
-    if ((el = $('#gBossEmoji'))) el.textContent = boss.emoji;
-    if ((el = $('#gBossName'))) el.textContent = boss.name;
+    if ((el = $('#gBossEmoji'))) el.textContent = stage.emoji;
+    if ((el = $('#gBossName'))) el.textContent = stage.name;
     if ((el = $('#gHpFill'))) el.style.width = into + '%';
     if ((el = $('#gHpText'))) el.textContent = 'XP ' + fmtNum(into) + ' / ' + RPG.XP_PER_LEVEL;
     if ((el = $('#gToLeft'))) el.textContent = '다음 Lv까지 ' + fmtNum(RPG.XP_PER_LEVEL - into) + ' XP';
-    if ((el = $('#gKills'))) el.textContent = '🗡 ' + rpg.boss_kills;
+    if ((el = $('#gKills'))) el.textContent = '🗡 ' + rpg.stageKills;
 
     if ((el = $('#homeLv'))) el.textContent = 'Lv.' + lv;
     if ((el = $('#homeGold'))) el.textContent = fmtNum(gold) + ' G';
-    if ((el = $('#homeKills'))) el.textContent = fmtNum(rpg.boss_kills);
-    if ((el = $('#homeBossEmoji'))) el.textContent = boss.emoji;
-    if ((el = $('#homeGameSub'))) el.textContent = 'Stage ' + (rpg.boss_kills + 1) + ' · Lv.' + lv + ' · ' + boss.name;
+    if ((el = $('#homeKills'))) el.textContent = fmtNum(rpg.stageKills);
+    if ((el = $('#homeBossEmoji'))) el.textContent = stage.emoji;
+    if ((el = $('#homeGameSub'))) el.textContent = stage.label + ' · Lv.' + lv + ' · ' + stage.name;
 
     var active = all.filter(function(it){ return it.status === 'active'; });
     var soon = 0, expired = 0;
@@ -2933,38 +3133,37 @@
   /* ---------- 화면: 전투 ---------- */
   function renderBattle(){
     var rpg = rpgState();
-    var boss = bossAt(fight.kills);
-    if (!fight.maxHp){ fight.maxHp = boss.hp; fight.hp = boss.hp; }
+    var stage = stageAt(fight.kills);
+    if (!fight.maxHp){ fight.maxHp = stage.hp; fight.hp = stage.hp; }
     var c = combatOf(rpg, fight);
     var all = mergedItems();
-    var lv = levelOf(xpOf(all));
+    var lv = levelOf(xpOf(all, rpg));
 
     var arena = $('#arena');
     if (arena){
-      arena.style.setProperty('--boss-bg', boss.bg);
-      arena.style.setProperty('--boss-aura', boss.aura);
-      arena.style.setProperty('--boss-tone', boss.tone);
+      arena.style.setProperty('--boss-bg', stage.bg);
+      arena.style.setProperty('--boss-aura', stage.aura);
+      arena.style.setProperty('--boss-tone', stage.tone);
     }
     var el;
-    if ((el = $('#aStage'))) el.textContent = 'Stage ' + (fight.kills + 1);
-    if ((el = $('#aDef'))) el.textContent = '🛡 방어 ' + boss.def;
-    if ((el = $('#aBossEmoji'))) el.textContent = boss.emoji;
-    if ((el = $('#aBossName'))) el.textContent = boss.name;
-    if ((el = $('#aBossLine'))) el.textContent = '"' + boss.line + '"';
+    if ((el = $('#aStage'))) el.textContent = stage.label;
+    if ((el = $('#aDef'))) el.textContent = '🛡 방어 ' + stage.def;
+    if ((el = $('#aBossEmoji'))) el.textContent = stage.emoji;
+    if ((el = $('#aBossName'))) el.textContent = stage.name;
+    if ((el = $('#aBossLine'))) el.textContent = '"' + stage.line + '"';
     if ((el = $('#aHeroTag'))) el.textContent = 'Lv.' + lv;
     if ((el = $('#aCycle'))){
-      el.textContent = boss.cycle > 0 ? (boss.cycle + 1) + '회차' : '';
-      el.classList.toggle('hidden', boss.cycle <= 0);
+      el.textContent = 'Loop ' + stage.loop;
+      el.classList.toggle('hidden', stage.loop <= 1);
     }
-    if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, boss, fight)));
+    if ((el = $('#aHitDmg'))) el.textContent = fmtNum(shownHitDamage(c, stage));
     if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
     if ((el = $('#aPen'))) el.textContent = fmtNum(Math.round(c.pen));
     if ((el = $('#aCrit'))) el.textContent = pctText(c.critRate);
     if ((el = $('#aCritDmg'))) el.textContent = pctText(c.critDmg);
     renderGearBar(rpg, c);
     updateHud(c);
-    updateTapCombo();
-    renderAutoBtn();
+    renderBuffBtn();
   }
 
   function renderGearBar(rpg, c){
@@ -2991,21 +3190,21 @@
     if ((el = $('#aDps'))) el.textContent = 'DPS ' + fmtNum(dpsOf());
     if ((el = $('#aTime'))) el.textContent = fight.t.toFixed(1) + 's';
     if (c){
-      if ((el = $('#aHitDmg'))) el.textContent = fmtNum(Math.round(baseHitDamage(c, bossAt(fight.kills), fight)));
+      if ((el = $('#aHitDmg'))) el.textContent = fmtNum(shownHitDamage(c, stageAt(fight.kills)));
       if ((el = $('#aSpeed'))) el.textContent = (c.interval / 1000).toFixed(2) + '초';
       if ((el = $('#aPen'))) el.textContent = fmtNum(Math.round(c.pen));
       if ((el = $('#aCrit'))) el.textContent = pctText(c.critRate);
       if ((el = $('#aCritDmg'))) el.textContent = pctText(c.critDmg);
     }
     if ((el = $('#gGoldPill'))) el.textContent = '💰 ' + fmtNum(goldOf(mergedItems(), rpgState())) + ' G';
-    renderAutoBtn();
+    renderBuffBtn();
   }
 
   /* ---------- 화면: 스탯 ---------- */
   function renderStats(){
     var all = mergedItems();
     var rpg = rpgState();
-    var xp = xpOf(all);
+    var xp = xpOf(all, rpg);
     var lv = levelOf(xp);
     var pool = pointsOf(lv);
     var used = 0;
@@ -3041,7 +3240,7 @@
     if ((el = $('#stPreview'))){
       el.textContent = '지금 1타 ' + fmtNum(Math.round(c.atk)) + ' · 타격 간격 ' + (c.interval / 1000).toFixed(2) +
         '초 · 치명타 ' + pctText(c.critRate) + ' / ' + pctText(c.critDmg) +
-        ' · 자동 타격 ' + fmtClock(autoLeftSec(mergedItems(), rpg)) + ' 남음';
+        ' · 🧚 버프 ×' + buffMulOf(lv).toFixed(1) + ' (' + fmtClock(buffLeftSec(mergedItems(), rpg)) + ' 대기)';
     }
   }
 
@@ -3135,27 +3334,36 @@
     }
   }
 
-  /* ---------- 화면: 도감 ---------- */
+  /* ---------- 화면: 도감 (보스 10 + 일반 30) ---------- */
+  function codexRow(b, label, n, now, tone){
+    var seen = n > 0 || now;
+    return '<div class="codex' + (now ? ' now' : '') + (seen ? '' : ' locked') + '" style="--boss-tone:' + tone + '">' +
+      '<span class="ce" aria-hidden="true">' + b.emoji + '</span>' +
+      '<span class="ct"><b>' + esc(b.name) + '<em>' + esc(label) + '</em></b>' +
+        '<p>' + esc(b.line) + '</p></span>' +
+      '<span class="cc"><b>' + n + '</b>' + (n ? '처치' : '미조우') + '</span>' +
+    '</div>';
+  }
   function renderCodex(){
     var rpg = rpgState();
-    var sum = 0;
-    BOSSES.forEach(function(b, i){ if (rpg.kills[String(i)]) sum++; });
-    var el = $('#codexSum');
-    if (el) el.textContent = sum + ' / ' + BOSSES.length;
-    var list = $('#codexList');
-    if (!list) return;
-    var curIdx = rpg.boss_kills % BOSSES.length;
-    list.innerHTML = BOSSES.map(function(b, i){
-      var n = rpg.kills[String(i)] || 0;
-      var now = (i === curIdx);
-      var seen = n > 0 || now;
-      return '<div class="codex' + (now ? ' now' : '') + (seen ? '' : ' locked') + '" style="--boss-tone:' + b.tone + '">' +
-        '<span class="ce" aria-hidden="true">' + b.emoji + '</span>' +
-        '<span class="ct"><b>' + esc(b.name) + '<em>Stage ' + (i + 1) + '</em></b>' +
-          '<p>' + esc(b.line) + '</p></span>' +
-        '<span class="cc"><b>' + n + '</b>' + (n ? '처치' : '미조우') + '</span>' +
-      '</div>';
-    }).join('');
+    var cur = stageAt(rpg.stageKills);
+    var bossSeen = 0, monSeen = 0;
+    BOSSES.forEach(function(b, i){ if (rpg.kills['boss-' + i]) bossSeen++; });
+    MONSTERS.forEach(function(m, i){ if (rpg.kills['mon-' + i]) monSeen++; });
+    var sum = $('#codexSum');
+    if (sum) sum.textContent = '보스 ' + bossSeen + '/' + BOSSES.length + ' · 일반 ' + monSeen + '/' + MONSTERS.length;
+    var bl = $('#codexBossList');
+    if (bl){
+      bl.innerHTML = BOSSES.map(function(b, i){
+        return codexRow(b, 'Stage ' + (i + 1) + '-10', rpg.kills['boss-' + i] || 0, cur.isBoss && cur.bossIdx === i, b.tone);
+      }).join('');
+    }
+    var ml = $('#codexMonList');
+    if (ml){
+      ml.innerHTML = MONSTERS.map(function(m, i){
+        return codexRow(m, '일반 #' + (i + 1), rpg.kills['mon-' + i] || 0, !cur.isBoss && cur.monIdx === i, m.tone);
+      }).join('');
+    }
   }
 
   /* ---------- 장비 액션 ---------- */
@@ -3221,7 +3429,7 @@
   function investStat(key){
     var all = mergedItems();
     var rpg = rpgState();
-    var pool = pointsOf(levelOf(xpOf(all)));
+    var pool = pointsOf(levelOf(xpOf(all, rpg)));
     var used = 0;
     STATS.forEach(function(s){ used += rpg.stats[s.key] || 0; });
     if (used >= pool){ toast('성장 포인트가 없어요 · 레벨업하면 +' + RPG.POINTS_PER_LEVEL + ' P'); return; }
@@ -3275,14 +3483,14 @@
       name: u.name, emoji: u.emoji, stats: {}
     } };
   }
-  /* 골드 슬롯 v1.2: 비균등(도박성) 분포 — 대부분 꽝, 아주 가끔 초대박
-     82% 1~8 G(꽝) · 13% 12~30 G(소액) · 5% 180~260 G(잭팟) → 평균 ≈ 17.4 G
-     분해 회수(유니크 24 · 레어 8 · 일반 3)까지 더한 1회 회수 기대값 ≈ 10.4 G < 45 G(10연차 1회 단가) → 무한 골드 복사 차단 */
+  /* 골드 슬롯 v1.3: 비균등(도박성) 분포 — 대부분 소액, 아주 가끔 초대박
+     82% 2~12 G · 13% 18~45 G · 5% 270~390 G(잭팟) → 평균 ≈ 26 G
+     분해 회수(유니크 36 · 레어 12 · 일반 5)까지 더해도 50 G(1회)보다 낮아 무한 골드 복사 차단 */
   function goldRoll(){
     var r = Math.random(), g;
-    if (r < 0.82) g = 1 + Math.floor(Math.random() * 8);          /* 꽝 1~8 */
-    else if (r < 0.95) g = 12 + Math.floor(Math.random() * 19);   /* 소액 12~30 */
-    else g = 180 + Math.floor(Math.random() * 81);                /* 잭팟 180~260 */
+    if (r < 0.82) g = 2 + Math.floor(Math.random() * 11);           /* 2~12 */
+    else if (r < 0.95) g = 18 + Math.floor(Math.random() * 28);     /* 18~45 */
+    else g = 270 + Math.floor(Math.random() * 121);                 /* 잭팟 270~390 */
     return { kind: 'gold', amount: g };
   }
 
@@ -3430,38 +3638,39 @@
   }
   function enterGame(){
     var rpg = rpgState();
-    var b = bossAt(rpg.boss_kills);
-    fight.kills = rpg.boss_kills;
-    fight.maxHp = b.hp;
-    fight.hp = b.hp;
+    fight.kills = Math.max(0, Math.floor(Number(rpg.stageKills) || 0));
+    var st = stageAt(fight.kills);
+    fight.maxHp = st.hp;
+    fight.hp = st.hp;
     if (!state.sample){
       var sc = readJSON(K.fight, null);
       var scK = sc ? Math.floor(Number(sc.kills) || 0) : -1;
-      if (scK === rpg.boss_kills && sc && sc.hp > 0){
-        fight.hp = Math.min(sc.hp, b.hp);
+      if (scK === fight.kills && sc && sc.hp > 0){
+        fight.hp = Math.min(sc.hp, st.hp);
       }
     }
-    fight.t = 0; fight.acc = 0; fight.hits = 0; fight.tapCombo = 0;
+    fight.t = 0; fight.acc = 0; fight.hits = 0;
     fight.missStack = 0; fight.colorStacks = 0; fight.heatCount = 0; fight.heatUntil = -1;
     fight.dmgWin = [];
     fight.logs = [];
-    /* v1.2: 기본은 수동 타격. 보유한 자동 타격 시간만큼만 [▶ 자동] 사용 가능 */
-    fight.autoTotal = autoTotalSec(mergedItems());
-    fight.autoLeft = autoLeftSec(mergedItems(), rpg);
-    fight.autoSaved = Math.max(0, Math.round(fight.autoTotal - fight.autoLeft));
-    fight.autoInit = true;
-    pushLog('▶ Stage ' + (fight.kills + 1) + ' · ' + b.name + ' 등장', 'good');
-    pushLog('"' + b.line + '"');
-    pushLog(fight.autoLeft > 0
-      ? '⚡ 직접 타격 모드 · [▶ 자동]은 ' + fmtClock(fight.autoLeft) + ' 가능'
-      : '⚡ 직접 타격 모드 · 기한 내 소비 1건당 자동 타격 +5분', 'good');
+    /* v1.3: 전투는 상시 자동. 버프 요정은 기한 내 소비 누적 시간을 쓴다 */
+    fight.buffTotal = buffTotalSec(mergedItems());
+    fight.buffLeft = buffLeftSec(mergedItems(), rpg);
+    fight.buffOn = false;
+    fight.buffSaved = Math.max(0, Math.round(fight.buffTotal - fight.buffLeft));
+    fight.buffInit = true;
+    pushLog('▶ ' + st.label + (st.loop > 1 ? ' (Loop ' + st.loop + ')' : '') + ' · ' + st.name + ' 등장', 'good');
+    pushLog('"' + st.line + '"');
+    pushLog('⚡ 상시 자동 전투 · 🧚 버프 요정 ' + fmtClock(fight.buffLeft) + ' 대기 (×' + buffMulNow().toFixed(1) + ')', 'good');
     showGtab(state.gtab || 'battle');
     renderBattle(); renderStats(); renderEquip(); renderGacha(); renderCodex();
     renderGame(mergedItems());
+    startBattle();
   }
   function leaveGame(){
     stopBattle();
-    fight.autoInit = false;
+    fight.buffOn = false;
+    fight.buffInit = false;
     if (!state.sample) writeJSON(K.fight, { kills: fight.kills, hp: Math.max(1, Math.round(fight.hp)) });
     if (fight.pendingGold > 0){
       var pg = fight.pendingGold;
@@ -3490,19 +3699,7 @@
       b.addEventListener('click', function(){ showGtab(b.getAttribute('data-gtab')); });
     });
 
-    if ((el = $('#aTapBtn'))) el.addEventListener('click', function(){
-      if (currentView !== 'game') return;
-      var heavy = fight.tapCombo >= TAP_COMBO_MAX;
-      hit(0, heavy);
-      fight.tapCombo = heavy ? 0 : fight.tapCombo + 1;
-      fight.acc = 0;
-      updateTapCombo();
-      updateHud(combatOf(rpgState(), fight));   /* 자동 전투를 멈춰도 직접 타격하면 HP·DPS가 바로 갱신 */
-    });
-    if ((el = $('#aAutoBtn'))) el.addEventListener('click', function(){
-      if (fight.on) stopBattle();
-      else startBattle();
-    });
+    if ((el = $('#aBuffBtn'))) el.addEventListener('click', toggleBuff);
     if ((el = $('#stList'))) el.addEventListener('click', function(e){
       var b = e.target.closest ? e.target.closest('[data-stat]') : null;
       if (b) investStat(b.getAttribute('data-stat'));
@@ -4314,7 +4511,7 @@
     fight.kills = 0;
     fight.hp = 0;
     fight.maxHp = 0;
-    stopAuto();
+    stopBattle();
     store.set(K.sample, '1');
     state.storage = 'all';
     state.query = '';
@@ -4328,7 +4525,7 @@
     state.demoRpg = null;
     fight.kills = 0;
     fight.hp = 0;
-    stopAuto();
+    stopBattle();
     store.remove(K.sample);
     render();
     toast('실제 냉장고 데이터로 돌아왔어요');
@@ -4665,9 +4862,9 @@
 
   /* 다른 탭/앱에서 돌아왔을 때 최신으로 */
   document.addEventListener('visibilitychange', function(){
-    if (document.visibilityState === 'hidden'){ stopAuto(); return; }
-    /* v1.2: 자동 타격은 사용자가 켜야만 돈다(기본 수동) → 돌아와도 자동으로 켜지 않는다 */
-    if (viewIs('game')) renderBattle();
+    if (document.visibilityState === 'hidden'){ stopBattle(); return; }
+    /* v1.3: 전투는 상시 자동 → 돌아오면 이어서 계속 때린다 */
+    if (viewIs('game')){ startBattle(); renderBattle(); }
     if (document.visibilityState === 'visible' && getToken() && !state.busy[detailId]){
       ghFetchDoc().then(function(got){
         var prevAt = state.data && state.data.updated_at;

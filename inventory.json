@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T13:09:19+09:00",
+  "updated_at": "2026-11-27T14:32:00+09:00",
   "items": [
     {
       "id": "itm-20261125-001",
@@ -30,24 +30,10 @@
       "product_group": "바나나",
       "status": "consumed",
       "consumed_at": "2026-11-26"
-    },
-    {
-      "id": "itm-20261127-001",
-      "name": "바나나",
-      "category": "과일",
-      "storage": "pantry",
-      "quantity": "1개",
-      "purchased_at": "2026-11-27",
-      "expiry_date": "2026-12-04",
-      "expiry_estimated": true,
-      "tip": "",
-      "price": 3000,
-      "product_group": "바나나",
-      "status": "consumed",
-      "consumed_at": "2026-11-27"
     }
   ],
   "rpg": {
+    "v": 4,
     "stats": {
       "atk": 0,
       "spd": 0,
@@ -56,13 +42,39 @@
       "critDmg": 0
     },
     "owned": [
-      "w-wood",
-      "a-glove"
+      {
+        "uid": "L-w-wood",
+        "id": "w-wood",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "무딘 과도",
+        "emoji": "🔪",
+        "stats": { "atk": 3 }
+      },
+      {
+        "uid": "L-a-glove",
+        "id": "a-glove",
+        "rarity": "common",
+        "slot": "ring",
+        "name": "노란 고무줄",
+        "emoji": "🟡",
+        "stats": { "spd": 2 }
+      }
     ],
     "equipped": {
-      "weapon": "w-wood",
-      "accessory": "a-glove"
+      "mainWeapon": "L-w-wood",
+      "subWeapon": null,
+      "hat": null,
+      "necklace": null,
+      "ring": "L-a-glove",
+      "rune": null,
+      "charm": null
     },
-    "boss_kills": 3
+    "stageKills": 0,
+    "boss_kills": 0,
+    "goldDelta": 200,
+    "buffUsedSec": 0,
+    "bonusXp": 370,
+    "kills": {}
   }
 }
