@@ -2844,10 +2844,9 @@
     fight.timer = setInterval(tick, 90);
     renderBuffBtn();
   }
-  function stopBattle(reason){
+  function stopBattle(){
     fight.on = false;
     if (fight.timer){ clearInterval(fight.timer); fight.timer = null; }
-    if (reason === 'buffEnd') toast('🧚 신선 요정의 기운이 다 했어요 · 기한 내 소비로 다시 충전');
     flushBuff(true);
   }
   function battleRunning(){ return fight.on; }
@@ -2882,9 +2881,10 @@
           fight.buffOn = false;
           fight.buffLeft = 0;
           pushLog('🧚 신선 요정의 기운이 다 했어요', 'good');
-          stopBattle('buffEnd');
+          flushBuff(true);
           renderBuffBtn();
-          return;
+          toast('🧚 신선 요정의 기운이 다 했어요 · 기한 내 소비로 다시 충전');
+          return;   /* 전투(상시 자동)는 계속 돈다 */
         }
       } else {
         fight.buffOn = false;
