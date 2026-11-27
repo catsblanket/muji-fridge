@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T16:53:30+09:00",
+  "updated_at": "2026-11-27T16:57:12+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -46,7 +46,7 @@
       "expiry_estimated": true,
       "tip": "냉장(0~10℃) 보관하시고, 드실 때는 물기 없는 깨끗한 스푼으로 덜어 드셔야 유청 분리와 변질을 줄일 수 있어요. (뚜껑에 적힌 실제 소비기한이 다르면 수정해 주세요!)",
       "status": "active",
-      "price": null,
+      "price": 3280,
       "product_group": "그릭요거트",
       "unit_type": "g",
       "unit_amount": 400,
