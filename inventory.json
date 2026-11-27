@@ -1,6 +1,41 @@
 {
-  "updated_at": "2026-11-27T15:13:40+09:00",
-  "items": [],
+  "updated_at": "2026-11-27T16:12:12+09:00",
+  "items": [
+    {
+      "id": "itm-20261127-001",
+      "name": "강릉최가두부",
+      "category": "가공·반찬",
+      "storage": "fridge",
+      "quantity": "1모 (550g)",
+      "purchased_at": "2026-11-27",
+      "expiry_date": "2026-12-14",
+      "expiry_estimated": false,
+      "tip": "미개봉 상태는 0~10℃ 냉장 보관하시고, 개봉 후 남은 두부는 깨끗한 물에 잠기게 담아 밀폐 보관한 뒤 2~3일 내로 드시는 게 좋아요.",
+      "status": "active",
+      "price": null,
+      "product_group": "두부",
+      "unit_type": "g",
+      "unit_amount": 550,
+      "emoji": "⬜"
+    },
+    {
+      "id": "itm-20261127-002",
+      "name": "생표고버섯",
+      "category": "채소",
+      "storage": "fridge",
+      "quantity": "1봉",
+      "purchased_at": "2026-11-27",
+      "expiry_date": "2026-12-04",
+      "expiry_estimated": true,
+      "tip": "물기가 닿으면 금방 물러지므로 씻지 말고 키친타올로 감싸 지퍼백이나 밀폐용기에 넣어 냉장 보관하세요. 오래 두려면 갓과 대를 손질해 냉동 보관도 가능해요.",
+      "status": "active",
+      "price": null,
+      "product_group": "표고버섯",
+      "unit_type": "count",
+      "unit_amount": 1,
+      "emoji": "🍄"
+    }
+  ],
   "rpg": {
     "v": 4,
     "stats": {
