@@ -836,6 +836,10 @@
   .invrow .it{flex:1 1 auto;min-width:0}
   .invrow .it b{display:block;font-size:11.5px;font-weight:900;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .invrow .it > span{display:block;font-size:9.5px;color:#8B8472;margin-top:2px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .invrow .it > span.ueff{color:#FFC65C;white-space:normal;line-height:1.4}
+  .ubadge{display:inline-block;font-style:normal;font-size:9px;font-weight:900;line-height:1.5;border-radius:999px;
+    padding:0 5px;margin-left:4px;vertical-align:1px;color:#1B1408;background:linear-gradient(160deg,#FFD770,#FFB020);
+    box-shadow:0 0 10px rgba(255,176,32,.45)}
   .rchip{display:inline-block;font-size:8.5px;font-weight:900;border-radius:999px;padding:1px 5px;margin-right:4px;vertical-align:1px}
   .rchip.common{background:#3A3730;color:#C9C2AE}
   .rchip.rare{background:rgba(90,169,255,.18);color:#7FC3FF}
@@ -861,6 +865,8 @@
     border:1px solid rgba(255,212,59,.22);
   }
   .gacha-hero .gbig{font-size:44px;line-height:1;filter:drop-shadow(0 8px 16px rgba(0,0,0,.5))}
+  .gacha-hero p.uhint{margin:6px 0 0;font-size:10px;font-weight:900;color:#FFC65C;letter-spacing:-.01em}
+  .gacha-hero p.uhint b{color:#FFE7A6}
   .gacha-hero h3{margin:8px 0 0;font-size:15px;font-weight:900;letter-spacing:-.03em;color:#FFE7A6}
   .gacha-hero p{margin:5px 0 0;font-size:11px;color:#B3AA8F;line-height:1.6;font-weight:600}
   .gacha-btns{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
@@ -905,6 +911,13 @@
   .gres.unique{border-color:rgba(255,176,32,.7);background:linear-gradient(140deg,rgba(255,176,32,.2),rgba(255,255,255,.04));
     box-shadow:0 0 18px rgba(255,176,32,.25);animation:resIn .3s ease both, uniGlow 1.6s ease-in-out infinite}
   @keyframes uniGlow{0%,100%{box-shadow:0 0 16px rgba(255,176,32,.2)}50%{box-shadow:0 0 26px rgba(255,176,32,.42)}}
+  /* v1.4: 중복 자동 강화 카드 */
+  .gres.dup{border-color:rgba(255,226,130,.92);background:linear-gradient(140deg,rgba(255,196,60,.3),rgba(255,255,255,.05));
+    animation:resIn .3s ease both, dupGlow 1.1s ease-in-out infinite}
+  @keyframes dupGlow{0%,100%{box-shadow:0 0 16px rgba(255,200,60,.28)}50%{box-shadow:0 0 32px rgba(255,226,130,.6)}}
+  .gres .gt b em.dplus{display:inline-block;font-style:normal;font-size:10px;font-weight:900;margin-left:2px;padding:0 5px;
+    border-radius:999px;color:#2A1B00;background:linear-gradient(160deg,#FFF0B8,#FFC12E);box-shadow:0 0 12px rgba(255,200,60,.7)}
+  .gres .gt span.dupnote{color:#FFE1A0;font-weight:900;font-size:9px;-webkit-line-clamp:2}
   .gres.gold{border-color:rgba(255,212,59,.4);background:linear-gradient(140deg,rgba(255,212,59,.16),rgba(255,255,255,.03))}
   .gres .gt b.u{color:#FFC65C}
   .gres .gt b.r{color:#7FC3FF}
@@ -947,6 +960,7 @@
   .pickrow .pt{flex:1 1 auto;min-width:0}
   .pickrow .pt b{display:block;font-size:12.5px;font-weight:800;letter-spacing:-.02em}
   .pickrow .pt > span{display:block;font-size:10.5px;color:#8B8577;margin-top:2px;line-height:1.45}
+  .pickrow .pt > span.ueff{color:#A9770A;font-weight:800}
   .pickrow button{
     flex:0 0 auto;border:1px solid var(--line);background:#FFF8DC;color:#7A6210;
     border-radius:11px;font-size:11.5px;font-weight:900;padding:9px 11px;min-height:38px;
@@ -1372,6 +1386,7 @@
           <div class="gbig" aria-hidden="true">🎰</div>
           <h3>냉장고 장비 가챠</h3>
           <p>유니크 5% · 레어 25% · 골드 35% · 일반 35%</p>
+          <p class="uhint">✦ 같은 유니크가 또 나오면 자동 강화 <b>+1</b> · 강화 1당 능력 +20%</p>
           <div class="gacha-btns">
             <button type="button" class="g1" id="gacha1">1회<span>50 G</span></button>
             <button type="button" class="g10" id="gacha10">10연차<span>450 G</span></button>
@@ -2206,7 +2221,8 @@
 
 
   /* =====================================================================
-     냉장고 RPG v1.3 — 상시 자동 전투 + 버프 요정 · Stage 1-1 ~ 10-10
+     냉장고 RPG v1.4 — 유니크 중복 자동 강화(+) · 상시 자동 전투 + 버프 요정
+     v1.3: 상시 자동 전투 + 버프 요정 · Stage 1-1 ~ 10-10
      ===================================================================== */
   var RPG = {
     XP_PER_LEVEL: 100,
@@ -2389,6 +2405,41 @@
   var UNIQUE_BY_ID = {};
   UNIQUES.forEach(function(u){ UNIQUE_BY_ID[u.id] = u; });
 
+  /* ---------- v1.4: 유니크 중복 자동 강화(+N) ----------
+     같은 유니크가 또 나오면 새 장비를 만들지 않고 갖고 있던 장비의 plus가 1 오른다.
+     강화 1당 고유 능력의 수치·배율·확률이 +20%, 아래 4종은 레어 1개분 고정 스탯도 함께 오른다. */
+  var U_BONUS = {
+    'u-subWeapon-5':  { atk: 3, spd: 2, critRate: 2 },
+    'u-necklace-12':  { spd: 3, critRate: 2, critDmg: 2 },
+    'u-ring-15':      { pen: 3, atk: 2, critDmg: 2 },
+    'u-rune-17':      { spd: 2, critRate: 3, critDmg: 2 }
+  };
+  function plusOf(it){
+    if (!it || it.rarity !== 'unique') return 0;
+    var p = Math.floor(Number(it.plus) || 0);
+    return p > 0 ? p : 0;
+  }
+  function uMulOfPlus(plus){ return 1 + 0.2 * Math.max(0, Math.floor(Number(plus) || 0)); }
+  /* 전투 계산용: 장착 유니크의 강화 배율 (없으면 1) */
+  function uMof(c, id){ return (c && typeof c.uMul === 'function') ? c.uMul(id) : 1; }
+  function uPlusBadge(it){
+    var p = plusOf(it);
+    return p > 0 ? '<em class="ubadge">+' + p + '</em>' : '';
+  }
+  /* 강화 효과 한 줄 — '✦ 능력 +40% · 공격력 +6 · 공격속도 +4 · 치명타율 +4' */
+  function uEffText(it){
+    var p = plusOf(it);
+    if (!p) return '';
+    var bits = ['✦ 능력 +' + (p * 20) + '%'];
+    var b = U_BONUS[it.id];
+    if (b){
+      var sb = [];
+      STATS.forEach(function(s){ if (b[s.key]) sb.push(s.name + ' +' + (b[s.key] * p)); });
+      if (sb.length) bits.push(sb.join(' · '));
+    }
+    return bits.join(' · ');
+  }
+
   /* ---------- v1.0 → v1.1 장비 마이그레이션 (v1.2에서도 유지) ---------- */
   var LEGACY_ITEMS = {
     'w-wood':     { slot: 'mainWeapon', rarity: 'common', name: '무딘 과도', emoji: '🔪', stats: { atk: 3 }, price: 80 },
@@ -2431,7 +2482,8 @@
     if (inst.rarity === 'unique'){
       var u = UNIQUE_BY_ID[inst.id];
       if (!u) return null;
-      return { uid: inst.uid, id: u.id, rarity: 'unique', slot: u.slot, name: u.name, emoji: u.emoji, stats: {}, desc: u.desc, uniq: u };
+      return { uid: inst.uid, id: u.id, rarity: 'unique', slot: u.slot, name: u.name, emoji: u.emoji, stats: {},
+        desc: u.desc, uniq: u, plus: Math.max(0, Math.floor(Number(inst.plus) || 0)) };
     }
     var st = {}, src = inst.stats || {};
     STATS.forEach(function(s){
@@ -2448,7 +2500,9 @@
     };
   }
   function instOf(it){
-    return { uid: it.uid, id: it.id, rarity: it.rarity, slot: it.slot, name: it.name, emoji: it.emoji, stats: it.stats || {} };
+    var o = { uid: it.uid, id: it.id, rarity: it.rarity, slot: it.slot, name: it.name, emoji: it.emoji, stats: it.stats || {} };
+    if (it.rarity === 'unique') o.plus = plusOf(it);
+    return o;
   }
 
   function legacyInst(id){
@@ -2503,11 +2557,24 @@
       var uid = it.uid;
       while (seen[uid]) uid = uid + 'x';
       seen[uid] = 1;
-      out.owned.push({
+      var rec = {
         uid: uid, id: it.id, rarity: it.rarity, slot: it.slot,
         name: it.name, emoji: it.emoji, stats: it.stats
-      });
+      };
+      if (it.rarity === 'unique') rec.plus = plusOf(it);   /* v1.4: 유니크만 강화 수치를 갖는다 */
+      out.owned.push(rec);
     });
+
+    /* v1.4: 같은 유니크가 2개 이상이면 대표 1개로 합치고 초과 개수를 강화 수치로 환산 */
+    var uRep = {}, uAlias = {}, mergedOwned = [];
+    out.owned.forEach(function(i){
+      if (i.rarity !== 'unique'){ mergedOwned.push(i); return; }
+      var rep = uRep[i.id];
+      if (!rep){ uRep[i.id] = i; mergedOwned.push(i); return; }
+      rep.plus = plusOf(rep) + plusOf(i) + 1;
+      uAlias[i.uid] = rep.uid;
+    });
+    out.owned = mergedOwned;
 
     var eq = (raw.equipped && typeof raw.equipped === 'object') ? raw.equipped : {};
     var byUid = {};
@@ -2520,6 +2587,7 @@
         if (s.key === 'necklace' && eq.accessory) w = 'L-' + eq.accessory;
       }
       if (!w) return;
+      if (uAlias[w]) w = uAlias[w];            /* 합쳐진 유니크의 uid → 대표 uid */
       if (byUid[w]) want[s.key] = w;
       else if (byUid['L-' + w]) want[s.key] = 'L-' + w;
     });
@@ -2781,49 +2849,69 @@
       for (var k in eq) if (eq[k] && eq[k].id === id) return true;
       return false;
     }
-    var amp = has('u-charm-20') ? 1.3 : 1;
+    /* v1.4: 장착 중인 유니크의 강화 수치(plus)와 강화 배율 */
+    function uP(id){
+      for (var k in eq) if (eq[k] && eq[k].id === id) return plusOf(eq[k]);
+      return 0;
+    }
+    function uM(id){ return uMulOfPlus(uP(id)); }
+    /* v1.4: 확률·고정 배율 성격이라 +20%만으론 애매한 4종 — 강화당 레어 1개분 고정 스탯 */
+    Object.keys(U_BONUS).forEach(function(id){
+      var pl = uP(id);
+      if (!pl) return;
+      var b = U_BONUS[id];
+      for (var k in b){
+        if (Object.prototype.hasOwnProperty.call(b, k) && p[k] !== undefined) p[k] += b[k] * pl;
+      }
+    });
+    var amp = has('u-charm-20') ? 1 + 0.3 * uM('u-charm-20') : 1;
     var gold = goldOf(mergedItems(), rpg);
     var t = f ? f.t : 99;
 
     /* #18 비밀 레시피 바코드 */
     if (has('u-rune-18')){
       var keys = ['spd', 'pen', 'critRate'].slice().sort(function(a, b){ return p[b] - p[a]; });
-      var boost = p[keys[0]] * 0.35;
+      var boost = p[keys[0]] * 0.35 * uM('u-rune-18');
       p[keys[1]] += boost;
       p[keys[2]] += boost;
     }
     /* #2 초음파 야채 다지기 */
-    if (has('u-mainWeapon-2')) p.atk += p.spd * 0.8;
+    if (has('u-mainWeapon-2')) p.atk += p.spd * 0.8 * uM('u-mainWeapon-2');
     /* #19 성에 부적 */
-    if (has('u-charm-19')){ p.atk += rpg.boss_kills * 2; p.pen += rpg.boss_kills * 1.5; }
+    if (has('u-charm-19')){
+      p.atk += rpg.boss_kills * 2 * uM('u-charm-19');
+      p.pen += rpg.boss_kills * 1.5 * uM('u-charm-19');
+    }
 
     var atkMul = 1, spdMul = 1, penMul = 1, crAdd = 0, cdAdd = 0;
 
-    /* #9 압력솥 뚜껑 */
-    if (has('u-hat-9')){ spdMul *= 0.75; atkMul *= 1.65; penMul *= 1.4; }
+    /* #9 압력솥 뚜껑 (공속 -25% 페널티는 강화해도 그대로) */
+    if (has('u-hat-9')){ spdMul *= 0.75; atkMul *= 1 + 0.65 * uM('u-hat-9'); penMul *= 1 + 0.4 * uM('u-hat-9'); }
     /* #10 마그넷 부적판 */
     if (has('u-necklace-10')){
-      var n = Math.max(0, uniq + rare - 1);
-      atkMul *= 1 + 0.06 * n;
-      penMul *= 1 + 0.06 * n;
-      spdMul *= 1 + 0.05 * n;
-      crAdd += 1.2 * n;
-      cdAdd += 2 * n;
+      var n = Math.max(0, uniq + rare - 1), m10 = uM('u-necklace-10');
+      atkMul *= 1 + 0.06 * n * m10;
+      penMul *= 1 + 0.06 * n * m10;
+      spdMul *= 1 + 0.05 * n * m10;
+      crAdd += 1.2 * n * m10;
+      cdAdd += 2 * n * m10;
     }
     /* #7 급속냉동 헬멧 */
-    if (has('u-hat-7')) spdMul *= 1 + Math.floor(p.pen / 10) * 0.05;
+    if (has('u-hat-7')) spdMul *= 1 + Math.floor(p.pen / 10) * 0.05 * uM('u-hat-7');
     /* #6 황금 계량스푼 (v1.2: 골드 경제 1/5에 맞춰 기준선도 1/5) */
-    if (has('u-subWeapon-6')) atkMul *= 1 + Math.min(0.8, gold / 500);
+    if (has('u-subWeapon-6')) atkMul *= 1 + Math.min(0.8, gold / 500) * uM('u-subWeapon-6');
     /* #17 신선도 인증 마크 */
-    if (has('u-rune-17')) spdMul *= 1 + Math.min(0.35, Math.floor(gold / 80) * 0.05 * amp);
+    if (has('u-rune-17')) spdMul *= 1 + Math.min(0.35 * uM('u-rune-17'), Math.floor(gold / 80) * 0.05 * amp);
     /* #4 미슐랭 토치 (조우 3초) */
-    if (t < 3 && has('u-subWeapon-4')){ atkMul *= 1.8; cdAdd += 40; }
+    if (t < 3 && has('u-subWeapon-4')){ atkMul *= 1 + 0.8 * uM('u-subWeapon-4'); cdAdd += 40 * uM('u-subWeapon-4'); }
     /* #20 보증서 (조우 3초) */
-    if (t < 3 && has('u-charm-20')){ atkMul *= 1.25; crAdd += 6; }
+    if (t < 3 && has('u-charm-20')){ atkMul *= 1 + 0.25 * uM('u-charm-20'); crAdd += 6 * uM('u-charm-20'); }
     /* #11 스마트 온도계 */
-    if (has('u-necklace-11') && f && f.maxHp > 0 && (f.hp / f.maxHp) <= 0.5){ crAdd += 10; cdAdd += 20; }
+    if (has('u-necklace-11') && f && f.maxHp > 0 && (f.hp / f.maxHp) <= 0.5){
+      crAdd += 10 * uM('u-necklace-11'); cdAdd += 20 * uM('u-necklace-11');
+    }
     /* #12 자물쇠 (처치 직후 5초) */
-    if (has('u-necklace-12') && f && f.postKill > 0) spdMul *= 1.6;
+    if (has('u-necklace-12') && f && f.postKill > 0) spdMul *= 1 + 0.6 * uM('u-necklace-12');
 
     var atk = (RPG.BASE_ATK + p.atk * 2) * atkMul;
     var interval = Math.max(RPG.MIN_INTERVAL, (RPG.BASE_INTERVAL - p.spd * RPG.SPD_STEP) / spdMul);
@@ -2831,11 +2919,11 @@
     var critRate = RPG.CRIT_RATE_BASE + p.critRate * RPG.CRIT_RATE_STEP + crAdd;
     var critDmg = RPG.CRIT_MULT_BASE + p.critDmg * RPG.CRIT_DMG_STEP + cdAdd;
     /* #14 다이아몬드 칼갈이 링 (v1.2: 치명타 스케일 25%에 맞춰 기준선 50%) */
-    if (has('u-ring-14') && critRate > 50) critDmg += (critRate - 50) * 4;
+    if (has('u-ring-14') && critRate > 50) critDmg += (critRate - 50) * 4 * uM('u-ring-14');
 
     return {
       atk: atk, interval: interval, pen: pen, critRate: critRate, critDmg: critDmg,
-      has: has, amp: amp, eq: eq, uniq: uniq, rare: rare, gold: gold
+      has: has, amp: amp, uMul: uM, eq: eq, uniq: uniq, rare: rare, gold: gold
     };
   }
 
@@ -2846,16 +2934,19 @@
   }
   function effectiveDef(boss, c){
     var def = Math.max(0, Number(boss && boss.def) || 0);
-    if (c && c.has && c.has('u-ring-15')) def *= 0.7;   /* 진공 압축 펌프 링: 보스 방어력 30% 감소 */
+    if (c && c.has && c.has('u-ring-15')){
+      /* 진공 압축 펌프 링: 보스 방어력 감소 (기본 30%, 강화당 +20% · 최대 75%) */
+      def *= 1 - Math.min(0.75, 0.3 * uMof(c, 'u-ring-15'));
+    }
     return def;
   }
   function baseHitDamage(c, boss, f){
     var def = effectiveDef(boss, c);
     var mitigation = mitigationOf(def);
     var dmg = Math.max(1, c.atk * (1 - mitigation) + c.pen);
-    if (c.has('u-ring-15') && c.pen > def) dmg += (c.pen - def) * 0.8;
-    if (c.has('u-ring-13') && f && f.colorStacks) dmg *= 1 + f.colorStacks * 0.02 * c.amp;
-    if (f && f.heatUntil > f.t) dmg *= 1.15;
+    if (c.has('u-ring-15') && c.pen > def) dmg += (c.pen - def) * 0.8 * uMof(c, 'u-ring-15');
+    if (c.has('u-ring-13') && f && f.colorStacks) dmg *= 1 + f.colorStacks * 0.02 * c.amp * uMof(c, 'u-ring-13');
+    if (f && f.heatUntil > f.t) dmg *= 1 + 0.15 * uMof(c, 'u-mainWeapon-3');
     return dmg;
   }
   /* v1.3: 화면에 보여 줄 1타 데미지 (버프 요정 반영) */
@@ -3100,12 +3191,12 @@
     if (crit){
       var mult = c.critDmg / 100;
       if (c.has('u-hat-8') && fight.missStack > 0){
-        mult += fight.missStack * 0.15 * c.amp;
+        mult += fight.missStack * 0.15 * c.amp * uMof(c, 'u-hat-8');
         fight.missStack = 0;
       }
       dmg *= mult;
-      if (c.has('u-mainWeapon-1')) dmg += c.pen * 1.5 * c.amp;
-      if (c.has('u-rune-17') && Math.random() < 0.5 * c.amp) fight.pendingGold += 1;
+      if (c.has('u-mainWeapon-1')) dmg += c.pen * 1.5 * c.amp * uMof(c, 'u-mainWeapon-1');
+      if (c.has('u-rune-17') && Math.random() < Math.min(1, 0.5 * c.amp * uMof(c, 'u-rune-17'))) fight.pendingGold += 1;
       kind = 'crit';
     } else if (c.has('u-hat-8')){
       fight.missStack = Math.min(10, fight.missStack + 1);
@@ -3116,7 +3207,10 @@
       dmg *= buffMulNow();
       if (kind === 'normal') kind = 'buff';
     }
-    if (fight.firstPending){ dmg *= 2.5; fight.firstPending = false; kind = 'exec'; }
+    if (fight.firstPending){
+      dmg *= c.has('u-rune-16') ? 1 + 1.5 * uMof(c, 'u-rune-16') : 2.5;
+      fight.firstPending = false; kind = 'exec';
+    }
 
     var shown = Math.max(1, Math.round(dmg));
     var gen = fight.kills;
@@ -3130,7 +3224,7 @@
       fight.heatCount++;
       if (fight.heatCount >= 15){
         fight.heatCount = 0;
-        var hd = Math.max(1, Math.round(fight.maxHp * 0.08 + c.atk * 0.6));
+        var hd = Math.max(1, Math.round((fight.maxHp * 0.08 + c.atk * 0.6) * uMof(c, 'u-mainWeapon-3')));
         fight.heatUntil = fight.t + 3;
         pushLog('💨 열충격 폭발! 3초간 보스가 더 아파한다', 'big');
         applyDamage(hd, 'heat');
@@ -3139,7 +3233,7 @@
     }
 
     /* #5 랩 커터 추가 타격 */
-    if (!echo && c.has('u-subWeapon-5') && Math.random() < 0.2 * c.amp){
+    if (!echo && c.has('u-subWeapon-5') && Math.random() < Math.min(1, 0.2 * c.amp * uMof(c, 'u-subWeapon-5'))){
       floatDmg('연타!', 'chain');
       hit(1);
     }
@@ -3152,12 +3246,12 @@
     var gold = stage.gold;
     var fast = fight.t <= 10;
 
-    if (c.has('u-subWeapon-6')) gold = Math.round(gold * 1.25);
+    if (c.has('u-subWeapon-6')) gold = Math.round(gold * (1 + 0.25 * uMof(c, 'u-subWeapon-6')));
     if (c.has('u-rune-16') && fast){
-      gold = Math.round(gold * 1.4);
+      gold = Math.round(gold * (1 + 0.4 * uMof(c, 'u-rune-16')));
       fight.firstPending = true;
     }
-    if (c.has('u-necklace-12') && Math.random() < 0.25 * c.amp){
+    if (c.has('u-necklace-12') && Math.random() < Math.min(1, 0.25 * c.amp * uMof(c, 'u-necklace-12'))){
       gold *= 2;
       fight.postKillNext = 5;
     }
@@ -3296,7 +3390,7 @@
       var it = c.eq[s.key];
       var cls = it ? it.rarity : '';
       var icon = it ? it.emoji : s.icon;
-      var label = it ? it.name : s.name;
+      var label = it ? it.name + (plusOf(it) ? ' +' + plusOf(it) : '') : s.name;
       return '<button type="button" class="' + cls + '" data-gear-tab="' + s.key + '" title="' +
         esc(s.name + ' · ' + label) + '" aria-label="' + esc(s.name + (it ? ' ' + label : ' 비어 있음')) + '">' +
         '<span class="gi" aria-hidden="true">' + icon + '</span>' +
@@ -3383,10 +3477,13 @@
             '<span class="si" aria-hidden="true">' + s.icon + '</span>' +
             '<span class="stx"><span>' + esc(s.name) + '</span><b>비어 있음</b><em>눌러서 장착</em></span></button>';
         }
+        var slPlus = plusOf(it);
         return '<button type="button" class="slot ' + it.rarity + '" data-slot="' + s.key + '">' +
           '<span class="si" aria-hidden="true">' + it.emoji + '</span>' +
           '<span class="stx"><span>' + esc(s.name) + ' · ' + RARITY[it.rarity].name + '</span>' +
-          '<b>' + esc(it.name) + '</b><em>' + (it.rarity === 'unique' ? '✦ 특수 능력' : esc(statsText(it.stats))) + '</em></span></button>';
+          '<b>' + esc(it.name) + uPlusBadge(it) + '</b><em>' +
+            (it.rarity === 'unique' ? (slPlus ? '✦ 강화 +' + slPlus + ' · 능력 +' + (slPlus * 20) + '%' : '✦ 특수 능력') : esc(statsText(it.stats))) +
+          '</em></span></button>';
       }).join('');
     }
 
@@ -3418,10 +3515,12 @@
       } else {
         list.innerHTML = shown.map(function(it){
           var desc = it.rarity === 'unique' ? it.desc : statsText(it.stats);
+          var eff = uEffText(it);
           return '<div class="invrow">' +
             '<span class="ie" aria-hidden="true">' + it.emoji + '</span>' +
-            '<span class="it"><b><span class="rchip ' + it.rarity + '">' + RARITY[it.rarity].name + '</span>' + esc(it.name) + '</b>' +
-              '<span>' + esc(slotName(it.slot)) + ' · ' + esc(desc) + '</span></span>' +
+            '<span class="it"><b><span class="rchip ' + it.rarity + '">' + RARITY[it.rarity].name + '</span>' + esc(it.name) + uPlusBadge(it) + '</b>' +
+              '<span>' + esc(slotName(it.slot)) + ' · ' + esc(desc) + '</span>' +
+              (eff ? '<span class="ueff">' + esc(eff) + '</span>' : '') + '</span>' +
             '<button type="button" class="mini" data-equip-uid="' + esc(it.uid) + '">장착</button>' +
             '<button type="button" class="mini sell" data-sell-uid="' + esc(it.uid) + '">분해</button>' +
           '</div>';
@@ -3516,7 +3615,8 @@
     var it = itemOf(inst);
     if (!it) return;
     var price = RARITY[it.rarity].sell;
-    if (!window.confirm('「' + it.name + '」(' + RARITY[it.rarity].name + ')을 분해하고 ' + price + ' G를 받을까요?')) return;
+    var pName = it.name + (plusOf(it) ? ' +' + plusOf(it) : '');
+    if (!window.confirm('「' + pName + '」(' + RARITY[it.rarity].name + ')을 분해하고 ' + price + ' G를 받을까요?')) return;
     saveRpg(function(r){
       r.owned = r.owned.filter(function(i){ return i.uid !== uid; });
       SLOTS.forEach(function(s){ if (r.equipped[s.key] === uid) r.equipped[s.key] = null; });
@@ -3628,10 +3728,23 @@
     }
     var results = [];
     for (var i = 0; i < n; i++) results.push(rollOne());
-    var gained = 0, items = [];
+    var gained = 0, items = [], dupIds = [];
+    /* v1.4: 이미 가진 유니크가 또 나오면 새 장비 대신 자동 강화(+1) */
+    var uHave = {};
+    rpg.owned.forEach(function(i){ if (i.rarity === 'unique') uHave[i.id] = plusOf(i); });
     results.forEach(function(r){
-      if (r.kind === 'gold') gained += r.amount;
-      else items.push(instOf(r.item));
+      if (r.kind === 'gold'){ gained += r.amount; return; }
+      var it = instOf(r.item);
+      if (it.rarity === 'unique'){
+        if (Object.prototype.hasOwnProperty.call(uHave, it.id)){
+          r.dupPlus = uHave[it.id] + 1;      /* 다음 강화 단계 */
+          uHave[it.id] = r.dupPlus;
+          dupIds.push(it.id);
+          return;
+        }
+        uHave[it.id] = 0;
+      }
+      items.push(it);
     });
 
     saveRpg(function(r){
@@ -3639,6 +3752,14 @@
       items.forEach(function(it){
         r.owned.push(it);
         if (!r.equipped[it.slot]) r.equipped[it.slot] = it.uid;
+      });
+      dupIds.forEach(function(id){
+        for (var i = 0; i < r.owned.length; i++){
+          if (r.owned[i].rarity === 'unique' && r.owned[i].id === id){
+            r.owned[i].plus = plusOf(r.owned[i]) + 1;
+            break;
+          }
+        }
       });
     }, '냉장고 RPG: 가챠 ' + n + '회').then(function(res){
       afterRpgSave();
@@ -3653,6 +3774,8 @@
     var sub = '사용 ' + fmtNum(cost) + ' G' + (gained ? ' · 골드 획득 +' + fmtNum(gained) + ' G' : '');
     var uniq = results.filter(function(r){ return r.kind === 'item' && r.item.rarity === 'unique'; }).length;
     if (uniq) sub += ' · ✦ 유니크 ' + uniq + '개!';
+    var dups = results.filter(function(r){ return r.dupPlus; }).length;
+    if (dups) sub += ' · ⚒ 중복 강화 ' + dups + '회';
     var t = $('#gachaVeilSub');
     if (t) t.textContent = sub;
     var box = $('#gachaResults');
@@ -3666,6 +3789,11 @@
         var it = r.item, rar = RARITY[it.rarity];
         var cls = it.rarity === 'unique' ? 'u' : (it.rarity === 'rare' ? 'r' : '');
         var detail = it.rarity === 'unique' ? '특수 능력' : statsText(it.stats);
+        if (r.dupPlus){
+          return '<div class="gres unique dup" style="' + delay + '"><span class="ge" aria-hidden="true">' + it.emoji + '</span>' +
+            '<span class="gt"><b class="u">' + esc(it.name) + ' <em class="dplus">+' + r.dupPlus + '</em></b>' +
+            '<span class="dupnote">✦ 중복 강화 +' + r.dupPlus + '! 능력 +' + (r.dupPlus * 20) + '%</span></span></div>';
+        }
         return '<div class="gres ' + it.rarity + '" style="' + delay + '"><span class="ge" aria-hidden="true">' + it.emoji + '</span>' +
           '<span class="gt"><b class="' + cls + '">' + esc(it.name) + '</b>' +
           '<span>' + rar.name + ' · ' + esc(slotName(it.slot)) + ' · ' + esc(detail) + '</span></span></div>';
@@ -3698,10 +3826,12 @@
       html += items.map(function(it){
         var on = (it.uid === eqUid);
         var desc = it.rarity === 'unique' ? it.desc : statsText(it.stats);
+        var eff = uEffText(it);
         return '<div class="pickrow ' + it.rarity + '">' +
           '<span class="pe" aria-hidden="true">' + it.emoji + '</span>' +
-          '<span class="pt"><b><span class="rchip ' + it.rarity + '">' + RARITY[it.rarity].name + '</span>' + esc(it.name) + '</b>' +
-            '<span>' + esc(desc) + '</span></span>' +
+          '<span class="pt"><b><span class="rchip ' + it.rarity + '">' + RARITY[it.rarity].name + '</span>' + esc(it.name) + uPlusBadge(it) + '</b>' +
+            '<span>' + esc(desc) + '</span>' +
+            (eff ? '<span class="ueff">' + esc(eff) + '</span>' : '') + '</span>' +
           '<button type="button" class="' + (on ? 'on' : '') + '" data-pick-uid="' + esc(it.uid) + '">' + (on ? '장착중 ✓' : '장착') + '</button>' +
         '</div>';
       }).join('');
