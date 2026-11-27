@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27T19:18:14+09:00",
+  "updated_at": "2026-11-27T19:18:48+09:00",
   "items": [
     {
       "id": "itm-20261127-001",
@@ -132,109 +132,6 @@
           "pen": 2,
           "critRate": 2
         }
-      },
-      {
-        "uid": "gtvwaussda",
-        "id": "gctvwaugvyr",
-        "rarity": "common",
-        "slot": "hat",
-        "name": "찌그러진 양은냄비 뚜껑",
-        "emoji": "🍲",
-        "stats": {
-          "pen": 3
-        }
-      },
-      {
-        "uid": "gtvwauch27",
-        "id": "gctvwau4hh7",
-        "rarity": "common",
-        "slot": "mainWeapon",
-        "name": "무딘 과도",
-        "emoji": "🔪",
-        "stats": {
-          "pen": 4
-        }
-      },
-      {
-        "uid": "gtvwauu43l",
-        "id": "gctvwau9z6i",
-        "rarity": "common",
-        "slot": "hat",
-        "name": "일회용 위생모",
-        "emoji": "🧢",
-        "stats": {
-          "pen": 2
-        }
-      },
-      {
-        "uid": "gtvwaumtim",
-        "id": "grtvwauu1n5",
-        "rarity": "rare",
-        "slot": "ring",
-        "name": "진공 실리콘 패킹",
-        "emoji": "🟠",
-        "stats": {
-          "atk": 2,
-          "spd": 2,
-          "pen": 2
-        }
-      },
-      {
-        "uid": "gtvwau3xm0",
-        "id": "gctvwau06cy",
-        "rarity": "common",
-        "slot": "ring",
-        "name": "노란 고무줄",
-        "emoji": "🟡",
-        "stats": {
-          "pen": 4
-        }
-      },
-      {
-        "uid": "gtvwau09sb",
-        "id": "gctvwau100f",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "녹슨 후추통",
-        "emoji": "🧂",
-        "stats": {
-          "pen": 2
-        }
-      },
-      {
-        "uid": "gtvwaudqjw",
-        "id": "gctvwau3y2t",
-        "rarity": "common",
-        "slot": "ring",
-        "name": "느슨한 병뚜껑 링",
-        "emoji": "🔘",
-        "stats": {
-          "pen": 4
-        }
-      },
-      {
-        "uid": "gtvwau5vnt",
-        "id": "grtvwausbrp",
-        "rarity": "rare",
-        "slot": "hat",
-        "name": "방열 실리콘 헬멧",
-        "emoji": "⛑️",
-        "stats": {
-          "atk": 3,
-          "spd": 3,
-          "pen": 3
-        }
-      },
-      {
-        "uid": "gtvwaurnn6",
-        "id": "gctvwaushah",
-        "rarity": "common",
-        "slot": "rune",
-        "name": "30% 할인 딱지",
-        "emoji": "🏷️",
-        "stats": {
-          "pen": 2
-        }
       }
     ],
     "equipped": {
@@ -248,7 +145,7 @@
     },
     "stageKills": 199,
     "boss_kills": 19,
-    "goldDelta": 5,
+    "goldDelta": 64,
     "buffUsedSec": 0,
     "bonusXp": 0,
     "kills": {
