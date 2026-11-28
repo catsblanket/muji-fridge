@@ -4650,7 +4650,7 @@
 
     var d = daysLeft(it.expiry_date);
     var expTxt = it.expiry_date
-      ? esc(fmtSlashY(it.expiry_date)) + (d === null ? '' : ' (' + dayLabel(d) + (d < 0 ? ' · 만료' : '') + ')'))
+      ? esc(fmtSlashY(it.expiry_date)) + (d === null ? '' : ' (' + dayLabel(d) + (d < 0 ? ' · 만료' : '') + ')' )
       : '미입력';
     $('#dInfo').innerHTML =
       '<div><span>구입일</span><b>' + (it.purchased_at ? esc(fmtSlash(it.purchased_at)) : '—') + '</b></div>' +
