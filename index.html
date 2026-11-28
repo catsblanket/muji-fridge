@@ -430,6 +430,16 @@
   .d-actions .primary{margin-top:0}
   .d-actions .ghost{margin-top:0}
   .danger{color:#B4453A;font-size:11.5px;border:0;background:transparent;text-decoration:underline;text-underline-offset:2px;padding:7px}
+  /* 상세창 편집 폼 (기본 정보 직접 수정) */
+  .d-edit{margin-top:10px;padding:0 12px 14px;border:1px solid #F1E7CF;border-radius:16px;background:#FFFCF2}
+  .d-edit > .field:first-child{margin-top:12px}
+  .d-edit .check.compact{margin-top:10px;align-items:center;font-size:12px}
+  .d-edit .check.compact input{width:18px;height:18px}
+  .d-edit .dsave{display:block;width:100%;margin-top:14px}
+  .d-edit .grid2{grid-template-columns:1fr 1fr}
+  @media (max-width:370px){
+    .d-edit .grid2{grid-template-columns:1fr}
+  }
 
   /* ---------- game modal ---------- */
   .gm-top{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FFF8DC,#FFFDF6);border:1px solid #F3DFA6;border-radius:16px;padding:13px}
@@ -1247,32 +1257,82 @@
 
     <div class="d-badges" id="dBadges"></div>
 
-    <label class="field">
-      <span>구매가격 <small>(원)</small></span>
-      <div class="prow">
-        <input id="dPrice" type="text" inputmode="numeric" maxlength="9" placeholder="예: 4980" autocomplete="off">
-        <button type="button" class="psave" id="dPriceSave">저장</button>
+    <div class="d-edit">
+      <label class="field">
+        <span>품목명</span>
+        <input id="dName" type="text" maxlength="30" autocomplete="off" placeholder="예: 대파">
+      </label>
+      <div class="grid2">
+        <label class="field">
+          <span>카테고리</span>
+          <select id="dCat">
+            <option value="채소">채소</option>
+            <option value="과일">과일</option>
+            <option value="육류·수산">육류·수산</option>
+            <option value="유제품·계란">유제품·계란</option>
+            <option value="가공·반찬">가공·반찬</option>
+            <option value="음료·기타">음료·기타</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>수량</span>
+          <input id="dQty" type="text" maxlength="12" autocomplete="off" placeholder="예: 1단, 500g">
+        </label>
       </div>
-      <small class="err hidden" id="dPriceErr"></small>
-      <div class="unitrow">
-        <span class="unit-label">단위·양</span>
-        <select id="dUnitType" aria-label="단위">
-          <option value="g">g (그램)</option>
-          <option value="count">개</option>
-          <option value="ml">ml</option>
-        </select>
-        <input id="dUnitAmount" type="text" inputmode="decimal" maxlength="8" placeholder="양 (예: 500, 3, 900)" autocomplete="off" aria-label="단위 양">
-        <span class="unit-eq" id="dUnitEq">단가 —</span>
+      <div class="field">
+        <span>보관 위치</span>
+        <div class="seg" id="dStorageSeg" role="radiogroup" aria-label="보관 위치">
+          <label><input type="radio" name="dstorage" value="fridge"><span>❄️ 냉장</span></label>
+          <label><input type="radio" name="dstorage" value="freezer"><span>🧊 냉동</span></label>
+          <label><input type="radio" name="dstorage" value="pantry"><span>🧺 실온</span></label>
+        </div>
       </div>
-      <small class="hint" id="dUnitHint"></small>
-      <small class="hint" id="dSaveHint"></small>
-    </label>
-
-    <label class="field">
-      <span>품목 묶음 <small>(같은 품목끼리 가격을 비교해요)</small></span>
-      <input id="dGroup" type="text" maxlength="20" list="groupList" autocomplete="off" placeholder="예: 우유">
+      <div class="grid2">
+        <label class="field">
+          <span>유통기한 <small>(소비기한)</small></span>
+          <input id="dExp" type="date">
+        </label>
+        <label class="field">
+          <span>구입일</span>
+          <input id="dBought" type="date">
+        </label>
+      </div>
+      <label class="check compact">
+        <input type="checkbox" id="dExpEst">
+        <span>유통기한은 내가 추정한 날짜예요</span>
+      </label>
+      <label class="field">
+        <span>보관 팁 <small>(선택)</small></span>
+        <input id="dTip" type="text" maxlength="80" autocomplete="off" placeholder="예: 신문지에 싸서 세워 보관">
+      </label>
+      <div class="grid2">
+        <label class="field">
+          <span>구매가격 <small>(원)</small></span>
+          <input id="dPrice" type="text" inputmode="numeric" maxlength="9" placeholder="예: 4980" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>품목 묶음</span>
+          <input id="dGroup" type="text" maxlength="20" list="groupList" autocomplete="off" placeholder="예: 우유">
+        </label>
+      </div>
       <datalist id="groupList"></datalist>
-    </label>
+      <div class="field">
+        <span>단위·양 <small>(단가 계산용)</small></span>
+        <div class="unitrow">
+          <select id="dUnitType" aria-label="단위">
+            <option value="g">g (그램)</option>
+            <option value="count">개</option>
+            <option value="ml">ml</option>
+          </select>
+          <input id="dUnitAmount" type="text" inputmode="decimal" maxlength="8" placeholder="양 (예: 500, 3, 900)" autocomplete="off" aria-label="단위 양">
+          <span class="unit-eq" id="dUnitEq">단가 —</span>
+        </div>
+        <small class="hint" id="dUnitHint"></small>
+      </div>
+      <small class="err hidden" id="dErr"></small>
+      <button type="button" class="primary dsave" id="dSave">저장</button>
+      <small class="hint" id="dSaveHint"></small>
+    </div>
 
     <div class="d-sec">
       <div class="ghead">
@@ -1496,7 +1556,7 @@
   'use strict';
 
   /* ==== 무지가 만드는 영역 시작 ==== */
-  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-28T13:43:25+09:00"/*__UPDATED_AT_END__*/;
+  var EMBEDDED_UPDATED_AT = /*__UPDATED_AT_START__*/"2026-11-28T13:53:42+09:00"/*__UPDATED_AT_END__*/;
   var EMBEDDED_ITEMS = /*__ITEMS_START__*/[
   {
     "id": "itm-20261128-001",
@@ -1572,7 +1632,7 @@
   "stats": {
     "atk": 0,
     "spd": 0,
-    "pen": 0,
+    "pen": 14,
     "critRate": 0,
     "critDmg": 0
   },
@@ -1678,9 +1738,9 @@
     "rune": "grxbizv3h8",
     "charm": "g5irb4f1bz"
   },
-  "stageKills": 275,
-  "boss_kills": 27,
-  "goldDelta": -45,
+  "stageKills": 282,
+  "boss_kills": 28,
+  "goldDelta": 50,
   "buffUsedSec": 0,
   "bonusXp": 0,
   "kills": {
@@ -1692,13 +1752,13 @@
     "mon-5": 9,
     "mon-6": 9,
     "mon-7": 9,
-    "mon-8": 8,
+    "mon-8": 9,
     "boss-0": 3,
-    "mon-9": 8,
-    "mon-10": 8,
-    "mon-11": 8,
-    "mon-12": 8,
-    "mon-13": 8,
+    "mon-9": 9,
+    "mon-10": 9,
+    "mon-11": 9,
+    "mon-12": 9,
+    "mon-13": 9,
     "mon-14": 8,
     "mon-15": 8,
     "mon-16": 8,
@@ -1721,7 +1781,7 @@
     "boss-4": 3,
     "boss-5": 3,
     "boss-6": 3,
-    "boss-7": 2,
+    "boss-7": 3,
     "boss-8": 2,
     "boss-9": 2
   }
@@ -2255,6 +2315,15 @@
       if (Object.prototype.hasOwnProperty.call(e, 'unit_amount')) c.unit_amount = e.unit_amount > 0 ? e.unit_amount : null;
       if (e.consumed_at) c.consumed_at = e.consumed_at;
       if (e.discarded_at) c.discarded_at = e.discarded_at;
+      /* v1.5: 상세창에서 고친 기본 정보도 이 기기 저장에 반영 */
+      if (e.name) c.name = e.name;
+      if (e.category) c.category = e.category;
+      if (e.storage) c.storage = e.storage;
+      if (Object.prototype.hasOwnProperty.call(e, 'quantity')) c.quantity = e.quantity || '';
+      if (Object.prototype.hasOwnProperty.call(e, 'expiry_date')) c.expiry_date = e.expiry_date || '';
+      if (Object.prototype.hasOwnProperty.call(e, 'expiry_estimated')) c.expiry_estimated = !!e.expiry_estimated;
+      if (Object.prototype.hasOwnProperty.call(e, 'purchased_at')) c.purchased_at = e.purchased_at || '';
+      if (Object.prototype.hasOwnProperty.call(e, 'tip')) c.tip = e.tip || '';
       return c;
     }
 
@@ -4404,7 +4473,7 @@
     state.syncIssue = '';
   }
 
-  function xpFlash(before, name){
+  function xpFlash(before, name, okMsg){
     render();
     var after = xpOf(mergedItems());
     var card = $('#gameCard');
@@ -4420,8 +4489,10 @@
       } else {
         toast('⚔️ +' + (after - before) + ' XP · 다음 Lv까지 ' + (RPG.XP_PER_LEVEL - (after % RPG.XP_PER_LEVEL)) + ' XP');
       }
+    } else if (okMsg){
+      toast(okMsg);
     } else if (name){
-      toast(name + ' 가격을 저장했어요');
+      toast(name + ' 저장했어요');
     }
   }
 
@@ -4587,8 +4658,25 @@
       (it.status === 'discarded' ? '<span class="badge waste">🗑 버림' + (it.discarded_at ? ' · ' + esc(fmtSlash(it.discarded_at)) : '') + '</span>' : '') +
       (it._local ? '<span class="badge">내가 추가</span>' : '');
 
+    /* v1.5: 이름·카테고리·수량·보관 위치·유통기한·팁까지 상세창에서 직접 수정 */
+    $('#dName').value = it.name || '';
+    $('#dCat').value = String(it.category || '');
+    if ($('#dCat').value !== String(it.category || '')) $('#dCat').value = '음료·기타';
+    $('#dQty').value = it.quantity || '';
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="dstorage"]'), function(r){
+      r.checked = (r.value === it.storage);
+    });
+    if (!$('#dStorageSeg').querySelector('input:checked')){
+      var firstSt = $('#dStorageSeg').querySelector('input[name="dstorage"]');
+      if (firstSt) firstSt.checked = true;
+    }
+    $('#dExp').value = it.expiry_date || '';
+    $('#dBought').value = it.purchased_at || '';
+    $('#dExpEst').checked = !!it.expiry_estimated;
+    $('#dTip').value = it.tip || '';
+    $('#dErr').classList.add('hidden');
+
     $('#dPrice').value = it.price ? String(it.price) : '';
-    $('#dPriceErr').classList.add('hidden');
 
     var hint = $('#dSaveHint');
     if (state.sample){
@@ -4596,7 +4684,7 @@
       hint.textContent = '🧪 샘플 화면이에요. 실제 데이터로 돌아간 뒤 저장해 주세요.';
     } else if (getToken()){
       hint.className = 'hint ok';
-      hint.textContent = '☁️ 저장하면 GitHub의 inventory.json에 바로 기록돼요. 100원당 1 XP도 함께 쌓여요.';
+      hint.textContent = '☁️ 저장하면 GitHub의 inventory.json에 바로 기록돼요. 이름·수량·기한도 함께 저장되고 100원당 1 XP가 쌓여요.';
     } else {
       hint.className = 'hint';
       hint.textContent = '📱 지금은 이 기기 브라우저에만 저장돼요. ⚙️에서 GitHub 토큰을 넣으면 다른 기기와도 맞춰져요.';
@@ -4648,17 +4736,17 @@
     if (!tips.length) tips.push('<div class="dtip">아직 팁이 없어요. 무지에게 물어보면 이 품목에 맞는 보관법을 알려드려요.</div>');
     $('#dTips').innerHTML = tips.join('');
 
+    /* 정보 칸은 편집 폼과 겹치지 않는 계산값만 남긴다 */
     var d = daysLeft(it.expiry_date);
-    var expTxt = it.expiry_date
-      ? esc(fmtSlashY(it.expiry_date)) + (d === null ? '' : ' (' + dayLabel(d) + (d < 0 ? ' · 만료' : '') + ')' )
-      : '미입력';
+    var remain = d === null ? '미입력' : (d < 0 ? Math.abs(d) + '일 지남' : (d === 0 ? '오늘까지' : d + '일 남음'));
+    var held = daysLeft(it.purchased_at);
+    var heldTxt = held === null ? '—' : (held > 0 ? 'D-' + held : (held === 0 ? '오늘' : (-held) + '일'));
+    var xpGain = it.status !== 'discarded' && it.price > 0 ? Math.floor(it.price / 100) : 0;
     $('#dInfo').innerHTML =
-      '<div><span>구입일</span><b>' + (it.purchased_at ? esc(fmtSlash(it.purchased_at)) : '—') + '</b></div>' +
-      '<div><span>유통기한</span><b>' + expTxt + (it.expiry_estimated ? ' · 예상' : '') + '</b></div>' +
-      '<div><span>수량</span><b>' + (it.quantity ? esc(it.quantity) : '—') + '</b></div>' +
-      '<div><span>구매가격</span><b>' + (it.price ? '₩' + fmtNum(it.price) : '미입력') + '</b></div>' +
-      '<div><span>단위</span><b>' + (u.amount ? fmtNum(u.amount) + UNITS[u.type].label : '미입력') + '</b></div>' +
-      '<div><span>단가</span><b>' + (up !== null ? unitPriceLabel(u.type, up) : '—') + '</b></div>';
+      '<div><span>남은 기한</span><b>' + esc(remain) + (it.expiry_estimated && it.expiry_date ? ' · 예상' : '') + '</b></div>' +
+      '<div><span>단가</span><b>' + (up !== null ? unitPriceLabel(u.type, up) : '—') + '</b></div>' +
+      '<div><span>구입 후</span><b>' + esc(heldTxt) + '</b></div>' +
+      '<div><span>XP</span><b>' + xpGain + ' XP</b></div>';
 
     var acts = [];
     if (inTrash){
@@ -4682,33 +4770,72 @@
     return (isFinite(n) && n > 0) ? n : null;
   }
 
+  /* v1.5: 상세창 한 번 저장으로 기본 정보 + 가격·단위를 모두 반영 */
   async function saveDetail(){
     if (!detailId) return;
     var it = mergedItems().filter(function(x){ return x.id === detailId; })[0];
     if (!it) return;
     if (state.sample){ toast('샘플 화면이에요 · 실제 데이터로 돌아간 뒤 저장해 주세요'); return; }
 
+    var errEl = $('#dErr');
+    errEl.classList.add('hidden');
+
+    var name = String($('#dName').value || '').trim();
+    if (!name){
+      errEl.textContent = '품목명을 입력해 주세요.';
+      errEl.classList.remove('hidden');
+      try { $('#dName').focus(); } catch (e) {}
+      return;
+    }
+
     var raw = $('#dPrice').value.trim();
     var price = parsePriceInput(raw);
-    var errEl = $('#dPriceErr');
     if (raw !== '' && price === null){
       errEl.textContent = '가격은 숫자로 입력해 주세요. (예: 4980)';
       errEl.classList.remove('hidden');
-      $('#dPrice').focus();
+      try { $('#dPrice').focus(); } catch (e) {}
       return;
     }
-    errEl.classList.add('hidden');
-    var group = ($('#dGroup').value || '').trim() || deriveGroup(it.name);
-    var uType = normUnitType($('#dUnitType').value) || defaultUnitFor(it.category);
+
+    var catVal = $('#dCat').value;
+    var category = (catVal === null || catVal === undefined) ? '' : String(catVal);
+    var group = ($('#dGroup').value || '').trim() || deriveGroup(name);
+    var uType = normUnitType($('#dUnitType').value) || defaultUnitFor(category);
     var uAmt = normUnitAmount($('#dUnitAmount').value);
-    var btn = $('#dPriceSave');
+    var qty = String($('#dQty').value || '').trim();
+    var storage = 'fridge';
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="dstorage"]'), function(r){ if (r.checked) storage = r.value; });
+    if (!STORAGES[storage]) storage = 'fridge';
+    var exp = $('#dExp').value || '';
+    var bought = $('#dBought').value || '';
+    var tip = String($('#dTip').value || '').trim();
+    /* 날짜를 직접 고쳤다면 더는 '추정'이 아니다 */
+    var est = $('#dExpEst').checked && !!exp;
+
+    var btn = $('#dSave');
     if (state.busy[detailId]) return;
     var xpBefore = xpOf(mergedItems());
 
+    var patch = {
+      name: name,
+      category: category,
+      quantity: qty,
+      storage: storage,
+      expiry_date: exp,
+      expiry_estimated: est,
+      purchased_at: bought,
+      tip: tip,
+      price: price === null ? 0 : price,   /* 0 = 가격 지움(로컬 저장에서 null은 키 삭제라 0을 씀) */
+      product_group: group,
+      unit_type: uType,
+      unit_amount: uAmt === null ? 0 : uAmt
+    };
+
     if (!getToken() || it._local){
-      saveLocalEdit(it.id, { price: price, product_group: group, unit_type: uType, unit_amount: uAmt === null ? 0 : uAmt });
-      renderDetail(mergedItems().filter(function(x){ return x.id === detailId; })[0] || it);
-      xpFlash(xpBefore, it.name);
+      saveLocalEdit(it.id, patch);
+      var cur = mergedItems().filter(function(x){ return x.id === detailId; })[0] || it;
+      renderDetail(cur);
+      xpFlash(xpBefore, cur.name, '저장했어요 ✓ 이 기기 목록에 담아 뒀어요');
       return;
     }
 
@@ -4718,12 +4845,20 @@
     var res = await commitRemote(function(doc){
       var t = docItem(doc, it.id);
       if (!t) return false;
+      t.name = name;
+      if (category) t.category = category; else delete t.category;
+      if (qty) t.quantity = qty; else delete t.quantity;
+      t.storage = storage;
+      if (exp){ t.expiry_date = exp; t.expiry_estimated = est; }
+      else { delete t.expiry_date; delete t.expiry_estimated; }
+      if (bought) t.purchased_at = bought; else delete t.purchased_at;
+      if (tip) t.tip = tip; else delete t.tip;
       if (price === null) delete t.price; else t.price = price;
       t.product_group = group;
       t.unit_type = uType;
       if (uAmt === null) delete t.unit_amount; else t.unit_amount = uAmt;
       return true;
-    }, '냉장고: ' + it.name + ' 가격 저장');
+    }, '냉장고: ' + it.name + (name !== it.name ? ' → ' + name : '') + ' 정보 수정');
     delete state.busy[detailId];
     btn.disabled = false;
     btn.textContent = '저장';
@@ -4732,7 +4867,7 @@
       clearLocalEdit(it.id);
       var fresh = mergedItems().filter(function(x){ return x.id === detailId; })[0];
       if (fresh) renderDetail(fresh);
-      xpFlash(xpBefore, it.name);
+      xpFlash(xpBefore, name, '저장했어요 ✓ GitHub에 기록했어요');
     } else {
       toast('저장 실패 · ' + res.message, '설정 열기', openSettings);
     }
@@ -4740,9 +4875,16 @@
 
   detailBackdrop.addEventListener('click', function(e){ if (e.target === detailBackdrop) closeDetail(); });
   $('#closeDetail').addEventListener('click', closeDetail);
-  $('#dPriceSave').addEventListener('click', saveDetail);
-  $('#dPrice').addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); saveDetail(); } });
-  $('#dPrice').addEventListener('input', function(){ $('#dPriceErr').classList.add('hidden'); refreshUnitEq(); });
+  $('#dSave').addEventListener('click', saveDetail);
+  Array.prototype.forEach.call(document.querySelectorAll('#dName, #dQty, #dPrice'), function(el){
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); saveDetail(); }
+    });
+  });
+  $('#dPrice').addEventListener('input', function(){ $('#dErr').classList.add('hidden'); refreshUnitEq(); });
+  $('#dName').addEventListener('input', function(){ $('#dErr').classList.add('hidden'); });
+  /* 날짜를 만지면 '추정' 체크를 풀어 실제 기한으로 저장되게 한다 */
+  $('#dExp').addEventListener('change', function(){ if (this.value) $('#dExpEst').checked = false; });
 
   function refreshUnitEq(){
     var el = $('#dUnitEq');
