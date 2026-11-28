@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-29T00:47:28+09:00",
+  "updated_at": "2026-11-29T00:47:39+09:00",
   "items": [
     {
       "id": "itm-20261129-001",
@@ -401,9 +401,9 @@
       "rune": "g3trehmi7s",
       "charm": "g5irb4f1bz"
     },
-    "stageKills": 439,
-    "boss_kills": 42,
-    "goldDelta": 123,
+    "stageKills": 440,
+    "boss_kills": 43,
+    "goldDelta": 172,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
@@ -440,7 +440,7 @@
       "mon-27": 12,
       "mon-28": 13,
       "mon-29": 13,
-      "boss-3": 4,
+      "boss-3": 5,
       "boss-4": 4,
       "boss-5": 3,
       "boss-6": 4,
