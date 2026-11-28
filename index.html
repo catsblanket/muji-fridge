@@ -1874,6 +1874,15 @@
     delete m[id];
     writeJSON(K.edits, m);
   }
+  /* 원격에 올린 항목만 지우고, 올리지 못한 다른 변경(상태 등)은 남긴다 */
+  function clearLocalEditKeys(id, keys){
+    var m = localEdits();
+    var cur = m[id];
+    if (!cur) return;
+    (keys || []).forEach(function(k){ delete cur[k]; });
+    if (Object.keys(cur).length) m[id] = cur; else delete m[id];
+    writeJSON(K.edits, m);
+  }
 
   var CATS = { '채소':'veg', '과일':'fruit', '육류·수산':'meat', '유제품·계란':'dairy', '가공·반찬':'side', '음료·기타':'drink' };
   var STORAGES = {
@@ -4864,7 +4873,7 @@
     btn.textContent = '저장';
 
     if (res.ok){
-      clearLocalEdit(it.id);
+      clearLocalEditKeys(it.id, ['name','category','quantity','storage','expiry_date','expiry_estimated','purchased_at','tip','price','product_group','unit_type','unit_amount']);
       var fresh = mergedItems().filter(function(x){ return x.id === detailId; })[0];
       if (fresh) renderDetail(fresh);
       xpFlash(xpBefore, name, '저장했어요 ✓ GitHub에 기록했어요');
