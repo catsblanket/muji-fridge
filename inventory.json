@@ -1,6 +1,23 @@
 {
-  "updated_at": "2026-11-28T01:13:40+09:00",
+  "updated_at": "2026-11-28T13:43:25+09:00",
   "items": [
+    {
+      "id": "itm-20261128-001",
+      "name": "청정원 햇살담은 두번달여 더 진한 진간장 골드",
+      "category": "가공·반찬",
+      "storage": "pantry",
+      "quantity": "1.7L × 2병",
+      "purchased_at": "2026-11-28",
+      "expiry_date": "2028-11-28",
+      "expiry_estimated": true,
+      "tip": "미개봉 시 서늘한 곳 보관, 개봉 후에는 냉장 보관 권장 · 병 상단/라벨의 실제 소비기한 확인 필요",
+      "status": "active",
+      "price": 12200,
+      "product_group": "진간장",
+      "unit_type": "ml",
+      "unit_amount": 3400,
+      "emoji": "🫙"
+    },
     {
       "id": "itm-20261127-001",
       "name": "강릉최가두부",
