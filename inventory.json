@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-29T00:44:38+09:00",
+  "updated_at": "2026-11-29T00:44:45+09:00",
   "items": [
     {
       "id": "itm-20261129-001",
@@ -313,19 +313,6 @@
         "plus": 1
       },
       {
-        "uid": "grmeto90hk",
-        "id": "grrmetopotp",
-        "rarity": "rare",
-        "slot": "subWeapon",
-        "name": "정밀 주방 타이머",
-        "emoji": "⏱️",
-        "stats": {
-          "atk": 3,
-          "spd": 2,
-          "critRate": 2
-        }
-      },
-      {
         "uid": "gs5gotmaa2",
         "id": "u-hat-7",
         "rarity": "unique",
@@ -345,17 +332,6 @@
           "atk": 2,
           "spd": 3,
           "pen": 3
-        }
-      },
-      {
-        "uid": "g5irb4uc1o",
-        "id": "gc5irb4ad6v",
-        "rarity": "common",
-        "slot": "necklace",
-        "name": "낡은 수은 온도계",
-        "emoji": "🌡️",
-        "stats": {
-          "spd": 4
         }
       },
       {
@@ -390,39 +366,6 @@
         }
       },
       {
-        "uid": "gkyb6g2lwz",
-        "id": "gckyb6g97c6",
-        "rarity": "common",
-        "slot": "hat",
-        "name": "찌그러진 양은냄비 뚜껑",
-        "emoji": "🍲",
-        "stats": {
-          "pen": 4
-        }
-      },
-      {
-        "uid": "gkyb6ggc5l",
-        "id": "gckyb6gefio",
-        "rarity": "common",
-        "slot": "ring",
-        "name": "노란 고무줄",
-        "emoji": "🟡",
-        "stats": {
-          "critDmg": 2
-        }
-      },
-      {
-        "uid": "gkyb6g9vae",
-        "id": "gckyb6g7neq",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "미니 계량컵",
-        "emoji": "🥛",
-        "stats": {
-          "critRate": 2
-        }
-      },
-      {
         "uid": "gkyb6g4erc",
         "id": "grkyb6gzf1f",
         "rarity": "rare",
@@ -433,30 +376,6 @@
           "spd": 3,
           "pen": 2,
           "critRate": 2
-        }
-      },
-      {
-        "uid": "gkyb6gqbpw",
-        "id": "grkyb6gdoal",
-        "rarity": "rare",
-        "slot": "rune",
-        "name": "HACCP 인증 각인",
-        "emoji": "✅",
-        "stats": {
-          "spd": 3,
-          "pen": 2,
-          "critDmg": 2
-        }
-      },
-      {
-        "uid": "gkyb6gyp96",
-        "id": "gckyb6gl82l",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "미니 계량컵",
-        "emoji": "🥛",
-        "stats": {
-          "critDmg": 4
         }
       },
       {
@@ -471,19 +390,6 @@
           "spd": 2,
           "critRate": 3
         }
-      },
-      {
-        "uid": "gkyb6g0ciu",
-        "id": "grkyb6gj8hb",
-        "rarity": "rare",
-        "slot": "subWeapon",
-        "name": "정밀 주방 타이머",
-        "emoji": "⏱️",
-        "stats": {
-          "pen": 2,
-          "critRate": 2,
-          "critDmg": 3
-        }
       }
     ],
     "equipped": {
@@ -497,7 +403,7 @@
     },
     "stageKills": 397,
     "boss_kills": 38,
-    "goldDelta": -340,
+    "goldDelta": -279,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
