@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-28T16:45:05+09:00",
+  "updated_at": "2026-11-28T19:54:30+09:00",
   "items": [
     {
       "id": "itm-20261128-002",
       "name": "A대봉감",
       "category": "과일",
-      "storage": "pantry",
+      "storage": "fridge",
       "quantity": "1봉",
       "purchased_at": "2026-11-28",
       "expiry_date": "2026-12-05",
