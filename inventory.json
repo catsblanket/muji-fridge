@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T16:44:05+09:00",
+  "updated_at": "2026-11-28T16:44:10+09:00",
   "items": [
     {
       "id": "itm-20261128-002",
@@ -222,52 +222,6 @@
         "name": "장인의 사시미 칼",
         "emoji": "🔪",
         "stats": {}
-      },
-      {
-        "uid": "g3t1nt4gdw",
-        "id": "gc3t1ntl1fk",
-        "rarity": "common",
-        "slot": "charm",
-        "name": "젖은 신문지 조각",
-        "emoji": "📰",
-        "stats": {
-          "critDmg": 4
-        }
-      },
-      {
-        "uid": "g3t1ntsxhq",
-        "id": "gc3t1nt68kv",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "녹슨 후추통",
-        "emoji": "🧂",
-        "stats": {
-          "pen": 2
-        }
-      },
-      {
-        "uid": "g3t1ntnf5t",
-        "id": "gr3t1nt93h5",
-        "rarity": "rare",
-        "slot": "charm",
-        "name": "활성탄 탈취 부적",
-        "emoji": "🧿",
-        "stats": {
-          "atk": 3,
-          "spd": 3,
-          "critRate": 3
-        }
-      },
-      {
-        "uid": "g3t1nthnrm",
-        "id": "gc3t1nt4uqz",
-        "rarity": "common",
-        "slot": "subWeapon",
-        "name": "녹슨 후추통",
-        "emoji": "🧂",
-        "stats": {
-          "critDmg": 4
-        }
       }
     ],
     "equipped": {
@@ -281,7 +235,7 @@
     },
     "stageKills": 346,
     "boss_kills": 34,
-    "goldDelta": 280,
+    "goldDelta": 307,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
