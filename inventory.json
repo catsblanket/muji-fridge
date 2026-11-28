@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T13:53:42+09:00",
+  "updated_at": "2026-11-28T14:13:14+09:00",
   "items": [
     {
       "id": "itm-20261128-001",
@@ -8,8 +8,8 @@
       "storage": "pantry",
       "quantity": "1.7L × 2병",
       "purchased_at": "2026-11-28",
-      "expiry_date": "2028-11-28",
-      "expiry_estimated": true,
+      "expiry_date": "2028-04-08",
+      "expiry_estimated": false,
       "tip": "미개봉 시 서늘한 곳 보관, 개봉 후에는 냉장 보관 권장 · 병 상단/라벨의 실제 소비기한 확인 필요",
       "status": "active",
       "price": 12200,
