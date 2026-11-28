@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-29T00:39:05+09:00",
+  "updated_at": "2026-11-29T00:39:11+09:00",
   "items": [
     {
       "id": "itm-20261129-001",
@@ -335,19 +335,6 @@
         "stats": {}
       },
       {
-        "uid": "g5irb30clt",
-        "id": "gr5irb3oub8",
-        "rarity": "rare",
-        "slot": "ring",
-        "name": "진공 실리콘 패킹",
-        "emoji": "🟠",
-        "stats": {
-          "pen": 3,
-          "critRate": 3,
-          "critDmg": 2
-        }
-      },
-      {
         "uid": "g5irb4f1bz",
         "id": "gr5irb4z61u",
         "rarity": "rare",
@@ -401,72 +388,6 @@
           "spd": 2,
           "pen": 3
         }
-      },
-      {
-        "uid": "gkrvk71k4j",
-        "id": "gckrvk7hxrx",
-        "rarity": "common",
-        "slot": "hat",
-        "name": "일회용 위생모",
-        "emoji": "🧢",
-        "stats": {
-          "critDmg": 4
-        }
-      },
-      {
-        "uid": "gkrvk7g7jk",
-        "id": "gckrvk7xnkw",
-        "rarity": "common",
-        "slot": "rune",
-        "name": "30% 할인 딱지",
-        "emoji": "🏷️",
-        "stats": {
-          "pen": 4
-        }
-      },
-      {
-        "uid": "gkrvk7t3i8",
-        "id": "gckrvk7w3te",
-        "rarity": "common",
-        "slot": "rune",
-        "name": "흐릿한 네임펜 라벨",
-        "emoji": "🖊️",
-        "stats": {
-          "pen": 4
-        }
-      },
-      {
-        "uid": "gkrvk72u3i",
-        "id": "gckrvk7e2cw",
-        "rarity": "common",
-        "slot": "mainWeapon",
-        "name": "플라스틱 주걱",
-        "emoji": "🥄",
-        "stats": {
-          "atk": 4
-        }
-      },
-      {
-        "uid": "gkrvk7t69v",
-        "id": "gckrvk7stno",
-        "rarity": "common",
-        "slot": "mainWeapon",
-        "name": "무딘 과도",
-        "emoji": "🔪",
-        "stats": {
-          "critRate": 2
-        }
-      },
-      {
-        "uid": "gkrvk7iiz1",
-        "id": "gckrvk7kp9q",
-        "rarity": "common",
-        "slot": "ring",
-        "name": "느슨한 병뚜껑 링",
-        "emoji": "🔘",
-        "stats": {
-          "critDmg": 3
-        }
       }
     ],
     "equipped": {
@@ -480,7 +401,7 @@
     },
     "stageKills": 369,
     "boss_kills": 35,
-    "goldDelta": -345,
+    "goldDelta": -303,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
