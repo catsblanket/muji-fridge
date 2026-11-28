@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28T16:44:12+09:00",
+  "updated_at": "2026-11-28T16:44:15+09:00",
   "items": [
     {
       "id": "itm-20261128-002",
@@ -222,6 +222,109 @@
         "name": "장인의 사시미 칼",
         "emoji": "🔪",
         "stats": {}
+      },
+      {
+        "uid": "g3trehj368",
+        "id": "gc3treh9bbe",
+        "rarity": "common",
+        "slot": "necklace",
+        "name": "배달 전단지 자석",
+        "emoji": "🧲",
+        "stats": {
+          "spd": 4
+        }
+      },
+      {
+        "uid": "g3trehmi7s",
+        "id": "u-rune-17",
+        "rarity": "unique",
+        "slot": "rune",
+        "name": "유기농 신선도 인증 마크",
+        "emoji": "🌱",
+        "stats": {}
+      },
+      {
+        "uid": "g3treh2jll",
+        "id": "gc3trehklhk",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "일회용 위생모",
+        "emoji": "🧢",
+        "stats": {
+          "pen": 3
+        }
+      },
+      {
+        "uid": "g3treh406t",
+        "id": "gr3trehtybc",
+        "rarity": "rare",
+        "slot": "necklace",
+        "name": "네오디뮴 메모 자석",
+        "emoji": "🧲",
+        "stats": {
+          "atk": 2,
+          "spd": 3,
+          "pen": 3
+        }
+      },
+      {
+        "uid": "g3trehxovi",
+        "id": "gr3trehuzft",
+        "rarity": "rare",
+        "slot": "necklace",
+        "name": "네오디뮴 메모 자석",
+        "emoji": "🧲",
+        "stats": {
+          "atk": 3,
+          "spd": 2,
+          "critRate": 3
+        }
+      },
+      {
+        "uid": "g3trehmy42",
+        "id": "gc3treho7xn",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "플라스틱 주걱",
+        "emoji": "🥄",
+        "stats": {
+          "pen": 3
+        }
+      },
+      {
+        "uid": "g3trehtgzk",
+        "id": "gc3trehwlk6",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "플라스틱 주걱",
+        "emoji": "🥄",
+        "stats": {
+          "critDmg": 3
+        }
+      },
+      {
+        "uid": "g3trehuhed",
+        "id": "gr3trehopv7",
+        "rarity": "rare",
+        "slot": "hat",
+        "name": "이중 유리 찜기 뚜껑",
+        "emoji": "🍲",
+        "stats": {
+          "atk": 2,
+          "spd": 2,
+          "critDmg": 2
+        }
+      },
+      {
+        "uid": "g3trehmdlz",
+        "id": "gc3trehqqh1",
+        "rarity": "common",
+        "slot": "ring",
+        "name": "노란 고무줄",
+        "emoji": "🟡",
+        "stats": {
+          "critRate": 3
+        }
       }
     ],
     "equipped": {
@@ -235,7 +338,7 @@
     },
     "stageKills": 347,
     "boss_kills": 34,
-    "goldDelta": 314,
+    "goldDelta": -130,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
