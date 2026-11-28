@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-29T00:38:39+09:00",
+  "updated_at": "2026-11-29T00:38:41+09:00",
   "items": [
     {
       "id": "itm-20261129-001",
@@ -388,6 +388,85 @@
         "name": "유기농 신선도 인증 마크",
         "emoji": "🌱",
         "stats": {}
+      },
+      {
+        "uid": "gkrvk7drbm",
+        "id": "grkrvk7re39",
+        "rarity": "rare",
+        "slot": "ring",
+        "name": "티타늄 밀봉 클립",
+        "emoji": "🔗",
+        "stats": {
+          "atk": 3,
+          "spd": 2,
+          "pen": 3
+        }
+      },
+      {
+        "uid": "gkrvk71k4j",
+        "id": "gckrvk7hxrx",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "일회용 위생모",
+        "emoji": "🧢",
+        "stats": {
+          "critDmg": 4
+        }
+      },
+      {
+        "uid": "gkrvk7g7jk",
+        "id": "gckrvk7xnkw",
+        "rarity": "common",
+        "slot": "rune",
+        "name": "30% 할인 딱지",
+        "emoji": "🏷️",
+        "stats": {
+          "pen": 4
+        }
+      },
+      {
+        "uid": "gkrvk7t3i8",
+        "id": "gckrvk7w3te",
+        "rarity": "common",
+        "slot": "rune",
+        "name": "흐릿한 네임펜 라벨",
+        "emoji": "🖊️",
+        "stats": {
+          "pen": 4
+        }
+      },
+      {
+        "uid": "gkrvk72u3i",
+        "id": "gckrvk7e2cw",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "플라스틱 주걱",
+        "emoji": "🥄",
+        "stats": {
+          "atk": 4
+        }
+      },
+      {
+        "uid": "gkrvk7t69v",
+        "id": "gckrvk7stno",
+        "rarity": "common",
+        "slot": "mainWeapon",
+        "name": "무딘 과도",
+        "emoji": "🔪",
+        "stats": {
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gkrvk7iiz1",
+        "id": "gckrvk7kp9q",
+        "rarity": "common",
+        "slot": "ring",
+        "name": "느슨한 병뚜껑 링",
+        "emoji": "🔘",
+        "stats": {
+          "critDmg": 3
+        }
       }
     ],
     "equipped": {
@@ -401,7 +480,7 @@
     },
     "stageKills": 365,
     "boss_kills": 35,
-    "goldDelta": 52,
+    "goldDelta": -378,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
