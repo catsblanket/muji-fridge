@@ -1896,6 +1896,15 @@
     if (p.length !== 3) return dateStr;
     return pad2(parseInt(p[1], 10)) + '/' + pad2(parseInt(p[2], 10));
   }
+  /* 해가 다르면 연도까지 — 상세창 유통기한 줄용 */
+  function fmtSlashY(dateStr){
+    if (!dateStr || typeof dateStr !== 'string') return '';
+    var p = dateStr.split('-');
+    if (p.length !== 3) return dateStr;
+    if (parseInt(p[0], 10) !== new Date().getFullYear())
+      return parseInt(p[0], 10) + '.' + pad2(parseInt(p[1], 10)) + '.' + pad2(parseInt(p[2], 10));
+    return fmtSlash(dateStr);
+  }
   function fmtDot(dateStr){
     if (!dateStr || typeof dateStr !== 'string') return '';
     var p = dateStr.split('-');
@@ -4641,7 +4650,7 @@
 
     var d = daysLeft(it.expiry_date);
     var expTxt = it.expiry_date
-      ? esc(fmtSlash(it.expiry_date)) + (d === null ? '' : ' (' + dayLabel(d) + (d < 0 ? ' · 만료' : '') + ')')
+      ? esc(fmtSlashY(it.expiry_date)) + (d === null ? '' : ' (' + dayLabel(d) + (d < 0 ? ' · 만료' : '') + ')'))
       : '미입력';
     $('#dInfo').innerHTML =
       '<div><span>구입일</span><b>' + (it.purchased_at ? esc(fmtSlash(it.purchased_at)) : '—') + '</b></div>' +
