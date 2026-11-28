@@ -1885,7 +1885,10 @@
     if (!dateStr || typeof dateStr !== 'string') return '';
     var p = dateStr.split('-');
     if (p.length !== 3) return dateStr;
-    return '~' + pad2(parseInt(p[1], 10)) + '/' + pad2(parseInt(p[2], 10));
+    var mo = pad2(parseInt(p[1], 10)), dd = pad2(parseInt(p[2], 10));
+    /* 해가 다르면 연도를 함께 적는다 — 2028-11-28이 '오늘 만료(~11/28)'처럼 보이지 않게 */
+    if (parseInt(p[0], 10) !== new Date().getFullYear()) return '~' + parseInt(p[0], 10) + '.' + mo + '.' + dd;
+    return '~' + mo + '/' + dd;
   }
   function fmtSlash(dateStr){
     if (!dateStr || typeof dateStr !== 'string') return '';
