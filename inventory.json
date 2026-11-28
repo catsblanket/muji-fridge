@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-29T00:43:36+09:00",
+  "updated_at": "2026-11-29T00:43:41+09:00",
   "items": [
     {
       "id": "itm-20261129-001",
@@ -388,6 +388,102 @@
           "spd": 2,
           "pen": 3
         }
+      },
+      {
+        "uid": "gkyb6g2lwz",
+        "id": "gckyb6g97c6",
+        "rarity": "common",
+        "slot": "hat",
+        "name": "찌그러진 양은냄비 뚜껑",
+        "emoji": "🍲",
+        "stats": {
+          "pen": 4
+        }
+      },
+      {
+        "uid": "gkyb6ggc5l",
+        "id": "gckyb6gefio",
+        "rarity": "common",
+        "slot": "ring",
+        "name": "노란 고무줄",
+        "emoji": "🟡",
+        "stats": {
+          "critDmg": 2
+        }
+      },
+      {
+        "uid": "gkyb6g9vae",
+        "id": "gckyb6g7neq",
+        "rarity": "common",
+        "slot": "subWeapon",
+        "name": "미니 계량컵",
+        "emoji": "🥛",
+        "stats": {
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gkyb6g4erc",
+        "id": "grkyb6gzf1f",
+        "rarity": "rare",
+        "slot": "subWeapon",
+        "name": "정밀 주방 타이머",
+        "emoji": "⏱️",
+        "stats": {
+          "spd": 3,
+          "pen": 2,
+          "critRate": 2
+        }
+      },
+      {
+        "uid": "gkyb6gqbpw",
+        "id": "grkyb6gdoal",
+        "rarity": "rare",
+        "slot": "rune",
+        "name": "HACCP 인증 각인",
+        "emoji": "✅",
+        "stats": {
+          "spd": 3,
+          "pen": 2,
+          "critDmg": 2
+        }
+      },
+      {
+        "uid": "gkyb6gyp96",
+        "id": "gckyb6gl82l",
+        "rarity": "common",
+        "slot": "subWeapon",
+        "name": "미니 계량컵",
+        "emoji": "🥛",
+        "stats": {
+          "critDmg": 4
+        }
+      },
+      {
+        "uid": "gkyb6gv1cv",
+        "id": "grkyb6gbs61",
+        "rarity": "rare",
+        "slot": "necklace",
+        "name": "네오디뮴 메모 자석",
+        "emoji": "🧲",
+        "stats": {
+          "atk": 3,
+          "spd": 2,
+          "critRate": 3
+        }
+      },
+      {
+        "uid": "gkyb6g0ciu",
+        "id": "grkyb6gj8hb",
+        "rarity": "rare",
+        "slot": "subWeapon",
+        "name": "정밀 주방 타이머",
+        "emoji": "⏱️",
+        "stats": {
+          "pen": 2,
+          "critRate": 2,
+          "critDmg": 3
+        }
       }
     ],
     "equipped": {
@@ -401,7 +497,7 @@
     },
     "stageKills": 392,
     "boss_kills": 38,
-    "goldDelta": 43,
+    "goldDelta": -396,
     "buffUsedSec": 60,
     "bonusXp": 0,
     "kills": {
